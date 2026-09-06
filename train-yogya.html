@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Train pour Yogyakarta — guide de l'équipe</title>
+<meta name="description" content="Quel train prendre depuis Alam Sutera pour rejoindre Yogyakarta : horaires, gares, marge de trajet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --encre:#1F2D28;
+    --brume:#F3F6F4;
+    --carte:#FFFFFF;
+    --trait:#DFE7E2;
+    --sourdine:#5C6B64;
+    --the:#2F5F45;
+    --cratere:#1F7E76;
+    --karst:#B4762A;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--brume); color:var(--encre);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:1.0625rem; line-height:1.55;
+  }
+  .fraunces{font-family:"Fraunces",Georgia,serif}
+
+  header{
+    background:
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.16), transparent 55%),
+      linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
+    color:#F4FAF7; padding:2.75rem 1.25rem 2.25rem;
+  }
+  .colonne{max-width:30rem; margin:0 auto}
+  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
+  header h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:clamp(2.2rem,10vw,2.9rem); line-height:1.05; margin:0 0 .55rem;
+    letter-spacing:-.01em; text-wrap:balance;
+  }
+  header p.sous{margin:0; color:#E4F1EA}
+
+  main{padding:1.75rem 1.25rem 3rem}
+
+  .flag{
+    display:inline-block; font-size:.78rem; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase;
+    padding:.2rem .55rem; border-radius:999px; margin-bottom:.6rem;
+  }
+  .flag-reco{background:var(--the); color:#fff}
+
+  article{
+    background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
+    border-radius:14px; padding:1.2rem 1.25rem 1.3rem; margin:0 0 1rem;
+  }
+  article.secondaire{border-left-color:var(--trait)}
+
+  .heure{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:2.1rem; line-height:1; margin:0 0 .25rem;
+    font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:.5rem;
+  }
+  .heure .fleche{font-size:1.1rem; color:var(--sourdine); font-family:system-ui,sans-serif; font-weight:400}
+  .trajet-nom{font-weight:600; margin:0 0 .15rem}
+  .gares{color:var(--sourdine); font-size:.94rem; margin:0 0 .6rem}
+  .confort{font-size:.94rem; margin:0 0 1rem}
+  .confort.ok{color:var(--the)}
+  .confort.tight{color:var(--karst)}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-height:48px; width:100%; padding:.6rem 1rem; border-radius:10px;
+    font-weight:650; font-size:1rem; border:none; cursor:pointer;
+    font-family:inherit;
+  }
+  .btn-primary{background:var(--the); color:#fff}
+  .btn-primary:active{background:#24473A}
+  .btn-quiet{background:transparent; color:var(--cratere); border:1.5px solid var(--trait)}
+  .btn-quiet:active{background:var(--trait)}
+  .btn:focus-visible{outline:3px solid var(--cratere); outline-offset:2px}
+
+  details{
+    background:var(--carte); border:1px solid var(--trait); border-radius:14px;
+    padding:.9rem 1.1rem; margin-top:.4rem;
+  }
+  summary{cursor:pointer; font-weight:600; font-size:.96rem}
+  details ul{color:var(--sourdine); font-size:.92rem; margin:.6rem 0 0; padding-left:1.1rem}
+  details li{margin:0 0 .4rem}
+
+  .rappel{color:var(--sourdine); font-size:.85rem; margin:1.4rem 0 0; text-align:center}
+  .note-appareil{color:var(--sourdine); font-size:.82rem; margin:.5rem 0 0; text-align:center}
+
+  .confirme{text-align:center; padding:1rem 0 .5rem}
+  .coche{
+    width:52px; height:52px; border-radius:50%; background:var(--the); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:1.5rem;
+    margin:0 auto 1rem;
+  }
+  .confirme .heure{justify-content:center; font-size:2.4rem}
+  .confirme .train-nom{font-weight:650; font-size:1.15rem; margin:.3rem 0 .2rem}
+  .confirme .gares{margin-bottom:1.1rem}
+  .changer{
+    display:inline-block; margin-top:1rem; color:var(--sourdine);
+    font-size:.9rem; background:none; border:none; text-decoration:underline;
+    cursor:pointer; font-family:inherit; padding:.4rem;
+  }
+
+  footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+  footer a{color:var(--the)}
+
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="colonne">
+    <p class="avant">Départ QG 2 · lundi 7 septembre</p>
+    <h1>Le train pour Yogyakarta</h1>
+    <p class="sous">Bandung est annulé : on part directement d'Alam Sutera. Chacun peut choisir sur son téléphone, sans que ça change celui des autres.</p>
+  </div>
+</header>
+
+<main class="colonne">
+
+  <div id="zone-choix" hidden>
+    <article>
+      <span class="flag flag-reco">Conseillé</span>
+      <p class="heure">07:55 <span class="fleche">→</span> 15:50</p>
+      <p class="trajet-nom">Gajahwong</p>
+      <p class="gares">Pasar Senen → gare de Lempuyangan</p>
+      <p class="confort ok">Réveil vers 5h45 — de la marge sur la route un lundi matin.</p>
+      <button class="btn btn-primary" data-choix="gajahwong" type="button">On prend celui-là</button>
+    </article>
+
+    <article class="secondaire">
+      <p class="heure">06:40 <span class="fleche">→</span> 14:37</p>
+      <p class="trajet-nom">Fajar Utama Yogya</p>
+      <p class="gares">Pasar Senen → gare de Tugu</p>
+      <p class="confort tight">Réveil vers 4h30 — serré si la route est chargée.</p>
+      <button class="btn btn-quiet" data-choix="fajar" type="button">Plutôt celui-ci</button>
+    </article>
+
+    <details>
+      <summary>Pourquoi ces horaires ?</summary>
+      <ul>
+        <li>Yukata Suites (Alam Sutera Boulevard) → Pasar Senen : environ 30 km, 45 min à 1h30 en voiture selon trafic.</li>
+        <li>Lundi = jour ouvré : trafic plein régime dès 6h–6h30 vers le centre de Jakarta.</li>
+        <li>Tugu et Lempuyangan sont deux gares différentes (~1,5 km d'écart) — le guide Yogyakarta sera repéré sur Tugu.</li>
+        <li>Rien n'est réservé automatiquement ici : à faire sur tiket.com ou 12Go Asia une fois le train choisi.</li>
+      </ul>
+    </details>
+
+    <p class="rappel">Aucune réservation faite pour l'instant.</p>
+  </div>
+
+  <div id="zone-confirme">
+    <article class="confirme" id="carte-confirme"></article>
+    <p class="rappel">Reste à réserver sur tiket.com ou 12Go Asia.</p>
+    <p class="note-appareil">Ce choix n'est enregistré que sur cet appareil.</p>
+  </div>
+
+</main>
+
+<footer class="colonne">
+  <p>La famille a déjà retenu le <strong>Fajar Utama Yogya (06:40 → 14:37)</strong> lors de la décision du 6 septembre. Chaque téléphone peut afficher un choix différent ci-dessus : ça reste local, ça ne prévient pas les autres.</p>
+</footer>
+
+<script>
+(function(){
+  var CLE = 'train-yogya-choix';
+
+  var TRAINS = {
+    gajahwong: { nom:"Gajahwong", depart:"07:55", arrivee:"15:50", gares:"Pasar Senen → gare de Lempuyangan", reveil:"5h45" },
+    fajar:     { nom:"Fajar Utama Yogya", depart:"06:40", arrivee:"14:37", gares:"Pasar Senen → gare de Tugu", reveil:"4h30" }
+  };
+
+  function confirmeHTML(id){
+    var t = TRAINS[id];
+    return '<div class="coche">✓</div>' +
+      '<p class="heure">' + t.depart + ' <span class="fleche">→</span> ' + t.arrivee + '</p>' +
+      '<p class="train-nom fraunces">' + t.nom + '</p>' +
+      '<p class="gares">' + t.gares + '</p>' +
+      '<p class="confort ok">Réveil vers ' + t.reveil + '.</p>' +
+      '<button class="changer" id="btn-changer" type="button">Changer d’avis sur ce téléphone</button>';
+  }
+
+  function lireChoix(){
+    try{ return localStorage.getItem(CLE); }catch(e){ return null; }
+  }
+  function ecrireChoix(id){
+    try{ if (id) localStorage.setItem(CLE, id); else localStorage.removeItem(CLE); }catch(e){}
+  }
+
+  function afficherConfirme(id){
+    document.getElementById('carte-confirme').innerHTML = confirmeHTML(id);
+    document.getElementById('zone-choix').hidden = true;
+    document.getElementById('zone-confirme').hidden = false;
+    document.getElementById('btn-changer').addEventListener('click', afficherChoix);
+  }
+
+  function afficherChoix(){
+    document.getElementById('zone-confirme').hidden = true;
+    document.getElementById('zone-choix').hidden = false;
+  }
+
+  document.querySelectorAll('[data-choix]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var id = b.getAttribute('data-choix');
+      ecrireChoix(id);
+      afficherConfirme(id);
+    });
+  });
+
+  var choixEnregistre = lireChoix() || 'fajar';
+  afficherConfirme(choixEnregistre);
+})();
+</script>
+
+</body>
+</html>

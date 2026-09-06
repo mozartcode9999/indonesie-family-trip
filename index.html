@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bandung, 6–9 sept — guide de l'équipe</title>
+<meta name="description" content="Guide famille pour le QG 1 à Bandung : GPS vérifiés, prix, horaires et pièges pour chaque site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --encre:#1F2D28;
+    --brume:#F3F6F4;
+    --carte:#FFFFFF;
+    --trait:#DFE7E2;
+    --sourdine:#5C6B64;
+    --the:#2F5F45;
+    --cratere:#1F7E76;
+    --karst:#B4762A;
+    --aube:#6E5FA3;
+    --soufre-fond:#FFF6D8;
+    --soufre-bord:#E0B23E;
+    --soufre-texte:#6E5410;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--brume); color:var(--encre);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:1.0625rem; line-height:1.55;
+  }
+  .fraunces{font-family:"Fraunces",Georgia,serif}
+
+  /* ---- Héro : la brume sur les collines de thé ---- */
+  header{
+    background:
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.16), transparent 55%),
+      linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
+    color:#F4FAF7; padding:2.75rem 1.25rem 2.25rem;
+  }
+  .colonne{max-width:42rem; margin:0 auto}
+  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
+  header h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:clamp(2.9rem,12vw,4.2rem); line-height:1.02; margin:0 0 .55rem;
+    letter-spacing:-.01em;
+  }
+  header p.sous{margin:0; max-width:34rem; color:#E4F1EA}
+  header p.chiffres{margin:1.1rem 0 0; color:#CFE5DB; font-size:.95rem}
+
+  /* ---- Sommaire collant ---- */
+  nav{
+    position:sticky; top:0; z-index:5; background:rgba(243,246,244,.94);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait);
+  }
+  nav .colonne{display:flex; gap:.5rem; overflow-x:auto; padding:.6rem 1.25rem; -webkit-overflow-scrolling:touch}
+  nav a{
+    flex:0 0 auto; text-decoration:none; color:var(--encre);
+    border:1px solid var(--trait); background:var(--carte);
+    padding:.45rem .85rem; border-radius:999px; font-size:.92rem; white-space:nowrap;
+  }
+  nav a:focus-visible, .btn:focus-visible{outline:3px solid var(--cratere); outline-offset:2px}
+
+  main{padding:0 1.25rem 3rem}
+  section{padding-top:2rem; scroll-margin-top:4.2rem}
+  h2{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:1.75rem; line-height:1.15; margin:0 0 .2rem;
+  }
+  .jour-quand{color:var(--sourdine); margin:0 0 1.1rem; font-size:.98rem}
+
+  /* ---- Cartes de site ---- */
+  article{
+    background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
+    border-radius:14px; padding:1.1rem 1.15rem 1.2rem; margin:0 0 1rem;
+  }
+  section[data-teinte="dim"] article{border-left-color:var(--cratere)}
+  section[data-teinte="sam"] article{border-left-color:var(--karst)}
+  section[data-teinte="aube"] article{border-left-color:var(--aube)}
+  article h3{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.3rem; margin:0}
+  .accroche{margin:.3rem 0 .75rem; color:var(--sourdine)}
+  .etoile{
+    display:inline-block; background:#FBEFD8; color:#7A5A16;
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+
+  .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 .8rem}
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem;
+    min-height:44px; padding:.5rem 1rem; border-radius:10px;
+    text-decoration:none; font-weight:600; font-size:.95rem;
+  }
+  .btn-gps{background:var(--the); color:#fff}
+  .btn-gps:active{background:#24473A}
+  .btn-tiktok{border:1.5px solid var(--trait); color:var(--encre); background:var(--carte)}
+
+  ul.infos{list-style:none; margin:.2rem 0 0; padding:0}
+  ul.infos li{padding:.28rem 0 .28rem 1.6rem; position:relative}
+  ul.infos li::before{content:attr(data-ico); position:absolute; left:0; top:.28rem}
+  .gps-detail{color:var(--sourdine); font-size:.92rem}
+  .gps-detail a{color:var(--the)}
+
+  .alerte{
+    background:var(--soufre-fond); border-left:4px solid var(--soufre-bord);
+    color:var(--soufre-texte); border-radius:0 10px 10px 0;
+    padding:.6rem .85rem; margin:.6rem 0 0; font-size:.95rem;
+  }
+
+  /* ---- Pied pratique ---- */
+  .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem}
+  .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
+  footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="colonne">
+    <p class="avant">QG 1, du samedi 6 au mardi 9 septembre, à cinq</p>
+    <h1>Bandung</h1>
+    <p class="sous">Les hauts plateaux sundanais : des volcans que l'on atteint en voiture, du thé à perte de vue, de la brume et de l'air frais.</p>
+    <p class="chiffres">3 nuits, 1 voiture, 9 lieux repérés. Tout se joue le matin : après midi, les nuages gagnent.</p>
+  </div>
+</header>
+
+<nav aria-label="Sommaire">
+  <div class="colonne">
+    <a href="#samedi">Sam 6, arrivée</a>
+    <a href="#dimanche">Dim 7, le sud</a>
+    <a href="#lundi">Lun 8, le nord</a>
+    <a href="#aube">Bonus aube</a>
+    <a href="#pratique">Infos pratiques</a>
+    <a href="train-yogya.html">🚂 Train Yogya</a>
+  </div>
+</nav>
+
+<main class="colonne">
+
+  <!-- ======================= SAMEDI ======================= -->
+  <section id="samedi" data-teinte="sam">
+    <h2>Samedi 6, le jour d'arrivée</h2>
+    <p class="jour-quand">Whoosh depuis Jakarta le matin, puis deux options en descendant du train.</p>
+
+    <article>
+      <h3>🪨 Stone Garden</h3>
+      <p class="accroche">Un jardin de rochers vieux de 30 millions d'années, un ancien fond marin posé sur les collines. Une heure de balade facile pour se dégourdir les jambes.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-6.82447,107.43826">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Stone%20Garden%20Citatah">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">À 15–20 min de la gare Whoosh de Padalarang, dernière portion cahoteuse</li>
+        <li data-ico="☀️">Belle lumière en fin d'après-midi, éviter le plein midi</li>
+        <li data-ico="🐒">Singes présents : nourriture rangée dans les sacs</li>
+        <li data-ico="📍" class="gps-detail">-6.82447, 107.43826, précision ±75 m. Un faux doublon « Garden Stone » existe à 7 km dans Google Maps : le bon point est celui-ci, à Citatah.</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🎋 Saung Angklung Udjo</h3>
+      <p class="accroche">L'orchestre de bambou où toute la salle joue : danses sundanaises, marionnettes, et on repart musiciens. Jouable si le Whoosh du matin est pris.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-6.89800,107.65526">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=angklung%20udjo%20bandung">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Spectacle tous les jours à 15h30, durée 1h30, billets au guichet</li>
+        <li data-ico="🔊">Son puissant : places un peu en retrait pour les oreilles sensibles</li>
+        <li data-ico="📍" class="gps-detail">-6.89800, 107.65526, précision ±20 m, Jl. Padasuka 118, en ville</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= DIMANCHE ======================= -->
+  <section id="dimanche" data-teinte="dim">
+    <h2>Dimanche 7, la grande journée du sud</h2>
+    <p class="jour-quand">Ciwidey et Rancabali, à ~2h de route. Départ tôt : le lac est à son meilleur à l'ouverture.</p>
+
+    <article>
+      <h3>🌫️ Kawah Putih<span class="etoile">non négociable ★</span></h3>
+      <p class="accroche">Le lac de cratère blanc-turquoise noyé dans la brume à 2 400 m : on se croirait sur une autre planète.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.14314,107.39816">🧭 Ouvrir dans Maps, entrée basse</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Kawah%20Putih%20Ciwidey">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">7h00–16h00. Y être à l'ouverture : brume magique, personne au bord du lac</li>
+        <li data-ico="🚐">La voiture s'arrête en bas ; la navette « ontang-anting » jusqu'au cratère est incluse dans le billet. Monter avec sa propre voiture coûte ~179 000 Rp</li>
+        <li data-ico="🎒">Vestes pour le froid du matin, masques en vente sur place pour le soufre, 20–30 min max au bord du lac</li>
+        <li data-ico="📍" class="gps-detail">Entrée : -7.14314, 107.39816, ±30 m. Le cratère est 5 km plus haut : <a href="https://www.google.com/maps/search/?api=1&amp;query=-7.16619,107.40243">-7.16619, 107.40243</a>, ±75 m</li>
+      </ul>
+      <p class="alerte">Des rabatteurs tentent parfois de refaire payer la navette aux étrangers : elle est déjà comprise dans le billet.</p>
+    </article>
+
+    <article>
+      <h3>♨️ Cibuni Rengganis</h3>
+      <p class="accroche">Une rivière qui fume au milieu de la jungle : pont suspendu spectaculaire, bassins d'eau chaude où tremper les pieds, retour possible en panier-téléphérique local.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.17244,107.37669">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Jembatan%20Rengganis">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">8h00–17h00, à ~3 km du lac Patenggang</li>
+        <li data-ico="💰">Billet combinable avec le lac, ~100 000 Rp les deux</li>
+        <li data-ico="📍" class="gps-detail">-7.17244, 107.37669, ±150 m : le marqueur pointe le cratère, le parking d'accès est côté pont suspendu</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🍃 Plantations de thé de Rancabali</h3>
+      <p class="accroche">Des collines de thé vert à perte de vue : la carte postale des hauts plateaux, avec fraises fraîches vendues au bord de la route.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.15066,107.38098">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Kebun%20teh%20Rancabali">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">Gratuit, accès libre le long de la route : on s'arrête où c'est beau</li>
+        <li data-ico="☀️">Lumière idéale tôt le matin ou en fin d'après-midi</li>
+        <li data-ico="📍" class="gps-detail">-7.15066, 107.38098, ±300 m : zone ouverte, pas de porte d'entrée</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛶 Situ Patenggang</h3>
+      <p class="accroche">Le lac romantique au milieu des plantations : pique-nique, barque, brume et air frais.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.16412,107.35725">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Situ%20Patenggang">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">Entrée ~25 000 Rp, barque ~10 000 Rp par personne</li>
+        <li data-ico="🧥">7 à 15 °C le matin : vestes pour tout le monde</li>
+        <li data-ico="📍" class="gps-detail">Entrée nord : -7.16412, 107.35725, ±100 m</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= LUNDI ======================= -->
+  <section id="lundi">
+    <h2>Lundi 8, la journée du nord</h2>
+    <p class="jour-quand">Lembang, à ~1h de route. Les deux sites sont à 600 m l'un de l'autre : le combo parfait.</p>
+
+    <article>
+      <h3>🌋 Tangkuban Perahu</h3>
+      <p class="accroche">Le seul volcan de Java où la voiture dépose au bord du cratère : fumerolles, odeur de soufre, vue plongeante, zéro marche obligatoire.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-6.77375,107.63478">🧭 Ouvrir dans Maps, porte à billets</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Tangkuban%20Perahu">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">8h00–17h00. Y être à l'ouverture, les nuages montent vite</li>
+        <li data-ico="🚗">On paie à la porte, puis 4,5 km de montée jusqu'au cratère Kawah Ratu</li>
+        <li data-ico="📍" class="gps-detail">Porte : -6.77375, 107.63478, ±100 m. Cratère : <a href="https://www.google.com/maps/search/?api=1&amp;query=-6.75933,107.61864">-6.75933, 107.61864</a>, ±150 m</li>
+      </ul>
+      <p class="alerte">Argent liquide uniquement, aucun distributeur sur place : retirer avant, à Lembang. Compter ~200–300 000 Rp par personne en tarif étranger, plus ~35–40 000 Rp pour la voiture. Les « masques obligatoires » vendus à l'entrée n'ont rien d'obligatoire, et les guides ne sont pas nécessaires pour le cratère principal.</p>
+    </article>
+
+    <article>
+      <h3>🌲 Orchid Forest Cikole</h3>
+      <p class="accroche">Passerelles suspendues dans une forêt de pins et d'orchidées : la balade fraîcheur dans la canopée, cafés en chemin.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-6.77995,107.63494">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Orchid%20Forest%20Cikole">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚶">Parcours d'environ 1,5 km en descente</li>
+        <li data-ico="💰">Deux paiements : barrière forestière ~11 000 Rp un peu avant, puis billet ~100 000 Rp en tarif étranger</li>
+        <li data-ico="⏰">Environ 9h/10h–18h en semaine</li>
+        <li data-ico="📍" class="gps-detail">-6.77995, 107.63494, ±50 m, à 600 m de la porte de Tangkuban Perahu</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= BONUS ======================= -->
+  <section id="aube" data-teinte="aube">
+    <h2>Le bonus des courageux</h2>
+    <p class="jour-quand">Pangalengan, pour un lever de soleil au-dessus des nuages. Réveil à 4h, récompense garantie.</p>
+
+    <article>
+      <h3>🌄 Taman Langit Pangalengan</h3>
+      <p class="accroche">Un balcon à 360° sur les volcans, au lever du jour. Ouvert jour et nuit, camping possible.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.23141,107.52648">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=taman%20langit%20pangalengan">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">~15 000 Rp par adulte, 10 000 Rp la voiture : le moins cher du séjour</li>
+        <li data-ico="⏰">Y être avant l'aube ; le brouillard couvre tout après ~12h</li>
+        <li data-ico="📍" class="gps-detail">-7.23141, 107.52648, ±100 m. Un doublon existe à 1,45 km au nord dans Google Maps : le bon point est le « Sunrise Point &amp; Camping Ground »</li>
+      </ul>
+      <p class="alerte">Route finale rocailleuse et raide : à éviter en berline basse.</p>
+    </article>
+  </section>
+
+  <!-- ======================= PRATIQUE ======================= -->
+  <section id="pratique">
+    <h2>Infos pratiques</h2>
+    <p class="jour-quand">Les trois réflexes qui sauvent la journée.</p>
+    <div class="pratique">
+      <h3>💵 Argent liquide</h3>
+      <p>Tangkuban Perahu n'accepte que le cash et n'a pas de distributeur. Retirer la veille ou à Lembang, prévoir large pour cinq.</p>
+      <h3>📶 Cartes hors ligne</h3>
+      <p>Le réseau est capricieux vers Ciwidey et Pangalengan. Chacun télécharge la carte hors ligne de la région dans Google Maps : profil, puis « Cartes hors connexion ».</p>
+      <h3>🌤️ La règle du matin</h3>
+      <p>Sur les hauts plateaux, tout se joue avant midi : brume photogénique tôt, nuages et brouillard ensuite. On part tôt, on rentre tranquilles.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colonne">
+  <p>Coordonnées GPS vérifiées et croisées le 5 septembre 2026, précision indiquée site par site. Les boutons Maps et TikTok ouvrent directement les applications sur téléphone.</p>
+</footer>
+
+<script>
+/* Ouvre la recherche TikTok dans l'application plutôt que sur le web.
+   Sur ordinateur ou si l'app est absente, le lien web reste le repli. */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('.btn-tiktok');
+  if (!a) return;
+
+  var ua = navigator.userAgent;
+  var estAndroid = /Android/i.test(ua);
+  var estIOS = /iPhone|iPad|iPod/i.test(ua);
+  if (!estAndroid && !estIOS) return; /* ordinateur : comportement normal */
+
+  e.preventDefault();
+  var recherche = '';
+  try { recherche = new URL(a.href).searchParams.get('q') || ''; } catch (err) {}
+  var motCle = encodeURIComponent(recherche);
+
+  if (estAndroid) {
+    /* intent:// ouvre l'app TikTok ; si elle manque, Chrome bascule sur le lien web */
+    window.location.href = 'intent://search?keyword=' + motCle +
+      '#Intent;scheme=snssdk1233;package=com.zhiliaoapp.musically;S.browser_fallback_url=' +
+      encodeURIComponent(a.href) + ';end';
+  } else {
+    /* iOS : on tente le schéma de l'app, et on retombe sur le web après 1,5 s si rien ne s'ouvre */
+    var repli = setTimeout(function () { window.location.href = a.href; }, 1500);
+    window.addEventListener('pagehide', function () { clearTimeout(repli); }, { once: true });
+    window.location.href = 'snssdk1233://search?keyword=' + motCle;
+  }
+});
+</script>
+
+</body>
+</html>
