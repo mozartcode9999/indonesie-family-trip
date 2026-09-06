@@ -114,6 +114,10 @@
   .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem}
   .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
   footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+
+  figure{margin:0 0 1rem}
+  figure img{display:block; width:100%; border-radius:14px; border:1px solid var(--trait)}
+  figcaption{color:var(--sourdine); font-size:.85rem; margin:.5rem .1rem 0}
 </style>
 </head>
 <body>
@@ -129,6 +133,7 @@
 
 <nav aria-label="Sommaire">
   <div class="colonne">
+    <a href="#carte">Vue d'ensemble</a>
     <a href="#borobudur">1 · Borobudur</a>
     <a href="#prambanan">2 · Prambanan</a>
     <a href="#dieng">3 · Dieng</a>
@@ -139,6 +144,19 @@
 </nav>
 
 <main class="colonne">
+
+  <!-- ======================= VUE D'ENSEMBLE ======================= -->
+  <section id="carte">
+    <h2>Vue d'ensemble</h2>
+    <p class="option-quand">Yogyakarta ville, avec Borobudur (nord-ouest) et Prambanan (est) déjà visibles sur cette vue.</p>
+    <figure>
+      <img src="img/carte-yogyakarta.png" alt="Carte satellite Google Maps de la région de Yogyakarta, montrant la ville, Candi Borobudur au nord-ouest et Candi Prambanan à l'est, avec Surakarta (Solo) plus loin à l'est.">
+      <figcaption>Google Maps, vue satellite.</figcaption>
+    </figure>
+    <div class="actions">
+      <a class="btn btn-gps" href="https://www.google.com/maps/place/Yogyakarta,+Yogyakarta+City,+Territoire+sp%C3%A9cial+de+Yogyakarta/@-7.7890388,110.281053,73701m/data=!3m1!1e3!4m6!3m5!1s0x2e7a5787bd5b6bc5:0x21723fd4d3684f71!8m2!3d-7.8013672!4d110.3647568!16zL20vMGRnNnl4?entry=ttu&amp;g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D">🧭 Ouvrir cette vue dans Maps</a>
+    </div>
+  </section>
 
   <!-- ======================= OPTION 1 : BOROBUDUR ======================= -->
   <section id="borobudur">
