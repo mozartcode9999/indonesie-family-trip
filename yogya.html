@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yogyakarta, QG 2 — guide de l'équipe</title>
+<meta name="description" content="Guide famille pour le QG 2 à Yogyakarta : GPS vérifiés, prix, horaires et pièges pour chaque site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --encre:#1F2D28;
+    --brume:#F3F6F4;
+    --carte:#FFFFFF;
+    --trait:#DFE7E2;
+    --sourdine:#5C6B64;
+    --the:#2F5F45;
+    --cratere:#1F7E76;
+    --karst:#B4762A;
+    --aube:#6E5FA3;
+    --soufre-fond:#FFF6D8;
+    --soufre-bord:#E0B23E;
+    --soufre-texte:#6E5410;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--brume); color:var(--encre);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:1.0625rem; line-height:1.55;
+  }
+  .fraunces{font-family:"Fraunces",Georgia,serif}
+
+  header{
+    background:
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.16), transparent 55%),
+      linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
+    color:#F4FAF7; padding:2.75rem 1.25rem 2.25rem;
+  }
+  .colonne{max-width:42rem; margin:0 auto}
+  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
+  header h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:clamp(2.9rem,12vw,4.2rem); line-height:1.02; margin:0 0 .55rem;
+    letter-spacing:-.01em;
+  }
+  header p.sous{margin:0; max-width:34rem; color:#E4F1EA}
+  header p.chiffres{margin:1.1rem 0 0; color:#CFE5DB; font-size:.95rem}
+  header a.retour{color:#CFE5DB; font-size:.9rem; text-decoration:none}
+  header a.retour:hover, header a.retour:focus-visible{text-decoration:underline}
+
+  nav{
+    position:sticky; top:0; z-index:5; background:rgba(243,246,244,.94);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait);
+  }
+  nav .colonne{display:flex; gap:.5rem; overflow-x:auto; padding:.6rem 1.25rem; -webkit-overflow-scrolling:touch}
+  nav a{
+    flex:0 0 auto; text-decoration:none; color:var(--encre);
+    border:1px solid var(--trait); background:var(--carte);
+    padding:.45rem .85rem; border-radius:999px; font-size:.92rem; white-space:nowrap;
+  }
+  nav a:focus-visible, .btn:focus-visible{outline:3px solid var(--cratere); outline-offset:2px}
+
+  main{padding:0 1.25rem 3rem}
+  section{padding-top:2rem; scroll-margin-top:4.2rem}
+  h2{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:1.75rem; line-height:1.15; margin:0 0 .2rem;
+  }
+  .option-quand{color:var(--sourdine); margin:0 0 1.1rem; font-size:.98rem}
+
+  article{
+    background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
+    border-radius:14px; padding:1.1rem 1.15rem 1.2rem; margin:0 0 1rem;
+  }
+  section[data-teinte="dieng"] article{border-left-color:var(--cratere)}
+  section[data-teinte="gunungkidul"] article{border-left-color:var(--karst)}
+  section[data-teinte="solo"] article{border-left-color:var(--aube)}
+  article h3{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.3rem; margin:0}
+  .accroche{margin:.3rem 0 .75rem; color:var(--sourdine)}
+  .etoile{
+    display:inline-block; background:#FBEFD8; color:#7A5A16;
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+  .phare{
+    display:inline-block; background:#EAF3EC; color:var(--the);
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+
+  .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 .8rem}
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem;
+    min-height:44px; padding:.5rem 1rem; border-radius:10px;
+    text-decoration:none; font-weight:600; font-size:.95rem;
+  }
+  .btn-gps{background:var(--the); color:#fff}
+  .btn-gps:active{background:#24473A}
+  .btn-tiktok{border:1.5px solid var(--trait); color:var(--encre); background:var(--carte)}
+
+  ul.infos{list-style:none; margin:.2rem 0 0; padding:0}
+  ul.infos li{padding:.28rem 0 .28rem 1.6rem; position:relative}
+  ul.infos li::before{content:attr(data-ico); position:absolute; left:0; top:.28rem}
+  .gps-detail{color:var(--sourdine); font-size:.92rem}
+  .gps-detail a{color:var(--the)}
+
+  .alerte{
+    background:var(--soufre-fond); border-left:4px solid var(--soufre-bord);
+    color:var(--soufre-texte); border-radius:0 10px 10px 0;
+    padding:.6rem .85rem; margin:.6rem 0 0; font-size:.95rem;
+  }
+
+  .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem}
+  .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
+  footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="colonne">
+    <p class="avant"><a class="retour" href="index.html">← Accueil</a> · QG 2, à cinq</p>
+    <h1>Yogyakarta</h1>
+    <p class="sous">La capitale culturelle de Java : temples, palais du sultan, volcans et plages à deux heures.</p>
+    <p class="chiffres">5 options, par ordre de priorité. Jours exacts à confirmer (arrivée avancée au lundi 7 sept, calendrier en cours de recalcul).</p>
+  </div>
+</header>
+
+<nav aria-label="Sommaire">
+  <div class="colonne">
+    <a href="#borobudur">1 · Borobudur</a>
+    <a href="#prambanan">2 · Prambanan</a>
+    <a href="#dieng">3 · Dieng</a>
+    <a href="#gunungkidul">4 · Gunungkidul</a>
+    <a href="#solo">5 · Solo</a>
+    <a href="#pratique">Infos pratiques</a>
+  </div>
+</nav>
+
+<main class="colonne">
+
+  <!-- ======================= OPTION 1 : BOROBUDUR ======================= -->
+  <section id="borobudur">
+    <h2>Option 1, Borobudur</h2>
+    <p class="option-quand">Bus local ou navette depuis Yogya, 1h30. Lève-tôt : lever de soleil depuis Punthuk Setumbu.</p>
+
+    <article>
+      <h3>🛕 Borobudur<span class="etoile">non négociable ★</span></h3>
+      <p class="accroche">Le plus grand temple bouddhique du monde, 2 672 bas-reliefs et 72 stupas en cloche qui émergent de la brume du matin.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.601201,110.197859">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Borobudur%20sunrise">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Créneau 8h30–15h30, séance guidée 1h30 obligatoire, sandales upanat incluses</li>
+        <li data-ico="💰">Billet « structure » (montée) 455 000 Rp étranger, « grounds only » 412 500 Rp — réserver en ligne à l'avance</li>
+        <li data-ico="👖">Pantalon ou jupe longue exigés, drones interdits</li>
+        <li data-ico="📍" class="gps-detail">-7.601201, 110.197859, ±30 m. ⚠️ 3 doublons : « Borobudur Temple » = le monument (600 m à l'est, ne pas donner au chauffeur), « main entrance parking » et « New Main Entrance » = même zone à 40 m près</li>
+      </ul>
+      <p class="alerte">Sunrise depuis le temple ~1 M Rp/pers : Punthuk Setumbu à 50 000 Rp reste l'option recommandée. Quota de la montée régulière non confirmé — réserver tôt dans le doute.</p>
+    </article>
+
+    <article>
+      <h3>🌅 Punthuk Setumbu</h3>
+      <p class="accroche">La colline d'où le Merapi et la brume avalent le lever du soleil ; le temple n'est qu'un point dans la ouate, mais quel point.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.609376,110.177792">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Punthuk%20Setumbu">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Ouvre 4h du matin</li>
+        <li data-ico="📍" class="gps-detail">-7.609376, 110.177792, ±100 m. ⚠️ 3 pins dans 250 m : le bon = « Punthuk Setumbu » (9 274 avis). « Nirvana Sunrise » est un point de vue voisin concurrent</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= OPTION 2 : PRAMBANAN ======================= -->
+  <section id="prambanan">
+    <h2>Option 2, Prambanan et le Ramayana Ballet</h2>
+    <p class="option-quand">Bus TransJogja depuis Malioboro, 3 600 Rp. Jour du ballet à confirmer (joué mar/jeu/sam à 19h30 seulement).</p>
+
+    <article>
+      <h3>👑 Kraton de Yogyakarta<span class="etoile">non négociable ★</span></h3>
+      <p class="accroche">Le palais d'un sultan qui règne encore : gamelan en direct et étiquette javanaise vivante.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.805370,110.364352">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Kraton%20Yogyakarta">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Fermé le lundi</li>
+        <li data-ico="📍" class="gps-detail">-7.805370, 110.364352, ±40 m</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛕 Prambanan</h3>
+      <p class="accroche">Les tours hindoues du IXe siècle qui griffent le ciel ; Shiva y a son gratte-ciel de pierre.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.752021,110.491467">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Prambanan">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">~400 000 Rp étranger, séparé de Borobudur (combos officiels disparus). Carte ISIC = tarif réduit à tenter</li>
+        <li data-ico="⏰">Dernière entrée 16h30</li>
+        <li data-ico="📍" class="gps-detail">-7.752021, 110.491467, ±200 m : guichet/parking fléché au sud du marqueur, le long de Jl. Raya Solo-Yogya</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛕 Candi Sewu</h3>
+      <p class="accroche">Les « mille temples » bouddhiques quasi déserts à dix minutes de la foule.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.743981,110.492868">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Sewu">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚐">Navette gratuite depuis le complexe Prambanan</li>
+        <li data-ico="📍" class="gps-detail">-7.743981, 110.492868, ±20 m</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛕 Candi Plaosan</h3>
+      <p class="accroche">Les temples jumeaux d'un couple royal hindou-bouddhiste, sublimes en lumière rasante.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.740568,110.504624">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Plaosan">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">Hors billet Prambanan : ~10 000 Rp de plus, cash. Parking de rue 5 000 Rp</li>
+        <li data-ico="📍" class="gps-detail">-7.740568, 110.504624, ±30 m</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🎭 Ramayana Ballet</h3>
+      <p class="accroche">200 danseurs, du feu, un gamelan, et Prambanan illuminé derrière la scène.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7548,110.4896">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Ramayana%20Ballet%20Prambanan">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Joué uniquement mardi/jeudi/samedi, 19h30, portes 18h30 (en plein air, mai-octobre)</li>
+        <li data-ico="📍" class="gps-detail">≈ -7.7548, 110.4896, ±150 m : point estimé, complexe théâtral au SO du parc, accolé au Trimurti — à confirmer avec le billet</li>
+      </ul>
+      <p class="alerte">Jour exact non tranché (dépend du recalcul du calendrier après l'arrivée avancée) — réserver sur ticket.borobudurpark.com une fois le jour fixé.</p>
+    </article>
+  </section>
+
+  <!-- ======================= OPTION 3 : DIENG ======================= -->
+  <section id="dieng" data-teinte="dieng">
+    <h2>Option 3, Dieng et Nepal van Java</h2>
+    <p class="option-quand">Deux jours en voiture dans les montagnes. Nuit sur place. Polaire et bonnet : 5 °C la nuit.</p>
+
+    <article>
+      <h3>🏘️ Nepal van Java (Butuh)</h3>
+      <p class="accroche">Le village multicolore agrafé à la pente du Sumbing, Himalaya de poche.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.420698,110.077224">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Nepal%20van%20Java">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">Derniers km très pentus, montée en ojek/jeep locaux</li>
+        <li data-ico="📍" class="gps-detail">-7.420698, 110.077224, ±50 m. ⚠️ Ignorer le pin « Jalan alternatif Nepal Van Java » : c'est une route, pas le site</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🏞️ Telaga Warna</h3>
+      <p class="accroche">Le lac qui change de couleur selon l'humeur du soufre.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.215639,109.913577">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Telaga%20Warna%20Dieng">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">Double tarification marquée : ~27 000 Rp local contre 120-163,5k Rp étranger — cash only, petites coupures</li>
+        <li data-ico="📍" class="gps-detail">-7.215639, 109.913577, ±80 m. ⚠️ Piège majeur : un homonyme existe à Bogor, à 450 km — toujours vérifier « Wonosobo » dans l'adresse</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🌋 Kawah Sikidang</h3>
+      <p class="accroche">Le cratère qui fume et bouillonne à hauteur de trottoir.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.220238,109.903975">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Kawah%20Sikidang">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">Billet combiné avec Candi Arjuna</li>
+        <li data-ico="🚶">Ressortir par l'entrée : la « sortie » officielle impose 1 km de couloir de boutiques</li>
+        <li data-ico="📍" class="gps-detail">-7.220238, 109.903975, ±50 m</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛕 Candi Arjuna</h3>
+      <p class="accroche">Les plus vieux temples de Java, posés dans la brume à 2 000 m.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.205047,109.906909">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Arjuna%20Dieng">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Ferme à 16h</li>
+        <li data-ico="📍" class="gps-detail">-7.205047, 109.906909, ±50 m</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🌅 Bukit Sikunir</h3>
+      <p class="accroche">Le « golden sunrise » le plus réputé de Java central, 30 minutes de montée pour un océan de nuages.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.239393,109.924217">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Bukit%20Sikunir">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚶">30 min de montée douce, optionnel</li>
+        <li data-ico="🚗">Route finale après Sembungan défoncée et raide — si le chauffeur hésite, se garer au village et marcher 20 min de plus</li>
+        <li data-ico="📍" class="gps-detail">-7.239393, 109.924217, ±150 m. ⚠️ 3 pins quasi superposés : viser « Sikunir Hill Dieng », le sentier part du parking du lac</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= OPTION 4 : GUNUNGKIDUL ======================= -->
+  <section id="gunungkidul" data-teinte="gunungkidul">
+    <h2>Option 4, la côte de Gunungkidul</h2>
+    <p class="option-quand">Tour partagé depuis l'hostel. Coucher de soleil ~17h40. Vêtements sacrifiables : boue garantie.</p>
+
+    <article>
+      <h3>🕳️ Goa Jomblang<span class="phare">Activité phare : rappel</span></h3>
+      <p class="accroche">Le rayon de lumière au fond de la grotte pour ceux qui descendent en rappel — le « rayon du paradis ».</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.028688,110.638338">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Goa%20Jomblang">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Premier arrivé, premier servi entre 8h et 14h — partir de Yogya vers 6h. Site officiel goa-jomblang.com</li>
+        <li data-ico="💰">~500 000 Rp/personne cash, déjeuner et assurance inclus</li>
+        <li data-ico="👕">Vêtements sacrifiables, boue garantie</li>
+        <li data-ico="📍" class="gps-detail">-8.028688, 110.638338, ±30 m</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🏖️ Pantai Timang<span class="phare">Activité phare : gondole suspendue</span></h3>
+      <p class="accroche">La gondole artisanale tirée à la force des bras au-dessus des rouleaux de l'océan Indien.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.176093,110.662477">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Pantai%20Timang%20gondola">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💰">400 000 Rp le jeep (max 4 pers) + 200 000 Rp la gondole — à 5, prévoir 2 jeeps ou négocier</li>
+        <li data-ico="⚠️">Gondole et pont suspendu = deux opérateurs rivaux, pas de passage croisé</li>
+        <li data-ico="📍" class="gps-detail">-8.176093, 110.662477, ±400 m : le pin le moins certain du lot — le transfert jeep part d'un parking en amont, suivre la signalétique sur les 2 derniers km</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🏖️ Pantai Wediombo</h3>
+      <p class="accroche">La baignade dans un lagon naturel creusé dans le récif, face au couchant.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.186246,110.709901">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Pantai%20Wediombo">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🍽️">Restaurant du site orienté menu cher — manger plutôt ici qu'à Timang</li>
+        <li data-ico="📍" class="gps-detail">-8.186246, 110.709901, ±100 m : parking en haut de l'escalier</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= OPTION 5 : SOLO ======================= -->
+  <section id="solo" data-teinte="solo">
+    <h2>Option 5, Solo et les temples du Lawu</h2>
+    <p class="option-quand">KRL Tugu → Solo Balapan ~1h/8 000 Rp (carte KMT ou e-money), puis 1h30 de voiture. L'option à garder sous le coude si tout le monde est en forme.</p>
+
+    <article>
+      <h3>🛕 Candi Sukuh</h3>
+      <p class="accroche">La « pyramide maya » de Java, le temple le plus étrange et le plus tardif de l'île.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.627351,111.131194">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Sukuh">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Ferme à 15h — à faire en premier</li>
+        <li data-ico="💰">~50 000 Rp/étranger, cash</li>
+        <li data-ico="📍" class="gps-detail">-7.627351, 111.131194, ±40 m</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛕 Candi Cetho</h3>
+      <p class="accroche">Le temple aux quinze terrasses qui flotte au-dessus des plantations de thé, à 1 495 m.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.595563,111.157422">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Cetho">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Dernière entrée 16h30 — à faire après Sukuh</li>
+        <li data-ico="🚗">Les 500 derniers mètres sont brutaux : voiture en bon état, frein moteur, chauffeur du coin de préférence</li>
+        <li data-ico="📍" class="gps-detail">-7.595563, 111.157422, ±40 m</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= PRATIQUE ======================= -->
+  <section id="pratique">
+    <h2>Infos pratiques</h2>
+    <p class="option-quand">Les réflexes qui sauvent la journée.</p>
+    <div class="pratique">
+      <h3>💵 Argent liquide</h3>
+      <p>Retirer du cash à Yogya avant Dieng et avant Gunungkidul : distributeurs rares et capricieux sur place.</p>
+      <h3>🚉 Gares</h3>
+      <p>Stasiun Tugu (accès est) : -7.789310, 110.362981, ±40 m — ne pas confondre avec le monument Tugu Pal Putih (700 m au nord) ni avec la gare de Lempuyangan.</p>
+      <h3>🎭 Ramayana Ballet</h3>
+      <p>Jour exact non tranché : le calendrier de tout le séjour est en cours de recalcul suite au décalage de l'arrivée (lundi 7 sept au lieu de mardi 9). À figer avant de générer le KML (étape C du pipeline).</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colonne">
+  <p>Coordonnées GPS reprises du fact-checking du 5 septembre (draft <code>YOGYAKARTA_DRAFT_A_B.md</code>), non revérifiées indépendamment par cette session. Les boutons Maps et TikTok ouvrent directement les applications sur téléphone.</p>
+</footer>
+
+<script>
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('.btn-tiktok');
+  if (!a) return;
+
+  var ua = navigator.userAgent;
+  var estAndroid = /Android/i.test(ua);
+  var estIOS = /iPhone|iPad|iPod/i.test(ua);
+  if (!estAndroid && !estIOS) return;
+
+  e.preventDefault();
+  var recherche = '';
+  try { recherche = new URL(a.href).searchParams.get('q') || ''; } catch (err) {}
+  var motCle = encodeURIComponent(recherche);
+
+  if (estAndroid) {
+    window.location.href = 'intent://search?keyword=' + motCle +
+      '#Intent;scheme=snssdk1233;package=com.zhiliaoapp.musically;S.browser_fallback_url=' +
+      encodeURIComponent(a.href) + ';end';
+  } else {
+    var repli = setTimeout(function () { window.location.href = a.href; }, 1500);
+    window.addEventListener('pagehide', function () { clearTimeout(repli); }, { once: true });
+    window.location.href = 'snssdk1233://search?keyword=' + motCle;
+  }
+});
+</script>
+
+</body>
+</html>
