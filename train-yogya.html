@@ -56,7 +56,15 @@
   .heure .fleche{font-size:1.1rem; color:var(--sourdine); font-family:system-ui,sans-serif; font-weight:400}
   .trajet-nom{font-weight:600; margin:0 0 .15rem}
   .gares{color:var(--sourdine); font-size:.94rem; margin:0 0 .6rem}
-  .confort{font-size:.94rem; margin:0; color:var(--the)}
+  .confort{font-size:.94rem; margin:0 0 .8rem; color:var(--the)}
+
+  .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 0}
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem;
+    min-height:44px; padding:.5rem 1rem; border-radius:10px;
+    text-decoration:none; font-weight:600; font-size:.95rem;
+  }
+  .btn-tiktok{border:1.5px solid var(--trait); color:var(--encre); background:var(--carte)}
 
   figure{margin:0 0 1rem}
   figure img{
@@ -104,6 +112,9 @@
     <p class="trajet-nom">Billet confirmé <span style="font-weight:400;color:var(--sourdine);font-size:.85rem">(nom du train non noté — à vérifier sur le billet)</span></p>
     <p class="gares">Jatinegara → gare de <strong>Lempuyangan</strong> (pas Tugu)</p>
     <p class="confort">Départ hôtel ~10h20, viser une arrivée gare 11h30 (marge ~30 min avant le train).</p>
+    <div class="actions">
+      <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=kereta%20ekonomi%20Jakarta%20Yogyakarta">📱 Voir sur TikTok</a>
+    </div>
   </article>
 
   <p class="rappel" style="margin-top:0">⚠️ Départ noté "12:02" — la marge visée (arrivée gare 11h30) est cohérente avec ça plutôt qu'avec 11:02, mais à reconfirmer sur le billet.</p>
@@ -130,6 +141,34 @@
 <footer class="colonne">
   <p>Train retenu par la famille : <strong>Jatinegara 12:02 → Lempuyangan 19:03</strong>, lundi 7 septembre (horaire de départ à reconfirmer).</p>
 </footer>
+
+
+<script>
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('.btn-tiktok');
+  if (!a) return;
+
+  var ua = navigator.userAgent;
+  var estAndroid = /Android/i.test(ua);
+  var estIOS = /iPhone|iPad|iPod/i.test(ua);
+  if (!estAndroid && !estIOS) return;
+
+  e.preventDefault();
+  var recherche = '';
+  try { recherche = new URL(a.href).searchParams.get('q') || ''; } catch (err) {}
+  var motCle = encodeURIComponent(recherche);
+
+  if (estAndroid) {
+    window.location.href = 'intent://search?keyword=' + motCle +
+      '#Intent;scheme=snssdk1233;package=com.zhiliaoapp.musically;S.browser_fallback_url=' +
+      encodeURIComponent(a.href) + ';end';
+  } else {
+    var repli = setTimeout(function () { window.location.href = a.href; }, 1500);
+    window.addEventListener('pagehide', function () { clearTimeout(repli); }, { once: true });
+    window.location.href = 'snssdk1233://search?keyword=' + motCle;
+  }
+});
+</script>
 
 </body>
 </html>
