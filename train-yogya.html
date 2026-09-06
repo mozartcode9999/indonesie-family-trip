@@ -76,6 +76,13 @@
 
   footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
   footer a{color:var(--the)}
+
+  .retour{
+    display:inline-flex; align-items:center; gap:.35rem;
+    color:var(--the); text-decoration:none; font-weight:600; font-size:.95rem;
+    margin:0 0 1.1rem; min-height:44px; padding:.2rem 0;
+  }
+  .retour:focus-visible{outline:3px solid var(--cratere); outline-offset:2px}
 </style>
 </head>
 <body>
@@ -89,6 +96,8 @@
 </header>
 
 <main class="colonne">
+
+  <a class="retour" href="index.html">← Accueil</a>
 
   <article>
     <p class="heure">12:37 <span class="fleche">→</span> 19:54</p>
