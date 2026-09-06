@@ -92,6 +92,7 @@
   }
   .btn-gps{background:var(--the); color:#fff}
   .btn-gps:active{background:#24473A}
+  .btn-tiktok{border:1.5px solid var(--trait); color:var(--encre); background:var(--carte)}
 
   ul.infos{list-style:none; margin:.2rem 0 0; padding:0}
   ul.infos li{padding:.28rem 0 .28rem 1.6rem; position:relative}
@@ -168,6 +169,7 @@
       <p class="accroche">Le plus grand temple bouddhique du monde. Visite guidée posée, pas physique.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.601201,110.197859">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Borobudur%20sunrise">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
         <li data-ico="🚗">Centre-ville → Borobudur : 41,5 km, 55 min–1h40 selon trafic</li>
@@ -182,6 +184,7 @@
       <p class="accroche">Sunrise sur le Merapi, 2,4 km de Borobudur. À proposer, pas à imposer.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.609376,110.177792">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Punthuk%20Setumbu">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
         <li data-ico="⏰">Ouvre 4h du matin — départ hôtel ~4h30 pour qui veut, rejoint le reste du groupe à Borobudur ensuite</li>
@@ -200,6 +203,7 @@
       <p class="accroche">Palais du sultan, gamelan en direct — à pied ou en petit trajet depuis l'hôtel.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.805370,110.364352">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Kraton%20Yogyakarta">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
         <li data-ico="🚗">4,8 km, 12-24 min depuis le centre — le trajet le plus court de tout le séjour</li>
@@ -228,6 +232,7 @@
       <p class="accroche">Les tours hindoues du IXe siècle. Un seul temple ce jour-là — pas de Sewu ni Plaosan, pour ne pas cumuler 3 sites archéologiques avant le ballet.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.752021,110.491467">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Prambanan">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
         <li data-ico="🚗">16,4 km, 24-45 min depuis le centre</li>
@@ -241,6 +246,7 @@
       <p class="accroche">200 danseurs, du feu, Prambanan illuminé en fond de scène. Assis, aucun effort physique.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7548,110.4896">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Ramayana%20Ballet%20Prambanan">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
         <li data-ico="⏰">Portes 18h30, spectacle 19h30-21h30 — joué ce jeudi, sur place juste après Prambanan</li>
@@ -265,6 +271,7 @@
       <p class="accroche">Uniquement la plage — pas Goa Jomblang (rappel), pas Pantai Timang (gondole payante à deux opérateurs rivaux).</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.186246,110.709901">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Pantai%20Wediombo">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
         <li data-ico="🚗">74,3-78,4 km, 1h50-2h50 selon trafic — gros trajet pour une simple baignade, à peser sérieusement</li>
@@ -303,6 +310,34 @@
 <footer class="colonne">
   <p>Coordonnées GPS reprises du fact-checking du 5-6 septembre (voir <a href="yogya.html">le guide complet</a> pour le détail par option). Calendrier basé sur une arrivée lundi 7 septembre — à reconfirmer si le programme bouge encore.</p>
 </footer>
+
+
+<script>
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('.btn-tiktok');
+  if (!a) return;
+
+  var ua = navigator.userAgent;
+  var estAndroid = /Android/i.test(ua);
+  var estIOS = /iPhone|iPad|iPod/i.test(ua);
+  if (!estAndroid && !estIOS) return;
+
+  e.preventDefault();
+  var recherche = '';
+  try { recherche = new URL(a.href).searchParams.get('q') || ''; } catch (err) {}
+  var motCle = encodeURIComponent(recherche);
+
+  if (estAndroid) {
+    window.location.href = 'intent://search?keyword=' + motCle +
+      '#Intent;scheme=snssdk1233;package=com.zhiliaoapp.musically;S.browser_fallback_url=' +
+      encodeURIComponent(a.href) + ';end';
+  } else {
+    var repli = setTimeout(function () { window.location.href = a.href; }, 1500);
+    window.addEventListener('pagehide', function () { clearTimeout(repli); }, { once: true });
+    window.location.href = 'snssdk1233://search?keyword=' + motCle;
+  }
+});
+</script>
 
 </body>
 </html>
