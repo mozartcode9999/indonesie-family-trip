@@ -143,12 +143,21 @@
       <button class="btn btn-quiet" data-choix="fajar" type="button">Plutôt celui-ci</button>
     </article>
 
+    <article class="secondaire">
+      <p class="heure">12:37 <span class="fleche">→</span> 19:54</p>
+      <p class="trajet-nom">Bangunkarta 162 <span style="font-weight:400;color:var(--sourdine);font-size:.85rem">(Economy)</span></p>
+      <p class="gares">Jatinegara → gare de Yogyakarta</p>
+      <p class="confort ok">Départ tranquille en milieu de matinée, mais arrivée en soirée à Yogya.</p>
+      <button class="btn btn-quiet" data-choix="bangunkarta" type="button">Plutôt celui-ci</button>
+    </article>
+
     <details>
       <summary>Pourquoi ces horaires ?</summary>
       <ul>
-        <li>Yukata Suites (Alam Sutera Boulevard) → Pasar Senen : environ 30 km, 45 min à 1h30 en voiture selon trafic.</li>
-        <li>Lundi = jour ouvré : trafic plein régime dès 6h–6h30 vers le centre de Jakarta.</li>
-        <li>Tugu et Lempuyangan sont deux gares différentes (~1,5 km d'écart) — le guide Yogyakarta sera repéré sur Tugu.</li>
+        <li>Brooklyn Apartment (Alam Sutera Boulevard) → Pasar Senen : environ 30-35 km, 45 min à 1h30 en voiture selon trafic.</li>
+        <li>Brooklyn Apartment → Jatinegara : confirmé sur Google Maps, 36,9 km, 55 min à 1h40 selon trafic (départ conseillé ~10h20 pour arriver 12h00).</li>
+        <li>Lundi = jour ouvré : trafic plein régime dès 6h–6h30 vers le centre de Jakarta le matin.</li>
+        <li>Tugu, Lempuyangan et la gare de Yogyakarta (Bangunkarta) sont trois arrivées différentes — le guide Yogyakarta sera repéré sur Tugu.</li>
         <li>Rien n'est réservé automatiquement ici : à faire sur tiket.com ou 12Go Asia une fois le train choisi.</li>
       </ul>
     </details>
@@ -173,8 +182,9 @@
   var CLE = 'train-yogya-choix';
 
   var TRAINS = {
-    gajahwong: { nom:"Gajahwong", depart:"07:55", arrivee:"15:50", gares:"Pasar Senen → gare de Lempuyangan", reveil:"5h45" },
-    fajar:     { nom:"Fajar Utama Yogya", depart:"06:40", arrivee:"14:37", gares:"Pasar Senen → gare de Tugu", reveil:"4h30" }
+    gajahwong:    { nom:"Gajahwong", depart:"07:55", arrivee:"15:50", gares:"Pasar Senen → gare de Lempuyangan", note:"Réveil vers 5h45." },
+    fajar:        { nom:"Fajar Utama Yogya", depart:"06:40", arrivee:"14:37", gares:"Pasar Senen → gare de Tugu", note:"Réveil vers 4h30." },
+    bangunkarta:  { nom:"Bangunkarta 162 (Economy)", depart:"12:37", arrivee:"19:54", gares:"Jatinegara → gare de Yogyakarta", note:"Départ hôtel ~10h20, pas de réveil aux aurores." }
   };
 
   function confirmeHTML(id){
@@ -183,7 +193,7 @@
       '<p class="heure">' + t.depart + ' <span class="fleche">→</span> ' + t.arrivee + '</p>' +
       '<p class="train-nom fraunces">' + t.nom + '</p>' +
       '<p class="gares">' + t.gares + '</p>' +
-      '<p class="confort ok">Réveil vers ' + t.reveil + '.</p>' +
+      '<p class="confort ok">' + t.note + '</p>' +
       '<button class="changer" id="btn-changer" type="button">Changer d’avis sur ce téléphone</button>';
   }
 
