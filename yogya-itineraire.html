@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yogyakarta, jour par jour — guide de l'équipe</title>
+<meta name="description" content="Itinéraire jour par jour à Yogyakarta, 5 jours max, calibré pour le groupe réel (pas de trek, pas de gadget touristique).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --encre:#1F2D28;
+    --brume:#F3F6F4;
+    --carte:#FFFFFF;
+    --trait:#DFE7E2;
+    --sourdine:#5C6B64;
+    --the:#2F5F45;
+    --cratere:#1F7E76;
+    --soufre-fond:#FFF6D8;
+    --soufre-bord:#E0B23E;
+    --soufre-texte:#6E5410;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--brume); color:var(--encre);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:1.0625rem; line-height:1.55;
+  }
+  .fraunces{font-family:"Fraunces",Georgia,serif}
+
+  header{
+    background:
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.16), transparent 55%),
+      linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
+    color:#F4FAF7; padding:2.75rem 1.25rem 2.25rem;
+  }
+  .colonne{max-width:42rem; margin:0 auto}
+  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
+  header a.retour{color:#CFE5DB; font-size:.9rem; text-decoration:none}
+  header a.retour:hover, header a.retour:focus-visible{text-decoration:underline}
+  header h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:clamp(2.4rem,10vw,3.4rem); line-height:1.05; margin:.4rem 0 .55rem;
+    letter-spacing:-.01em;
+  }
+  header p.sous{margin:0; max-width:34rem; color:#E4F1EA}
+  header p.chiffres{margin:1.1rem 0 0; color:#CFE5DB; font-size:.95rem}
+
+  nav{
+    position:sticky; top:0; z-index:5; background:rgba(243,246,244,.94);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait);
+  }
+  nav .colonne{display:flex; gap:.5rem; overflow-x:auto; padding:.6rem 1.25rem; -webkit-overflow-scrolling:touch}
+  nav a{
+    flex:0 0 auto; text-decoration:none; color:var(--encre);
+    border:1px solid var(--trait); background:var(--carte);
+    padding:.45rem .85rem; border-radius:999px; font-size:.92rem; white-space:nowrap;
+  }
+  nav a:focus-visible{outline:3px solid var(--cratere); outline-offset:2px}
+
+  main{padding:0 1.25rem 3rem}
+  section{padding-top:2rem; scroll-margin-top:4.2rem}
+  h2{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:1.6rem; line-height:1.15; margin:0 0 .2rem;
+  }
+  .jour-quand{color:var(--sourdine); margin:0 0 1.1rem; font-size:.98rem}
+
+  article{
+    background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
+    border-radius:14px; padding:1.1rem 1.15rem 1.2rem; margin:0 0 1rem;
+  }
+  article h3{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.2rem; margin:0}
+  .accroche{margin:.3rem 0 .75rem; color:var(--sourdine)}
+  .etoile{
+    display:inline-block; background:#FBEFD8; color:#7A5A16;
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+  .optionnel{
+    display:inline-block; background:#EEF0EC; color:var(--sourdine);
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+
+  .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 .8rem}
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem;
+    min-height:44px; padding:.5rem 1rem; border-radius:10px;
+    text-decoration:none; font-weight:600; font-size:.95rem;
+  }
+  .btn-gps{background:var(--the); color:#fff}
+  .btn-gps:active{background:#24473A}
+
+  ul.infos{list-style:none; margin:.2rem 0 0; padding:0}
+  ul.infos li{padding:.28rem 0 .28rem 1.6rem; position:relative}
+  ul.infos li::before{content:attr(data-ico); position:absolute; left:0; top:.28rem}
+  .gps-detail{color:var(--sourdine); font-size:.92rem}
+
+  .alerte{
+    background:var(--soufre-fond); border-left:4px solid var(--soufre-bord);
+    color:var(--soufre-texte); border-radius:0 10px 10px 0;
+    padding:.6rem .85rem; margin:.6rem 0 0; font-size:.95rem;
+  }
+  .alerte a{color:var(--soufre-texte)}
+
+  .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem}
+  .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
+  footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="colonne">
+    <p class="avant"><a class="retour" href="yogya.html">← Guide complet Yogyakarta</a> · QG 2, à cinq</p>
+    <h1>5 jours à Yogyakarta</h1>
+    <p class="sous">Itinéraire jour par jour, hôtel en centre-ville. Recalibré pour le groupe réel : pas de trek, pas de gadget touristique payant, pas 3 sites archéologiques d'affilée.</p>
+    <p class="chiffres">Lundi 7 → samedi 12 septembre. Jours de semaine 2026 réels, calendrier encore à figer définitivement.</p>
+  </div>
+</header>
+
+<nav aria-label="Sommaire">
+  <div class="colonne">
+    <a href="#j1">Lun 7</a>
+    <a href="#j2">Mar 8</a>
+    <a href="#j3">Mer 9</a>
+    <a href="#j4">Jeu 10</a>
+    <a href="#j5">Ven 11</a>
+    <a href="#j6">Sam 12</a>
+    <a href="#coupe">Ce qu'on a coupé</a>
+  </div>
+</nav>
+
+<main class="colonne">
+
+  <p class="alerte">
+    <strong>Pourquoi ce calibrage</strong> : le groupe, c'est une dame de 60 ans, une
+    profil anti-conso, et deux personnes qui préfèrent la piscine à 3h de route pour
+    finir couverts de boue. Un itinéraire pro consulté (3 semaines à Java) ne met
+    que 5 jours sur Yogya avant d'enchaîner sur Bromo/Ijen puis du farniente — ce
+    guide applique le même calibrage.
+  </p>
+
+  <!-- ======================= JOUR 1 ======================= -->
+  <section id="j1">
+    <h2>Jour 1 — Lundi 7 septembre</h2>
+    <p class="jour-quand">Arrivée. Aucune visite prévue.</p>
+
+    <article>
+      <h3>🚂 Arrivée gare de Yogyakarta</h3>
+      <p class="accroche">Train Bangunkarta 162, Jatinegara → Yogyakarta, arrivée 19h54.</p>
+      <ul class="infos">
+        <li data-ico="🏨">Transfert direct vers l'hôtel centre-ville (à réserver), check-in</li>
+        <li data-ico="🍜">Dîner à pied dans Malioboro — ambiance de rue sans effort, bon premier contact avec la ville</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= JOUR 2 ======================= -->
+  <section id="j2">
+    <h2>Jour 2 — Mardi 8 septembre</h2>
+    <p class="jour-quand">Borobudur, non négociable. Une seule sortie, retour tôt.</p>
+
+    <article>
+      <h3>🛕 Borobudur<span class="etoile">non négociable ★</span></h3>
+      <p class="accroche">Le plus grand temple bouddhique du monde. Visite guidée posée, pas physique.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.601201,110.197859">🧭 Ouvrir dans Maps</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">Centre-ville → Borobudur : 41,5 km, 55 min–1h40 selon trafic</li>
+        <li data-ico="⏰">Créneau 8h30–15h30, séance guidée 1h30 obligatoire — départ hôtel vers 7h-7h30</li>
+        <li data-ico="💰">Billet « structure » 455 000 Rp étranger, « grounds only » 412 500 Rp</li>
+      </ul>
+      <p class="alerte">Retour hôtel début d'après-midi, repos/piscine pour le reste de la journée.</p>
+    </article>
+
+    <article>
+      <h3>🌅 Punthuk Setumbu<span class="optionnel">optionnel, lève-tôt</span></h3>
+      <p class="accroche">Sunrise sur le Merapi, 2,4 km de Borobudur. À proposer, pas à imposer.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.609376,110.177792">🧭 Ouvrir dans Maps</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Ouvre 4h du matin — départ hôtel ~4h30 pour qui veut, rejoint le reste du groupe à Borobudur ensuite</li>
+        <li data-ico="💰">50 000 Rp, largement moins cher que le sunrise depuis le temple (~1M Rp/pers)</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= JOUR 3 ======================= -->
+  <section id="j3">
+    <h2>Jour 3 — Mercredi 9 septembre</h2>
+    <p class="jour-quand">Jour ville, sans transfert long, journée de récupération.</p>
+
+    <article>
+      <h3>👑 Kraton de Yogyakarta<span class="etoile">non négociable ★</span></h3>
+      <p class="accroche">Palais du sultan, gamelan en direct — à pied ou en petit trajet depuis l'hôtel.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.805370,110.364352">🧭 Ouvrir dans Maps</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">4,8 km, 12-24 min depuis le centre — le trajet le plus court de tout le séjour</li>
+        <li data-ico="⏰">Fermé le lundi (sans incidence ce jour-là)</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛍️ Malioboro : marché Beringharjo et galeries</h3>
+      <p class="accroche">Marché couvert, galeries d'art, ambiance locale — à pied depuis le Kraton.</p>
+      <ul class="infos">
+        <li data-ico="🍽️">Déjeuner gudeg (plat phare de la région)</li>
+        <li data-ico="🏊">Après-midi libre / piscine à l'hôtel</li>
+      </ul>
+      <p class="alerte">Un spectacle traditionnel (danse/théâtre/marionnettes) existe en soirée dans le quartier — lieu et horaire exact non identifiés cette session, à repérer sur place si l'envie est là plutôt qu'à réserver à l'avance.</p>
+    </article>
+  </section>
+
+  <!-- ======================= JOUR 4 ======================= -->
+  <section id="j4">
+    <h2>Jour 4 — Jeudi 10 septembre</h2>
+    <p class="jour-quand">Prambanan en fin de journée, coucher de soleil, puis le Ramayana Ballet sur place.</p>
+
+    <article>
+      <h3>🛕 Prambanan</h3>
+      <p class="accroche">Les tours hindoues du IXe siècle. Un seul temple ce jour-là — pas de Sewu ni Plaosan, pour ne pas cumuler 3 sites archéologiques avant le ballet.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.752021,110.491467">🧭 Ouvrir dans Maps</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">16,4 km, 24-45 min depuis le centre</li>
+        <li data-ico="⏰">Dernière entrée 16h30 — viser une arrivée en milieu d'après-midi pour le coucher de soleil</li>
+        <li data-ico="💰">~400 000 Rp étranger</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🎭 Ramayana Ballet</h3>
+      <p class="accroche">200 danseurs, du feu, Prambanan illuminé en fond de scène. Assis, aucun effort physique.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7548,110.4896">🧭 Ouvrir dans Maps</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Portes 18h30, spectacle 19h30-21h30 — joué ce jeudi, sur place juste après Prambanan</li>
+        <li data-ico="💰">2nd Class ~150-165k Rp à VIP ~450-550k Rp</li>
+      </ul>
+      <p class="alerte">Jour choisi ici (jeudi 10) sous réserve du recalcul définitif du calendrier — vérifier une dernière fois avant de réserver.</p>
+    </article>
+  </section>
+
+  <!-- ======================= JOUR 5 ======================= -->
+  <section id="j5">
+    <h2>Jour 5 — Vendredi 11 septembre</h2>
+    <p class="jour-quand">Jour libre par défaut. Rien d'imposé.</p>
+
+    <article>
+      <h3>🏊 Par défaut : repos, piscine, shopping</h3>
+      <p class="accroche">Le jour qui manque toujours dans un programme trop chargé — volontairement laissé vide.</p>
+    </article>
+
+    <article>
+      <h3>🏖️ Pantai Wediombo<span class="optionnel">à la carte, pas pour tout le monde</span></h3>
+      <p class="accroche">Uniquement la plage — pas Goa Jomblang (rappel), pas Pantai Timang (gondole payante à deux opérateurs rivaux).</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.186246,110.709901">🧭 Ouvrir dans Maps</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">74,3-78,4 km, 1h50-2h50 selon trafic — gros trajet pour une simple baignade, à peser sérieusement</li>
+      </ul>
+      <p class="alerte">Seulement pour qui a vraiment envie de ce trajet — ne pas en faire une sortie de groupe par défaut.</p>
+    </article>
+  </section>
+
+  <!-- ======================= JOUR 6 ======================= -->
+  <section id="j6">
+    <h2>Jour 6 — Samedi 12 septembre</h2>
+    <p class="jour-quand">Départ vers Malang.</p>
+    <article>
+      <h3>🚂 Matin libre, puis train vers Malang</h3>
+      <p class="accroche">Horaire de train à confirmer une fois la réservation KAI faite.</p>
+    </article>
+  </section>
+
+  <!-- ======================= CE QU'ON A COUPÉ ======================= -->
+  <section id="coupe">
+    <h2>Ce qu'on a coupé du plan d'origine, et pourquoi</h2>
+    <div class="pratique">
+      <h3>🕳️ Goa Jomblang / Pantai Timang (Gunungkidul)</h3>
+      <p>Rappel en grotte + gondole payante entre deux opérateurs rivaux + 3h de route A/R couverts de boue. Mauvais fit pour une dame de 60 ans, un profil anti-conso qui n'a rien à faire d'un gadget touristique, et deux personnes qui préfèrent la piscine.</p>
+      <h3>🌋 Dieng</h3>
+      <p>2h30-4h de route, une nuit à 5°C, 5 sites répartis sur 2 jours minimum — trop de budget-temps et de confort sacrifié pour ce groupe sur seulement 5 jours à Yogya. À reconsidérer uniquement si le séjour s'allonge au-delà.</p>
+      <h3>🛕 Candi Sewu, Candi Plaosan</h3>
+      <p>Redondants avec Prambanan (même complexe, &lt; 2 km) — Prambanan seul suffit pour ce groupe qui n'est pas composé d'historiens.</p>
+      <h3>🛕 Solo (Candi Sukuh, Candi Cetho)</h3>
+      <p>Déjà la priorité la plus basse du PDF d'origine ("si tout le monde est en forme"), 2h-3h30 de route pour deux temples de plus — hors sujet sur un Yogya recentré à 5 jours.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colonne">
+  <p>Coordonnées GPS reprises du fact-checking du 5-6 septembre (voir <a href="yogya.html">le guide complet</a> pour le détail par option). Calendrier basé sur une arrivée lundi 7 septembre — à reconfirmer si le programme bouge encore.</p>
+</footer>
+
+</body>
+</html>
