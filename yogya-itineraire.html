@@ -107,6 +107,16 @@
   .mode-autonomie{background:#EEF0EC; color:var(--sourdine)}
   .mode-gyg{background:#E7EEFB; color:#1E4E8C}
 
+  /* ---- Fiche rapide par activité : horaire / type / prix / trajet d'un coup d'œil ---- */
+  .fiche{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:.4rem 0 .75rem}
+  .fiche .badge{margin:0}
+  .info-pill{
+    display:inline-flex; align-items:center; gap:.35rem;
+    background:var(--brume); border:1px solid var(--trait); border-radius:999px;
+    padding:.18rem .7rem; font-size:.85rem; font-weight:600; color:var(--sourdine);
+  }
+  .info-pill.incertain{border-style:dashed; color:#8A7A4A}
+
   article{
     background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
     border-radius:14px; padding:1.1rem 1.15rem 1.2rem; margin:0 0 1rem;
@@ -260,6 +270,12 @@
 
     <article>
       <h3>👑 Kraton de Yogyakarta<span class="etoile">non négociable ★</span><svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>08:00–09:30</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli culture" d="M43.51,75.44 A130,130 0 0,1 80.15,40.36"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 08:00–09:30</span>
+        <span class="badge type-culture">🛕 Culture</span>
+        <span class="info-pill">💰 Payant</span>
+        <span class="info-pill">🚗 12 min</span>
+      </div>
       <p class="accroche">Palais du sultan, gamelan en direct — en Grab/voiture depuis l'hôtel, pas à pied.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.8053698,110.3643518">🧭 Ouvrir dans Maps</a>
@@ -273,6 +289,12 @@
 
     <article>
       <h3>🛕 Prambanan<svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>10:30–12:00</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli culture" d="M110.91,26.02 A130,130 0 0,1 161.33,20.49"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 10:30–12:00</span>
+        <span class="badge type-culture">🛕 Culture</span>
+        <span class="info-pill">💰 Payant, ~400k Rp</span>
+        <span class="info-pill">🚗 47-50 min</span>
+      </div>
       <p class="accroche">Les tours hindoues du IXe siècle, le plus grand complexe du pays.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7520206,110.4914674">🧭 Ouvrir dans Maps</a>
@@ -286,6 +308,12 @@
 
     <article>
       <h3>🛕 Candi Sewu<span class="optionnel">même complexe, en plus</span><svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>12:00–13:00</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli culture" d="M161.33,20.49 A130,130 0 0,1 194.46,27.84"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 12:00–13:00</span>
+        <span class="badge type-culture">🛕 Culture</span>
+        <span class="info-pill incertain">💰 Payant, montant à vérifier</span>
+        <span class="info-pill">🚗 ≈2 km (navette)</span>
+      </div>
       <p class="accroche">Deuxième plus grand site bouddhique du pays, à moins de 2 km de Prambanan (navette sur place).</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7439812,110.4928681">🧭 Ouvrir dans Maps</a>
@@ -296,6 +324,12 @@
 
     <article>
       <h3>🛕 Candi Plaosan<span class="optionnel">même complexe, en plus</span><svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>14:00–16:00</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli culture" d="M224.56,43.51 A130,130 0 0,1 267.82,95.06"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 14:00–16:00</span>
+        <span class="badge type-culture">🛕 Culture</span>
+        <span class="info-pill incertain">💰 Payant, montant à vérifier</span>
+        <span class="info-pill">🚗 quelques min (depuis Sewu)</span>
+      </div>
       <p class="accroche">Temples jumeaux bouddhiste/hindou, moins fréquentés, à quelques minutes de Sewu.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7405683,110.5046242">🧭 Ouvrir dans Maps</a>
@@ -306,6 +340,12 @@
 
     <article>
       <h3>🎭 Ramayana Ballet<svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>soirée, après le coucher</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli culture" d="M279.88,144.33 A130,130 0 0,1 280,150"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 19:30–21:30 (portes 18h30)</span>
+        <span class="badge type-culture">🛕 Culture</span>
+        <span class="info-pill">💰 Payant, 150k-550k Rp</span>
+        <span class="info-pill">🚗 sur place</span>
+      </div>
       <p class="accroche">200 danseurs, du feu, Prambanan illuminé en fond de scène. Assis, aucun effort physique.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7530267,110.4884829">🧭 Ouvrir dans Maps</a>
@@ -330,6 +370,12 @@
 
     <article>
       <h3>🌅 Punthuk Setumbu<span class="optionnel">optionnel, lève-tôt</span><svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>05:40–06:15</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli nature" d="M20,150 A130,130 0 0,1 21.51,130.22"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 05:40–06:15</span>
+        <span class="badge type-nature">🌿 Nature</span>
+        <span class="info-pill">💰 Payant, 50k Rp</span>
+        <span class="info-pill">🚗 2,4 km de Borobudur</span>
+      </div>
       <p class="accroche">Sunrise sur le Merapi et Borobudur dans la brume, 2,4 km du temple. À proposer, pas à imposer.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.6093756,110.1777919">🧭 Ouvrir dans Maps</a>
@@ -343,6 +389,12 @@
 
     <article>
       <h3>🛕 Borobudur<span class="etoile">non négociable ★</span><svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>08:30–10:00</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli culture" d="M54.15,62.17 A130,130 0 0,1 95.06,32.18"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 08:30–10:00</span>
+        <span class="badge type-culture">🛕 Culture</span>
+        <span class="info-pill">💰 Payant, 412,5k-455k Rp</span>
+        <span class="info-pill">🚗 1h20-1h25</span>
+      </div>
       <p class="accroche">Le plus grand temple bouddhique du monde. Visite guidée posée, pas physique.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.6078738,110.2037513">🧭 Ouvrir dans Maps</a>
@@ -371,6 +423,12 @@
     <article>
       <p class="variante-titre">Variante A — détente</p>
       <h3>🏖️ Pantai Wediombo<svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>09:30–15:30</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli plage" d="M80.15,40.36 A130,130 0 0,1 259.64,80.15"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 09:30–15:30</span>
+        <span class="badge type-plage">🏖️ Plage</span>
+        <span class="info-pill incertain">💰 à vérifier (petit droit d'entrée probable)</span>
+        <span class="info-pill">🚗 2h-2h20</span>
+      </div>
       <p class="accroche">Piscine naturelle protégée par le récif. Uniquement la plage — pas de gondole payante (Pantai Timang, deux opérateurs rivaux, écartée).</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.1862462,110.709901">🧭 Ouvrir dans Maps</a>
@@ -384,6 +442,12 @@
     <article class="variante">
       <p class="variante-titre">Variante B — pimentée</p>
       <h3>🕳️ Goa Jomblang + Pindul Cave<svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>08:00–14:30</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli aventure" d="M43.51,75.44 A130,130 0 0,1 237.83,54.15"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 08:00–14:30</span>
+        <span class="badge type-aventure">🧗 Aventure</span>
+        <span class="info-pill">💰 Payant, 13-15€/pers (combo)</span>
+        <span class="info-pill">🚗 1h40-1h55</span>
+      </div>
       <p class="accroche">Descente en rappel dans la grotte + tubing sur rivière souterraine à Pindul. Remplace la plage ce jour-là, ne se cumule pas avec elle.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.028688,110.6383381">🧭 Ouvrir dans Maps</a>
@@ -408,8 +472,34 @@
       <span class="badge mode-gyg">🎟️ GetYourGuide</span>
     </div>
 
+    <article class="variante">
+      <p class="variante-titre">Sous-option — lever de soleil</p>
+      <h3>🌅 Bukit Sikunir<span class="optionnel">à choisir avec le J3</span><svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>05:15–05:50</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli nature" d="M20,150 A130,130 0 0,1 20.12,144.33"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 05:15–05:50</span>
+        <span class="badge type-nature">🌿 Nature</span>
+        <span class="info-pill">💰 Payant, 46€/pers (forfait GYG)</span>
+        <span class="info-pill">🚗 pickup minuit, inclus</span>
+      </div>
+      <p class="accroche">Lever de soleil très réputé sur les volcans. Existe en day-trip guidé (pickup minuit, retour ~midi) sans besoin de dormir sur le plateau.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.2393929,109.9242165">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Bukit%20Sikunir">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🎟️">GetYourGuide "12-Hour Guided Dieng Plateau Sunrise Trip", ~46€/pers, 4,8★/28 avis — inclut aussi Telaga Warna, Kawah Sikidang et Candi Arjuna dans le même forfait</li>
+      </ul>
+      <p class="alerte">⚠️ Même format que Punthuk Setumbu du Jour 3 (montée avant l'aube, point de vue brumeux) — doublon d'expérience à trancher en équipe, pas les deux sunrises par défaut.</p>
+    </article>
+
     <article>
       <h3>🏞️ Telaga Warna + 🌋 Kawah Sikidang + 🛕 Candi Arjuna<svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>10:00–13:30</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli nature" d="M95.06,32.18 A130,130 0 0,1 210.03,34.69"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 10:00–13:30</span>
+        <span class="badge type-nature">🌿 Nature</span>
+        <span class="info-pill incertain">💰 à vérifier (billet plateau probable)</span>
+        <span class="info-pill">🚗 3h40-3h45</span>
+      </div>
       <p class="accroche">Lac coloré, cratère de soufre actif, complexe de petits temples hindous — le cœur du plateau, à horaires normaux.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.215639,109.9135766">🧭 Telaga Warna</a>
@@ -421,25 +511,17 @@
 
     <article>
       <h3>🏘️ Nepal Van Java<svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>13:30–14:00</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli culture" d="M210.03,34.69 A130,130 0 0,1 224.56,43.51"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 13:30–14:00</span>
+        <span class="badge type-culture">🛕 Culture</span>
+        <span class="info-pill incertain">💰 à vérifier (petite entrée probable)</span>
+        <span class="info-pill">🚗 sur le retour de Dieng</span>
+      </div>
       <p class="accroche">Village aux maisons peintes façon "petit Népal" — créé pour l'attrait photo, pas un village authentique. À présenter comme une pause ludique, pas une immersion locale.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.4206978,110.0772236">🧭 Ouvrir dans Maps</a>
         <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Nepal%20Van%20Java">📱 Voir sur TikTok</a>
       </div>
-    </article>
-
-    <article class="variante">
-      <p class="variante-titre">Sous-option — lever de soleil</p>
-      <h3>🌅 Bukit Sikunir<span class="optionnel">à choisir avec le J3</span><svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>05:15–05:50</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli nature" d="M20,150 A130,130 0 0,1 20.12,144.33"/></svg></h3>
-      <p class="accroche">Lever de soleil très réputé sur les volcans. Existe en day-trip guidé (pickup minuit, retour ~midi) sans besoin de dormir sur le plateau.</p>
-      <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.2393929,109.9242165">🧭 Ouvrir dans Maps</a>
-        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Bukit%20Sikunir">📱 Voir sur TikTok</a>
-      </div>
-      <ul class="infos">
-        <li data-ico="🎟️">GetYourGuide "12-Hour Guided Dieng Plateau Sunrise Trip", ~46€/pers, 4,8★/28 avis — inclut aussi Telaga Warna, Kawah Sikidang et Candi Arjuna dans le même forfait</li>
-      </ul>
-      <p class="alerte">⚠️ Même format que Punthuk Setumbu du Jour 3 (montée avant l'aube, point de vue brumeux) — doublon d'expérience à trancher en équipe, pas les deux sunrises par défaut.</p>
     </article>
   </section>
 
@@ -454,6 +536,12 @@
 
     <article>
       <h3>⛰️ Mount Merapi Sightseeing Jeep Tour<svg class="arc-mini" viewBox="0 0 300 175" width="34" height="20" aria-hidden="true"><title>17:00–17:40</title><path class="arc-fond" d="M20,150 A130,130 0 0,1 280,150"/><path class="arc-rempli aventure" d="M278.03,127.43 A130,130 0 0,1 280,150"/></svg></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 17:00–17:40 (sunset)</span>
+        <span class="badge type-aventure">🧗 Aventure douce</span>
+        <span class="info-pill">💰 Payant, 20-26€/pers</span>
+        <span class="info-pill">🚗 en jeep, inclus</span>
+      </div>
       <p class="accroche">Circuit en jeep sur les flancs du volcan, vue sur les coulées de lave au crépuscule — accessible à tout le groupe, sans effort physique ni encadrement spécialisé.</p>
       <div class="actions">
         <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.5407175,110.4457241">🧭 Ouvrir dans Maps</a>
