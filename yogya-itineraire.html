@@ -94,17 +94,38 @@
   #opt1:checked ~ .formule label[for="opt1"] .n,
   #opt2:checked ~ .formule label[for="opt2"] .n{ color:#fff }
 
+  /* ---- Nav en ruban chronologique, étalé pleine largeur, fixe au scroll ---- */
   nav{
-    position:sticky; top:0; z-index:5; background:rgba(241,236,225,.94);
-    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait); margin-top:1.4rem;
+    position:sticky; top:0; z-index:5; margin-top:2.2rem;
+    background:linear-gradient(180deg, var(--the), #274F3D);
+    box-shadow:0 3px 10px rgba(15,30,24,.18);
   }
-  nav .colonne{display:flex; gap:.5rem; overflow-x:auto; padding:.6rem 1.25rem; -webkit-overflow-scrolling:touch}
-  nav a{
-    flex:0 0 auto; text-decoration:none; color:var(--encre);
-    border:1px solid var(--trait); background:var(--carte);
-    padding:.45rem .85rem; border-radius:999px; font-size:.92rem; white-space:nowrap;
+  .ruban{
+    position:relative; display:flex; align-items:flex-start;
+    max-width:64rem; margin:0 auto; padding:.65rem .75rem .55rem;
   }
-  nav a:focus-visible{outline:3px solid var(--cratere); outline-offset:2px}
+  .ruban::before{
+    content:""; position:absolute; left:2.2rem; right:2.2rem; top:1.15rem; height:2px;
+    background:rgba(255,255,255,.32); z-index:0;
+  }
+  .ruban a{
+    position:relative; z-index:1; flex:1 1 0; min-width:0;
+    display:flex; flex-direction:column; align-items:center; gap:.3rem;
+    text-decoration:none; padding:.1rem .15rem;
+  }
+  .ruban .jour{
+    width:1.65rem; height:1.65rem; border-radius:50%; flex:0 0 auto;
+    background:var(--brume); color:var(--the);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:.72rem;
+    box-shadow:0 0 0 3px var(--the);
+  }
+  .ruban .libelle{
+    font-size:.66rem; color:#DCEAE2; white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; max-width:100%;
+  }
+  .ruban a:hover .jour, .ruban a:focus-visible .jour{background:var(--soufre-fond); color:var(--soufre-texte)}
+  .ruban a:focus-visible{outline:2px solid #fff; outline-offset:2px; border-radius:8px}
   #opt1:checked ~ nav a[data-opt="2"]{display:none}
 
   main{padding:0 1.25rem 3rem}
@@ -279,14 +300,14 @@
 </div>
 
 <nav aria-label="Sommaire">
-  <div class="colonne">
-    <a href="#j1">J1 · Arrivée</a>
-    <a href="#j2">J2 · Prambanan</a>
-    <a href="#j3">J3 · Borobudur</a>
-    <a href="#j4">J4 · Gunungkidul</a>
-    <a href="#j5" data-opt="2">J5 · Dieng</a>
-    <a href="#j6" data-opt="2">J6 · Merapi</a>
-    <a href="#hors-programme">Hors programme</a>
+  <div class="ruban">
+    <a href="#j1"><span class="jour">J1</span><span class="libelle">Arrivée</span></a>
+    <a href="#j2"><span class="jour">J2</span><span class="libelle">Prambanan</span></a>
+    <a href="#j3"><span class="jour">J3</span><span class="libelle">Borobudur</span></a>
+    <a href="#j4"><span class="jour">J4</span><span class="libelle">Gunungkidul</span></a>
+    <a href="#j5" data-opt="2"><span class="jour">J5</span><span class="libelle">Dieng</span></a>
+    <a href="#j6" data-opt="2"><span class="jour">J6</span><span class="libelle">Merapi</span></a>
+    <a href="#hors-programme"><span class="jour">＋</span><span class="libelle">Hors prog.</span></a>
   </div>
 </nav>
 
