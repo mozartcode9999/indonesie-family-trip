@@ -11,15 +11,18 @@
 <style>
   :root{
     --encre:#1F2D28;
-    --brume:#F3F6F4;
+    --brume:#F1ECE1;
     --carte:#FFFFFF;
-    --trait:#DFE7E2;
+    --trait:#E2DACB;
     --sourdine:#5C6B64;
     --the:#2F5F45;
     --cratere:#1F7E76;
     --soufre-fond:#FFF6D8;
     --soufre-bord:#E0B23E;
     --soufre-texte:#6E5410;
+    --feuille-1:#2F5F45;
+    --feuille-2:#4C8A67;
+    --feuille-3:#1F7E76;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -28,8 +31,24 @@
     margin:0; background:var(--brume); color:var(--encre);
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     font-size:1.0625rem; line-height:1.55;
+    position:relative;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.5; mix-blend-mode:multiply;
   }
   .fraunces{font-family:"Fraunces",Georgia,serif}
+
+  /* ---- Feuillage tropical décoratif dans les marges (desktop large uniquement) ---- */
+  .rail-feuilles{
+    position:fixed; top:0; bottom:0; width:220px; z-index:-1; pointer-events:none;
+    opacity:.9;
+  }
+  .rail-feuilles.gauche{left:0}
+  .rail-feuilles.droite{right:0; transform:scaleX(-1)}
+  .rail-feuilles svg{width:100%; height:100%; display:block}
+  @media (max-width:1300px){ .rail-feuilles{display:none} }
 
   header{
     background:
@@ -70,7 +89,7 @@
   #opt2:checked ~ .formule label[for="opt2"] .n{ color:#fff }
 
   nav{
-    position:sticky; top:0; z-index:5; background:rgba(243,246,244,.94);
+    position:sticky; top:0; z-index:5; background:rgba(241,236,225,.94);
     backdrop-filter:blur(6px); border-bottom:1px solid var(--trait); margin-top:1rem;
   }
   nav .colonne{display:flex; gap:.5rem; overflow-x:auto; padding:.6rem 1.25rem; -webkit-overflow-scrolling:touch}
@@ -194,6 +213,36 @@
 </style>
 </head>
 <body>
+
+<div class="rail-feuilles gauche" aria-hidden="true">
+  <svg viewBox="0 0 220 3000" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="feuille" d="M0,-70 C28,-45 32,20 0,70 C-32,20 -28,-45 0,-70 Z"/>
+      <pattern id="tuile-feuilles" width="220" height="480" patternUnits="userSpaceOnUse">
+        <g opacity=".92">
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(18,55) rotate(-18) scale(1.15)"/>
+          <path d="M18,-9 L18,-73" stroke="rgba(0,0,0,.14)" stroke-width="2" transform="translate(18,55) rotate(-18)"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(55,20) rotate(35) scale(.85)"/>
+          <use href="#feuille" fill="var(--feuille-3)" transform="translate(30,145) rotate(52) scale(1.05)"/>
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(70,190) rotate(-28) scale(.7)"/>
+          <circle cx="78" cy="150" r="7" fill="var(--soufre-bord)"/>
+          <circle cx="95" cy="163" r="5" fill="var(--soufre-bord)" opacity=".8"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(25,300) rotate(-45) scale(1.2)"/>
+          <use href="#feuille" fill="var(--feuille-3)" transform="translate(65,335) rotate(20) scale(.75)"/>
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(15,410) rotate(10) scale(.95)"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(55,445) rotate(60) scale(.65)"/>
+          <circle cx="20" cy="255" r="6" fill="var(--soufre-bord)" opacity=".85"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="220" height="3000" fill="url(#tuile-feuilles)"/>
+  </svg>
+</div>
+<div class="rail-feuilles droite" aria-hidden="true">
+  <svg viewBox="0 0 220 3000" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="220" height="3000" fill="url(#tuile-feuilles)"/>
+  </svg>
+</div>
 
 <header>
   <div class="colonne">
