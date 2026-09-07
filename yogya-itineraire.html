@@ -52,10 +52,14 @@
 
   header{
     background:
-      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.16), transparent 55%),
-      linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
-    color:#F4FAF7; padding:2.75rem 1.25rem 2.25rem;
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.12), transparent 55%),
+      linear-gradient(175deg, rgba(15,28,23,.82) 0%, rgba(24,58,45,.66) 45%, rgba(20,70,60,.72) 100%),
+      url("images/borobudur.jpg");
+    background-size:cover; background-position:center 62%; background-repeat:no-repeat;
+    color:#F4FAF7; padding:3.5rem 1.25rem 2.75rem; min-height:340px;
+    display:flex; align-items:flex-end;
   }
+  header > .colonne{width:100%}
   .colonne{max-width:42rem; margin:0 auto}
   header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
   header a.retour{color:#CFE5DB; font-size:.9rem; text-decoration:none}
