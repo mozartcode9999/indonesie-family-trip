@@ -118,6 +118,9 @@
   figure{margin:0 0 1rem}
   figure img{display:block; width:100%; border-radius:14px; border:1px solid var(--trait)}
   figcaption{color:var(--sourdine); font-size:.85rem; margin:.5rem .1rem 0}
+
+  .carte-interactive{position:relative; width:100%; padding-bottom:75%; border-radius:14px; overflow:hidden; border:1px solid var(--trait); margin:0 0 1rem}
+  .carte-interactive iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
 </style>
 </head>
 <body>
@@ -148,11 +151,10 @@
   <!-- ======================= VUE D'ENSEMBLE ======================= -->
   <section id="carte">
     <h2>Vue d'ensemble</h2>
-    <p class="option-quand">Yogyakarta ville, avec Borobudur (nord-ouest) et Prambanan (est) déjà visibles sur cette vue.</p>
-    <figure>
-      <img src="img/carte-yogyakarta.png" alt="Carte satellite Google Maps de la région de Yogyakarta, montrant la ville, Candi Borobudur au nord-ouest et Candi Prambanan à l'est, avec Surakarta (Solo) plus loin à l'est.">
-      <figcaption>Google Maps, vue satellite.</figcaption>
-    </figure>
+    <p class="option-quand">Carte interactive : 6 calques (un par option ci-dessous + le mont Merapi), à cocher/décocher dans la légende en haut à gauche. Zoome, déplace-toi, clique un point pour ses infos.</p>
+    <div class="carte-interactive">
+      <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1gAArh0jrhS5OTkxLBTVGzrXjKMSBu1E&amp;ehbc=2E312F&amp;noprof=1" loading="lazy" title="Carte interactive Yogyakarta - options Borobudur, Prambanan, Dieng, Gunungkidul, Solo, Merapi"></iframe>
+    </div>
     <div class="actions">
       <a class="btn btn-gps" href="https://www.google.com/maps/place/Yogyakarta,+Yogyakarta+City,+Territoire+sp%C3%A9cial+de+Yogyakarta/@-7.7890388,110.281053,73701m/data=!3m1!1e3!4m6!3m5!1s0x2e7a5787bd5b6bc5:0x21723fd4d3684f71!8m2!3d-7.8013672!4d110.3647568!16zL20vMGRnNnl4?entry=ttu&amp;g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D">🧭 Ouvrir cette vue dans Maps</a>
     </div>
