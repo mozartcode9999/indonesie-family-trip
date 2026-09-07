@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yogyakarta, jour par jour — guide de l'équipe</title>
-<meta name="description" content="Itinéraire jour par jour à Yogyakarta, 5 jours max, calibré pour le groupe réel (pas de trek, pas de gadget touristique).">
+<meta name="description" content="Itinéraire jour par jour à Yogyakarta, deux formules à trancher en équipe : socle 3 jours ou version enrichie 5 jours.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
@@ -49,9 +49,29 @@
   header p.sous{margin:0; max-width:34rem; color:#E4F1EA}
   header p.chiffres{margin:1.1rem 0 0; color:#CFE5DB; font-size:.95rem}
 
+  /* ---- Sélecteur de formule (pur CSS, sans JS) ---- */
+  #opt1, #opt2{position:absolute; opacity:0; pointer-events:none}
+  .formule{
+    max-width:42rem; margin:0 auto; padding:0 1.25rem; display:flex; gap:.5rem;
+    flex-wrap:wrap; transform:translateY(-1.1rem);
+  }
+  .formule label{
+    flex:1 1 220px; cursor:pointer; text-align:center;
+    background:var(--carte); border:1px solid var(--trait); border-radius:12px;
+    padding:.7rem .8rem; font-weight:600; font-size:.95rem; color:var(--sourdine);
+    box-shadow:0 2px 10px rgba(31,45,40,.08);
+  }
+  .formule label .n{display:block; font-weight:650; font-size:1.05rem; color:var(--encre); margin-top:.15rem}
+  #opt1:checked ~ .formule label[for="opt1"],
+  #opt2:checked ~ .formule label[for="opt2"]{
+    background:var(--the); border-color:var(--the); color:#fff;
+  }
+  #opt1:checked ~ .formule label[for="opt1"] .n,
+  #opt2:checked ~ .formule label[for="opt2"] .n{ color:#fff }
+
   nav{
     position:sticky; top:0; z-index:5; background:rgba(243,246,244,.94);
-    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait); margin-top:1rem;
   }
   nav .colonne{display:flex; gap:.5rem; overflow-x:auto; padding:.6rem 1.25rem; -webkit-overflow-scrolling:touch}
   nav a{
@@ -60,14 +80,32 @@
     padding:.45rem .85rem; border-radius:999px; font-size:.92rem; white-space:nowrap;
   }
   nav a:focus-visible{outline:3px solid var(--cratere); outline-offset:2px}
+  #opt1:checked ~ nav a[data-opt="2"]{display:none}
 
   main{padding:0 1.25rem 3rem}
+  #opt1:checked ~ main #j5,
+  #opt1:checked ~ main #j6{display:none}
+  #opt2:checked ~ main #fin-socle{display:none}
+
   section{padding-top:2rem; scroll-margin-top:4.2rem}
   h2{
     font-family:"Fraunces",Georgia,serif; font-weight:650;
     font-size:1.6rem; line-height:1.15; margin:0 0 .2rem;
   }
-  .jour-quand{color:var(--sourdine); margin:0 0 1.1rem; font-size:.98rem}
+  .jour-quand{color:var(--sourdine); margin:0 0 .5rem; font-size:.98rem}
+
+  /* ---- Badges type / mode (nomenclature ontologie v2) ---- */
+  .badges{margin:0 0 1rem}
+  .badge{
+    display:inline-block; border-radius:999px; padding:.18rem .7rem;
+    font-size:.8rem; font-weight:650; margin:0 .4rem .4rem 0;
+  }
+  .type-culture{background:#EFE6F7; color:#5B3A82}
+  .type-nature{background:#E4F3EA; color:#1F6B3F}
+  .type-plage{background:#E3F3F5; color:#146B74}
+  .type-aventure{background:#FDEBE3; color:#A6431B}
+  .mode-autonomie{background:#EEF0EC; color:var(--sourdine)}
+  .mode-gyg{background:#E7EEFB; color:#1E4E8C}
 
   article{
     background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
@@ -82,6 +120,12 @@
   .optionnel{
     display:inline-block; background:#EEF0EC; color:var(--sourdine);
     border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+
+  .variante{border-left-color:var(--cratere)}
+  .variante-titre{
+    font-size:.85rem; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--sourdine); font-weight:700; margin:0 0 .3rem;
   }
 
   .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 .8rem}
@@ -106,6 +150,11 @@
   }
   .alerte a{color:var(--soufre-texte)}
 
+  .separateur{
+    text-align:center; color:var(--sourdine); font-size:.9rem; font-weight:600;
+    margin:0 0 1.5rem; padding:.6rem 0; border-top:1px dashed var(--trait); border-bottom:1px dashed var(--trait);
+  }
+
   .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem}
   .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
   footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
@@ -116,32 +165,40 @@
 <header>
   <div class="colonne">
     <p class="avant"><a class="retour" href="yogya.html">← Guide complet Yogyakarta</a> · QG 2, à cinq</p>
-    <h1>5 jours à Yogyakarta</h1>
-    <p class="sous">Itinéraire jour par jour, hôtel en centre-ville. Recalibré pour le groupe réel : pas de trek, pas de gadget touristique payant, pas 3 sites archéologiques d'affilée.</p>
-    <p class="chiffres">Lundi 7 → samedi 12 septembre. Jours de semaine 2026 réels, calendrier encore à figer définitivement.</p>
+    <h1>Yogyakarta, jour par jour</h1>
+    <p class="sous">Deux formules, à trancher en équipe — pas une décision déjà prise. Recalibré pour le groupe réel : pas de trek imposé, pas de gadget touristique par défaut, pas deux jours de suite sur la même typologie.</p>
+    <p class="chiffres">Arrivée confirmée : lundi 7 septembre, gare de Lempuyangan. Dates des jours suivants à recaler une fois le calendrier du séjour figé.</p>
   </div>
 </header>
 
+<input type="radio" name="formule" id="opt1" checked>
+<input type="radio" name="formule" id="opt2">
+<div class="formule" role="tablist" aria-label="Choix de formule">
+  <label for="opt1">Option 1<span class="n">Socle — 3 jours</span></label>
+  <label for="opt2">Option 2<span class="n">Enrichi — 5 jours</span></label>
+</div>
+
 <nav aria-label="Sommaire">
   <div class="colonne">
-    <a href="#j1">Lun 7</a>
-    <a href="#j2">Mar 8</a>
-    <a href="#j3">Mer 9</a>
-    <a href="#j4">Jeu 10</a>
-    <a href="#j5">Ven 11</a>
-    <a href="#j6">Sam 12</a>
-    <a href="#coupe">Ce qu'on a coupé</a>
+    <a href="#j1">J1 · Arrivée</a>
+    <a href="#j2">J2 · Prambanan</a>
+    <a href="#j3">J3 · Borobudur</a>
+    <a href="#j4">J4 · Gunungkidul</a>
+    <a href="#j5" data-opt="2">J5 · Dieng</a>
+    <a href="#j6" data-opt="2">J6 · Merapi</a>
+    <a href="#hors-programme">Hors programme</a>
   </div>
 </nav>
 
 <main class="colonne">
 
   <p class="alerte">
-    <strong>Pourquoi ce calibrage</strong> : le groupe, c'est une dame de 60 ans, une
+    <strong>Pourquoi ce calibrage</strong> : le groupe, c'est une dame de 60 ans, un
     profil anti-conso, et deux personnes qui préfèrent la piscine à 3h de route pour
-    finir couverts de boue. Un itinéraire pro consulté (3 semaines à Java) ne met
-    que 5 jours sur Yogya avant d'enchaîner sur Bromo/Ijen puis du farniente — ce
-    guide applique le même calibrage.
+    finir couverts de boue (voir le détail du groupe sur <a href="yogya.html">le guide complet</a>).
+    Les deux options ci-dessus sont un menu à proposer à l'équipe, pas un programme
+    imposé — chacun des jours ajoutés en Option 2 est indépendant, à cocher ou pas
+    selon l'envie du moment.
   </p>
 
   <div class="actions">
@@ -150,8 +207,11 @@
 
   <!-- ======================= JOUR 1 ======================= -->
   <section id="j1">
-    <h2>Jour 1 — Lundi 7 septembre</h2>
-    <p class="jour-quand">Arrivée. Aucune visite prévue.</p>
+    <h2>Jour 1 — Arrivée</h2>
+    <p class="jour-quand">Lundi 7 septembre. Aucune visite prévue.</p>
+    <div class="badges">
+      <span class="badge mode-autonomie">🚶 Autonomie</span>
+    </div>
 
     <article>
       <h3>🚂 Arrivée gare de Lempuyangan</h3>
@@ -163,16 +223,103 @@
     </article>
   </section>
 
-  <!-- ======================= JOUR 2 ======================= -->
+  <!-- ======================= JOUR 2 — CULTURE ======================= -->
   <section id="j2">
-    <h2>Jour 2 — Mardi 8 septembre</h2>
-    <p class="jour-quand">Borobudur, non négociable. Une seule sortie, retour tôt.</p>
+    <h2>Jour 2 — Prambanan + Kraton</h2>
+    <p class="jour-quand">Kraton le matin, Prambanan l'après-midi, Ramayana Ballet le soir sur place.</p>
+    <div class="badges">
+      <span class="badge type-culture">🛕 Culture</span>
+      <span class="badge mode-autonomie">🚶 Autonomie</span>
+    </div>
+
+    <article>
+      <h3>👑 Kraton de Yogyakarta<span class="etoile">non négociable ★</span></h3>
+      <p class="accroche">Palais du sultan, gamelan en direct — à pied ou en petit trajet depuis l'hôtel.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.8053698,110.3643518">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Kraton%20Yogyakarta">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">4,8 km, 12-24 min depuis le centre — le trajet le plus court de tout le séjour</li>
+        <li data-ico="⏰">Fermé le lundi</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛕 Prambanan</h3>
+      <p class="accroche">Les tours hindoues du IXe siècle, le plus grand complexe du pays.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7520206,110.4914674">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Prambanan">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚗">16,4 km, 24-45 min depuis le centre</li>
+        <li data-ico="💰">~400 000 Rp étranger</li>
+      </ul>
+    </article>
+
+    <article>
+      <h3>🛕 Candi Sewu<span class="optionnel">même complexe, en plus</span></h3>
+      <p class="accroche">Deuxième plus grand site bouddhique du pays, à moins de 2 km de Prambanan (navette sur place).</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7439812,110.4928681">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Sewu">📱 Voir sur TikTok</a>
+      </div>
+      <p class="gps-detail">Logistique (navette, billet combiné) à préciser.</p>
+    </article>
+
+    <article>
+      <h3>🛕 Candi Plaosan<span class="optionnel">même complexe, en plus</span></h3>
+      <p class="accroche">Temples jumeaux bouddhiste/hindou, moins fréquentés, à quelques minutes de Sewu.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7405683,110.5046242">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Plaosan">📱 Voir sur TikTok</a>
+      </div>
+      <p class="gps-detail">Logistique à préciser.</p>
+    </article>
+
+    <article>
+      <h3>🎭 Ramayana Ballet</h3>
+      <p class="accroche">200 danseurs, du feu, Prambanan illuminé en fond de scène. Assis, aucun effort physique.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7530267,110.4884829">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Ramayana%20Ballet%20Prambanan">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Portes 18h30, spectacle 19h30-21h30 — sur place juste après Prambanan</li>
+        <li data-ico="💰">2nd Class ~150-165k Rp à VIP ~450-550k Rp</li>
+      </ul>
+      <p class="alerte">⚠️ Il existe 2 versions du ballet à Yogya : celle en plein air à Prambanan (saisonnière) et celle de Purawisata en intérieur (toute l'année) — vérifier laquelle joue à la date retenue avant de réserver.</p>
+    </article>
+  </section>
+
+  <!-- ======================= JOUR 3 — NATURE ======================= -->
+  <section id="j3">
+    <h2>Jour 3 — Borobudur</h2>
+    <p class="jour-quand">Une seule sortie, retour tôt, après-midi libre.</p>
+    <div class="badges">
+      <span class="badge type-nature">🌿 Nature</span>
+      <span class="badge mode-autonomie">🚶 Autonomie</span>
+    </div>
+
+    <article>
+      <h3>🌅 Punthuk Setumbu<span class="optionnel">optionnel, lève-tôt</span></h3>
+      <p class="accroche">Sunrise sur le Merapi et Borobudur dans la brume, 2,4 km du temple. À proposer, pas à imposer.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.6093756,110.1777919">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Punthuk%20Setumbu">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="⏰">Ouvre 4h du matin — départ hôtel ~4h30 pour qui veut, rejoint le reste du groupe à Borobudur ensuite</li>
+        <li data-ico="💰">50 000 Rp, largement moins cher que le sunrise depuis le temple (~1M Rp/pers)</li>
+      </ul>
+    </article>
 
     <article>
       <h3>🛕 Borobudur<span class="etoile">non négociable ★</span></h3>
       <p class="accroche">Le plus grand temple bouddhique du monde. Visite guidée posée, pas physique.</p>
       <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.601201,110.197859">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.6078738,110.2037513">🧭 Ouvrir dans Maps</a>
         <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Borobudur%20sunrise">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
@@ -182,137 +329,132 @@
       </ul>
       <p class="alerte">Retour hôtel début d'après-midi, repos/piscine pour le reste de la journée.</p>
     </article>
-
-    <article>
-      <h3>🌅 Punthuk Setumbu<span class="optionnel">optionnel, lève-tôt</span></h3>
-      <p class="accroche">Sunrise sur le Merapi, 2,4 km de Borobudur. À proposer, pas à imposer.</p>
-      <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.609376,110.177792">🧭 Ouvrir dans Maps</a>
-        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Punthuk%20Setumbu">📱 Voir sur TikTok</a>
-      </div>
-      <ul class="infos">
-        <li data-ico="⏰">Ouvre 4h du matin — départ hôtel ~4h30 pour qui veut, rejoint le reste du groupe à Borobudur ensuite</li>
-        <li data-ico="💰">50 000 Rp, largement moins cher que le sunrise depuis le temple (~1M Rp/pers)</li>
-      </ul>
-    </article>
   </section>
 
-  <!-- ======================= JOUR 3 ======================= -->
-  <section id="j3">
-    <h2>Jour 3 — Mercredi 9 septembre</h2>
-    <p class="jour-quand">Jour ville, sans transfert long, journée de récupération.</p>
-
-    <article>
-      <h3>👑 Kraton de Yogyakarta<span class="etoile">non négociable ★</span></h3>
-      <p class="accroche">Palais du sultan, gamelan en direct — à pied ou en petit trajet depuis l'hôtel.</p>
-      <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.805370,110.364352">🧭 Ouvrir dans Maps</a>
-        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Kraton%20Yogyakarta">📱 Voir sur TikTok</a>
-      </div>
-      <ul class="infos">
-        <li data-ico="🚗">4,8 km, 12-24 min depuis le centre — le trajet le plus court de tout le séjour</li>
-        <li data-ico="⏰">Fermé le lundi (sans incidence ce jour-là)</li>
-      </ul>
-    </article>
-
-    <article>
-      <h3>🛍️ Malioboro : marché Beringharjo et galeries</h3>
-      <p class="accroche">Marché couvert, galeries d'art, ambiance locale — à pied depuis le Kraton.</p>
-      <ul class="infos">
-        <li data-ico="🍽️">Déjeuner gudeg (plat phare de la région)</li>
-        <li data-ico="🏊">Après-midi libre / piscine à l'hôtel</li>
-      </ul>
-      <p class="alerte">Un spectacle traditionnel (danse/théâtre/marionnettes) existe en soirée dans le quartier — lieu et horaire exact non identifiés cette session, à repérer sur place si l'envie est là plutôt qu'à réserver à l'avance.</p>
-    </article>
-  </section>
-
-  <!-- ======================= JOUR 4 ======================= -->
+  <!-- ======================= JOUR 4 — PLAGE / AVENTURE ======================= -->
   <section id="j4">
-    <h2>Jour 4 — Jeudi 10 septembre</h2>
-    <p class="jour-quand">Prambanan en fin de journée, coucher de soleil, puis le Ramayana Ballet sur place.</p>
+    <h2>Jour 4 — Gunungkidul</h2>
+    <p class="jour-quand">Deux variantes, mutuellement exclusives — à choisir en équipe, pas les deux le même jour.</p>
+    <div class="badges">
+      <span class="badge type-plage">🏖️ Plage</span>
+      <span class="badge type-aventure">🧗 Aventure</span>
+      <span class="badge mode-autonomie">🚶 Autonomie (plage)</span>
+      <span class="badge mode-gyg">🎟️ GetYourGuide (grotte)</span>
+    </div>
 
     <article>
-      <h3>🛕 Prambanan</h3>
-      <p class="accroche">Les tours hindoues du IXe siècle. Un seul temple ce jour-là — pas de Sewu ni Plaosan, pour ne pas cumuler 3 sites archéologiques avant le ballet.</p>
+      <p class="variante-titre">Variante A — détente</p>
+      <h3>🏖️ Pantai Wediombo</h3>
+      <p class="accroche">Piscine naturelle protégée par le récif. Uniquement la plage — pas de gondole payante (Pantai Timang, deux opérateurs rivaux, écartée).</p>
       <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.752021,110.491467">🧭 Ouvrir dans Maps</a>
-        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Candi%20Prambanan">📱 Voir sur TikTok</a>
-      </div>
-      <ul class="infos">
-        <li data-ico="🚗">16,4 km, 24-45 min depuis le centre</li>
-        <li data-ico="⏰">Dernière entrée 16h30 — viser une arrivée en milieu d'après-midi pour le coucher de soleil</li>
-        <li data-ico="💰">~400 000 Rp étranger</li>
-      </ul>
-    </article>
-
-    <article>
-      <h3>🎭 Ramayana Ballet</h3>
-      <p class="accroche">200 danseurs, du feu, Prambanan illuminé en fond de scène. Assis, aucun effort physique.</p>
-      <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.7548,110.4896">🧭 Ouvrir dans Maps</a>
-        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Ramayana%20Ballet%20Prambanan">📱 Voir sur TikTok</a>
-      </div>
-      <ul class="infos">
-        <li data-ico="⏰">Portes 18h30, spectacle 19h30-21h30 — joué ce jeudi, sur place juste après Prambanan</li>
-        <li data-ico="💰">2nd Class ~150-165k Rp à VIP ~450-550k Rp</li>
-      </ul>
-      <p class="alerte">Jour choisi ici (jeudi 10) sous réserve du recalcul définitif du calendrier — vérifier une dernière fois avant de réserver.</p>
-    </article>
-  </section>
-
-  <!-- ======================= JOUR 5 ======================= -->
-  <section id="j5">
-    <h2>Jour 5 — Vendredi 11 septembre</h2>
-    <p class="jour-quand">Jour libre par défaut. Rien d'imposé.</p>
-
-    <article>
-      <h3>🏊 Par défaut : repos, piscine, shopping</h3>
-      <p class="accroche">Le jour qui manque toujours dans un programme trop chargé — volontairement laissé vide.</p>
-    </article>
-
-    <article>
-      <h3>🏖️ Pantai Wediombo<span class="optionnel">à la carte, pas pour tout le monde</span></h3>
-      <p class="accroche">Uniquement la plage — pas Goa Jomblang (rappel), pas Pantai Timang (gondole payante à deux opérateurs rivaux).</p>
-      <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.186246,110.709901">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.1862462,110.709901">🧭 Ouvrir dans Maps</a>
         <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Pantai%20Wediombo">📱 Voir sur TikTok</a>
       </div>
       <ul class="infos">
         <li data-ico="🚗">74,3-78,4 km, 1h50-2h50 selon trafic — gros trajet pour une simple baignade, à peser sérieusement</li>
       </ul>
-      <p class="alerte">Seulement pour qui a vraiment envie de ce trajet — ne pas en faire une sortie de groupe par défaut.</p>
+    </article>
+
+    <article class="variante">
+      <p class="variante-titre">Variante B — pimentée</p>
+      <h3>🕳️ Goa Jomblang + Pindul Cave</h3>
+      <p class="accroche">Descente en rappel dans la grotte + tubing sur rivière souterraine à Pindul. Remplace la plage ce jour-là, ne se cumule pas avec elle.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.028688,110.6383381">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Goa%20Jomblang">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🎟️">Combo GetYourGuide, guide + déjeuner inclus, ~10h, à partir de 13-15€/pers (4,9★, 180+ et 1000+ avis selon opérateur) — comparer les opérateurs avant de réserver</li>
+      </ul>
+      <p class="alerte">⚠️ Rappel en grotte, mauvais fit pour une partie du groupe (dame de 60 ans, profil anti-conso) — à proposer explicitement comme option sous-groupe, jamais comme sortie de groupe par défaut.</p>
     </article>
   </section>
 
-  <!-- ======================= JOUR 6 ======================= -->
-  <section id="j6">
-    <h2>Jour 6 — Samedi 12 septembre</h2>
-    <p class="jour-quand">Départ vers Malang.</p>
+  <p id="fin-socle" class="separateur">— Fin du programme si l'équipe choisit l'Option 1 —</p>
+
+  <!-- ======================= JOUR 5 — NATURE (Option 2) ======================= -->
+  <section id="j5">
+    <h2>Jour 5 — Plateau de Dieng <span class="optionnel">Option 2</span></h2>
+    <p class="jour-quand">Day-trip depuis Yogya, horaires normaux sauf si le sunrise Sikunir est retenu.</p>
+    <div class="badges">
+      <span class="badge type-nature">🌿 Nature</span>
+      <span class="badge mode-gyg">🎟️ GetYourGuide</span>
+    </div>
+
     <article>
-      <h3>🚂 Matin libre, puis train vers Malang</h3>
-      <p class="accroche">Horaire de train à confirmer une fois la réservation KAI faite.</p>
+      <h3>🏞️ Telaga Warna + 🌋 Kawah Sikidang + 🛕 Candi Arjuna</h3>
+      <p class="accroche">Lac coloré, cratère de soufre actif, complexe de petits temples hindous — le cœur du plateau, à horaires normaux.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.215639,109.9135766">🧭 Telaga Warna</a>
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.2202382,109.9039748">🧭 Kawah Sikidang</a>
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.2050473,109.9069094">🧭 Candi Arjuna</a>
+      </div>
+      <p class="gps-detail">Distance depuis Yogya : ~2h30-4h de route selon les avis GYG collectés — à chiffrer précisément avant réservation.</p>
+    </article>
+
+    <article>
+      <h3>🏘️ Nepal Van Java</h3>
+      <p class="accroche">Village aux maisons peintes façon "petit Népal" — créé pour l'attrait photo, pas un village authentique. À présenter comme une pause ludique, pas une immersion locale.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.4206978,110.0772236">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Nepal%20Van%20Java">📱 Voir sur TikTok</a>
+      </div>
+    </article>
+
+    <article class="variante">
+      <p class="variante-titre">Sous-option — lever de soleil</p>
+      <h3>🌅 Bukit Sikunir<span class="optionnel">à choisir avec le J3</span></h3>
+      <p class="accroche">Lever de soleil très réputé sur les volcans. Existe en day-trip guidé (pickup minuit, retour ~midi) sans besoin de dormir sur le plateau.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.2393929,109.9242165">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Bukit%20Sikunir">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🎟️">GetYourGuide "12-Hour Guided Dieng Plateau Sunrise Trip", ~46€/pers, 4,8★/28 avis — inclut aussi Telaga Warna, Kawah Sikidang et Candi Arjuna dans le même forfait</li>
+      </ul>
+      <p class="alerte">⚠️ Même format que Punthuk Setumbu du Jour 3 (montée avant l'aube, point de vue brumeux) — doublon d'expérience à trancher en équipe, pas les deux sunrises par défaut.</p>
     </article>
   </section>
 
-  <!-- ======================= CE QU'ON A COUPÉ ======================= -->
-  <section id="coupe">
-    <h2>Ce qu'on a coupé du plan d'origine, et pourquoi</h2>
+  <!-- ======================= JOUR 6 — AVENTURE DOUCE (Option 2) ======================= -->
+  <section id="j6">
+    <h2>Jour 6 — Mont Merapi <span class="optionnel">Option 2</span></h2>
+    <p class="jour-quand">Jeep, sunset + coulée de lave — pas l'ascension nocturne au sommet.</p>
+    <div class="badges">
+      <span class="badge type-aventure">🧗 Aventure douce</span>
+      <span class="badge mode-gyg">🎟️ GetYourGuide</span>
+    </div>
+
+    <article>
+      <h3>⛰️ Mount Merapi Sightseeing Jeep Tour</h3>
+      <p class="accroche">Circuit en jeep sur les flancs du volcan, vue sur les coulées de lave au crépuscule — accessible à tout le groupe, sans effort physique ni encadrement spécialisé.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.5407175,110.4457241">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Merapi%20jeep%20tour">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🎟️">GetYourGuide, formats 3h à 8h selon opérateur, ~20-26€/pers (4,6-4,9★, 90 à 530+ avis) — comparer les créneaux jour/sunset avant de réserver</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ======================= HORS PROGRAMME ======================= -->
+  <section id="hors-programme">
+    <h2>Ce qui reste écarté, et pourquoi</h2>
     <div class="pratique">
-      <h3>🕳️ Goa Jomblang / Pantai Timang (Gunungkidul)</h3>
-      <p>Rappel en grotte + gondole payante entre deux opérateurs rivaux + 3h de route A/R couverts de boue. Mauvais fit pour une dame de 60 ans, un profil anti-conso qui n'a rien à faire d'un gadget touristique, et deux personnes qui préfèrent la piscine.</p>
-      <h3>🌋 Dieng</h3>
-      <p>2h30-4h de route, une nuit à 5°C, 5 sites répartis sur 2 jours minimum — trop de budget-temps et de confort sacrifié pour ce groupe sur seulement 5 jours à Yogya. À reconsidérer uniquement si le séjour s'allonge au-delà.</p>
-      <h3>🛕 Candi Sewu, Candi Plaosan</h3>
-      <p>Redondants avec Prambanan (même complexe, &lt; 2 km) — Prambanan seul suffit pour ce groupe qui n'est pas composé d'historiens.</p>
+      <h3>🚡 Pantai Timang (gondole suspendue)</h3>
+      <p>Gondole artisanale payante entre deux opérateurs rivaux, même famille de risque que Jomblang. Mauvais fit pour une dame de 60 ans et un profil anti-conso qui n'a rien à faire d'un gadget touristique.</p>
       <h3>🛕 Solo (Candi Sukuh, Candi Cetho)</h3>
-      <p>Déjà la priorité la plus basse du PDF d'origine ("si tout le monde est en forme"), 2h-3h30 de route pour deux temples de plus — hors sujet sur un Yogya recentré à 5 jours.</p>
+      <p>2h-3h30 de route pour deux temples de plus, en plus de Prambanan/Sewu/Plaosan déjà au programme — redondance de typologie (Culture) plutôt qu'un vrai ajout.</p>
+      <h3>⛰️ Ascension nocturne du Merapi</h3>
+      <p>Envisagée un temps, remplacée par la version jeep sunset+lave (Jour 6) : même volcan, accessible à tout le groupe au lieu d'un sous-groupe seul, sans nuit blanche ni dénivelé technique.</p>
     </div>
   </section>
 
 </main>
 
 <footer class="colonne">
-  <p>Coordonnées GPS reprises du fact-checking du 5-6 septembre (voir <a href="yogya.html">le guide complet</a> pour le détail par option). Calendrier basé sur une arrivée lundi 7 septembre — à reconfirmer si le programme bouge encore.</p>
+  <p>Coordonnées GPS des nouveaux points (Sewu, Plaosan, Jomblang, Dieng, Merapi) reprises de la carte interactive <a href="yogya.html#carte">Java 2026 — Yogyakarta</a>. Prix et avis GetYourGuide relevés en session, à revérifier avant réservation. Logistique quotidienne (transport en ville, horaires précis) volontairement laissée de côté à ce stade — le groupe se débrouille seul sur les trajets simples.</p>
 </footer>
 
 
