@@ -51,15 +51,17 @@
   @media (max-width:1300px){ .rail-feuilles{display:none} }
 
   header{
+    position:relative; overflow:hidden;
     background:
       radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.12), transparent 55%),
       linear-gradient(175deg, rgba(15,28,23,.82) 0%, rgba(24,58,45,.66) 45%, rgba(20,70,60,.72) 100%),
       url("images/borobudur.jpg");
     background-size:cover; background-position:center 62%; background-repeat:no-repeat;
-    color:#F4FAF7; padding:3.5rem 1.25rem 2.75rem; min-height:340px;
+    color:#F4FAF7; padding:3.5rem 1.25rem 3.75rem; min-height:340px;
     display:flex; align-items:flex-end;
   }
   header > .colonne{width:100%}
+  .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:46px; display:block}
   .colonne{max-width:42rem; margin:0 auto}
   header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
   header a.retour{color:#CFE5DB; font-size:.9rem; text-decoration:none}
@@ -75,8 +77,8 @@
   /* ---- Sélecteur de formule (pur CSS, sans JS) ---- */
   #opt1, #opt2{position:absolute; opacity:0; pointer-events:none}
   .formule{
-    max-width:42rem; margin:0 auto; padding:0 1.25rem; display:flex; gap:.5rem;
-    flex-wrap:wrap; transform:translateY(-1.1rem);
+    max-width:42rem; margin:1.6rem auto 0; padding:0 1.25rem; display:flex; gap:.5rem;
+    flex-wrap:wrap;
   }
   .formule label{
     flex:1 1 220px; cursor:pointer; text-align:center;
@@ -94,7 +96,7 @@
 
   nav{
     position:sticky; top:0; z-index:5; background:rgba(241,236,225,.94);
-    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait); margin-top:1rem;
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--trait); margin-top:1.4rem;
   }
   nav .colonne{display:flex; gap:.5rem; overflow-x:auto; padding:.6rem 1.25rem; -webkit-overflow-scrolling:touch}
   nav a{
@@ -203,7 +205,16 @@
   }
   .alerte a{color:var(--soufre-texte)}
 
-  .carte-interactive{position:relative; width:100%; padding-bottom:75%; border-radius:14px; overflow:hidden; border:1px solid var(--trait); margin:0 0 1rem}
+  .carte-cadre{
+    background:var(--carte); border:1px solid var(--trait); border-radius:16px;
+    padding:.9rem .9rem 1.1rem; margin:0 0 1.5rem;
+    box-shadow:0 3px 14px rgba(31,45,40,.07);
+  }
+  .carte-cadre-titre{
+    font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.05rem;
+    margin:.15rem .15rem .7rem;
+  }
+  .carte-interactive{position:relative; width:100%; padding-bottom:75%; border-radius:11px; overflow:hidden; border:1px solid var(--trait); margin:0 0 .9rem}
   .carte-interactive iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
 
   .separateur{
@@ -255,6 +266,9 @@
     <p class="sous">Deux formules, à trancher en équipe — pas une décision déjà prise. Recalibré pour le groupe réel : pas de trek imposé, pas de gadget touristique par défaut, pas deux jours de suite sur la même typologie.</p>
     <p class="chiffres">Arrivée confirmée : lundi 7 septembre, gare de Lempuyangan. Dates des jours suivants à recaler une fois le calendrier du séjour figé.</p>
   </div>
+  <svg class="header-vague" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,32 C240,58 480,4 720,22 C960,40 1200,12 1440,30 L1440,60 L0,60 Z" fill="#F1ECE1"/>
+  </svg>
 </header>
 
 <input type="radio" name="formule" id="opt1" checked>
@@ -278,20 +292,14 @@
 
 <main class="colonne">
 
-  <p class="alerte">
-    <strong>Pourquoi ce calibrage</strong> : le groupe, c'est une dame de 60 ans, un
-    profil anti-conso, et deux personnes qui préfèrent la piscine à 3h de route pour
-    finir couverts de boue (voir le détail du groupe sur <a href="yogya.html">le guide complet</a>).
-    Les deux options ci-dessus sont un menu à proposer à l'équipe, pas un programme
-    imposé — chacun des jours ajoutés en Option 2 est indépendant, à cocher ou pas
-    selon l'envie du moment.
-  </p>
-
-  <div class="carte-interactive">
-    <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1gAArh0jrhS5OTkxLBTVGzrXjKMSBu1E&amp;ehbc=2E312F&amp;noprof=1" loading="lazy" title="Carte interactive Yogyakarta - Prambanan, Borobudur, Dieng, Gunungkidul, Solo, Merapi"></iframe>
-  </div>
-  <div class="actions">
-    <a class="btn btn-gps" href="https://www.google.com/maps/place/Yogyakarta,+Yogyakarta+City,+Territoire+sp%C3%A9cial+de+Yogyakarta/@-7.7890388,110.281053,73701m/data=!3m1!1e3!4m6!3m5!1s0x2e7a5787bd5b6bc5:0x21723fd4d3684f71!8m2!3d-7.8013672!4d110.3647568!16zL20vMGRnNnl4?entry=ttu&amp;g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D">🧭 Ouvrir en plein écran dans Maps</a>
+  <div class="carte-cadre">
+    <div class="carte-cadre-titre">🗺️ Carte interactive du séjour</div>
+    <div class="carte-interactive">
+      <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1gAArh0jrhS5OTkxLBTVGzrXjKMSBu1E&amp;ehbc=2E312F&amp;noprof=1" loading="lazy" title="Carte interactive Yogyakarta - Prambanan, Borobudur, Dieng, Gunungkidul, Solo, Merapi"></iframe>
+    </div>
+    <div class="actions" style="margin-bottom:0">
+      <a class="btn btn-gps" href="https://www.google.com/maps/place/Yogyakarta,+Yogyakarta+City,+Territoire+sp%C3%A9cial+de+Yogyakarta/@-7.7890388,110.281053,73701m/data=!3m1!1e3!4m6!3m5!1s0x2e7a5787bd5b6bc5:0x21723fd4d3684f71!8m2!3d-7.8013672!4d110.3647568!16zL20vMGRnNnl4?entry=ttu&amp;g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D">🧭 Ouvrir en plein écran dans Maps</a>
+    </div>
   </div>
 
   <!-- ======================= HÔTEL ======================= -->
