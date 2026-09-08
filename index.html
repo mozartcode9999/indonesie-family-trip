@@ -7,7 +7,7 @@
 <meta name="description" content="Guide famille pour le voyage à Java : une page par étape, mise à jour au fil du séjour.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Permanent+Marker&display=swap" rel="stylesheet">
 <style>
   :root{
     --encre:#1F2D28;
@@ -40,17 +40,71 @@
     background:
       radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.16), transparent 55%),
       linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
-    color:#F4FAF7; padding:2.75rem 1.25rem 3.5rem;
+    color:#F4FAF7; padding:1.1rem 1.1rem 5.5rem;
   }
   .colonne{max-width:40rem; margin:0 auto}
-  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
-  header h1{
-    font-family:"Fraunces",Georgia,serif; font-weight:650;
-    font-size:clamp(2.4rem,10vw,3.2rem); line-height:1.05; margin:0 0 .55rem;
-    letter-spacing:-.01em; text-wrap:balance;
+
+  /* ---- Nav en blocs de couleur, façon "tourdumondiste" adaptée à notre palette ---- */
+  .hero-nav{
+    max-width:52rem; margin:0 auto 2.5rem; display:flex; flex-wrap:wrap;
+    align-items:stretch; gap:.4rem; position:relative; z-index:2;
   }
-  header p.sous{margin:0; max-width:32rem; color:#E4F1EA}
-  .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:36px; display:block}
+  .nav-bloc{
+    display:flex; align-items:center; gap:.4rem; flex:0 0 auto;
+    padding:.55rem 1rem; border-radius:10px; font-weight:700; font-size:.85rem;
+    letter-spacing:.02em; text-decoration:none; color:#fff; white-space:nowrap;
+  }
+  .nav-accueil{background:var(--soufre-bord); color:#3E2F05}
+  .nav-etapes{background:var(--cratere)}
+  .nav-dates{background:rgba(255,255,255,.14); margin-left:auto}
+  .nav-bloc[aria-current="page"]{box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)}
+  .logo-plate{
+    flex:1 1 auto; min-width:9rem; background:var(--brume); border-radius:10px;
+    display:flex; align-items:center; justify-content:center; padding:.3rem .8rem;
+  }
+  .logo-rond{
+    width:2.6rem; height:2.6rem; border-radius:50%; border:2px solid var(--the);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:var(--the); line-height:1; margin-right:.5rem; flex:0 0 auto;
+  }
+  .logo-rond b{font-size:.68rem; letter-spacing:.02em}
+  .logo-rond span{font-size:.52rem; color:var(--sourdine)}
+  .logo-texte{font-family:"Fraunces",Georgia,serif; font-weight:650; color:var(--encre); font-size:.95rem}
+
+  /* ---- Feuillage décoratif dans les coins du hero (SVG dessiné à la main, pas d'asset externe) ---- */
+  .feuilles-coin{position:absolute; top:0; width:150px; height:150px; z-index:1; opacity:.85; pointer-events:none}
+  .feuilles-coin.gauche{left:-15px}
+  .feuilles-coin.droite{right:-15px; transform:scaleX(-1)}
+  @media (max-width:560px){ .feuilles-coin{width:95px; height:95px} }
+
+  /* ---- Corps du hero : titre façon marqueur + CTA ---- */
+  .hero-corps{position:relative; z-index:2; text-align:center; padding:1.5rem 1rem 0}
+  .hero-titre{
+    font-family:"Permanent Marker",cursive; font-weight:400; margin:0 0 1.1rem;
+    line-height:1.15; text-shadow:0 2px 0 rgba(0,0,0,.12);
+  }
+  .hero-titre .ligne1{display:block; font-size:clamp(1.6rem,6vw,2.2rem); color:#CFE5DB}
+  .hero-titre .ligne2{display:block; font-size:clamp(2.1rem,9vw,3.1rem); color:#fff}
+  .hero-cta{
+    display:inline-block; background:var(--soufre-fond); color:var(--soufre-texte);
+    font-weight:700; text-decoration:none; padding:.75rem 1.6rem; border-radius:999px;
+    box-shadow:0 3px 0 var(--soufre-bord); font-size:.98rem;
+  }
+  .hero-cta:active{transform:translateY(2px); box-shadow:0 1px 0 var(--soufre-bord)}
+
+  /* ---- Personnages : réservé, en attente d'illustrations IA "univers Indonésie" ---- */
+  .hero-personnages{
+    position:relative; z-index:2; max-width:44rem; margin:1.75rem auto 0;
+    display:flex; justify-content:space-between; padding:0 .5rem;
+  }
+  .hero-personnages img{
+    width:5.5rem; height:5.5rem; border-radius:50%; object-fit:cover;
+    border:3px solid rgba(255,255,255,.55); box-shadow:0 3px 12px rgba(0,0,0,.25);
+    display:block;
+  }
+  @media (max-width:480px){ .hero-personnages{display:none} }
+
+  .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:36px; display:block; z-index:2}
   .header-vague path{fill:var(--brume)}
 
   .intro{padding:1.6rem 1.25rem 0}
@@ -109,11 +163,64 @@
 <body>
 
 <header>
-  <div class="colonne">
-    <p class="avant">Voyage en famille, à cinq</p>
-    <h1>Java, du 4 au 25 septembre</h1>
-    <p class="sous">Trains, GPS, horaires, pièges à éviter — mis à jour au fil du séjour.</p>
+  <nav class="hero-nav" aria-label="Navigation principale">
+    <a class="nav-bloc nav-accueil" href="index.html" aria-current="page">🏠 Accueil</a>
+    <a class="nav-bloc nav-etapes" href="#etapes">Les étapes</a>
+    <div class="logo-plate">
+      <div class="logo-rond"><b>JAVA</b><span>2026</span></div>
+      <span class="logo-texte">Voyage en famille, à cinq</span>
+    </div>
+    <span class="nav-bloc nav-dates">4 → 25 sept</span>
+  </nav>
+
+  <!-- Feuillage dessiné à la main en SVG (pas d'asset externe), même technique que yogya-itineraire.html -->
+  <div class="feuilles-coin gauche" aria-hidden="true">
+    <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(10,-10) rotate(-15 75 75)">
+        <path d="M75,20 C105,35 118,70 95,100 C85,112 65,112 55,100 C32,70 45,35 75,20 Z" style="fill:var(--the)" opacity=".9"/>
+        <path d="M75,28 L75,98" stroke="#1a3e2c" stroke-width="2" opacity=".4"/>
+      </g>
+      <g transform="translate(-25,20) rotate(20 75 75) scale(.75)">
+        <path d="M75,20 C105,35 118,70 95,100 C85,112 65,112 55,100 C32,70 45,35 75,20 Z" style="fill:var(--cratere)" opacity=".85"/>
+        <path d="M75,28 L75,98" stroke="#0d4842" stroke-width="2" opacity=".4"/>
+      </g>
+      <g transform="translate(30,35) rotate(-35 75 75) scale(.55)">
+        <path d="M75,20 C105,35 118,70 95,100 C85,112 65,112 55,100 C32,70 45,35 75,20 Z" style="fill:var(--soufre-bord)" opacity=".8"/>
+        <path d="M75,28 L75,98" stroke="#7a5a16" stroke-width="2" opacity=".4"/>
+      </g>
+    </svg>
   </div>
+  <div class="feuilles-coin droite" aria-hidden="true">
+    <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(10,-10) rotate(-15 75 75)">
+        <path d="M75,20 C105,35 118,70 95,100 C85,112 65,112 55,100 C32,70 45,35 75,20 Z" style="fill:var(--the)" opacity=".9"/>
+        <path d="M75,28 L75,98" stroke="#1a3e2c" stroke-width="2" opacity=".4"/>
+      </g>
+      <g transform="translate(-25,20) rotate(20 75 75) scale(.75)">
+        <path d="M75,20 C105,35 118,70 95,100 C85,112 65,112 55,100 C32,70 45,35 75,20 Z" style="fill:var(--cratere)" opacity=".85"/>
+        <path d="M75,28 L75,98" stroke="#0d4842" stroke-width="2" opacity=".4"/>
+      </g>
+      <g transform="translate(30,35) rotate(-35 75 75) scale(.55)">
+        <path d="M75,20 C105,35 118,70 95,100 C85,112 65,112 55,100 C32,70 45,35 75,20 Z" style="fill:var(--soufre-bord)" opacity=".8"/>
+        <path d="M75,28 L75,98" stroke="#7a5a16" stroke-width="2" opacity=".4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-corps">
+    <h1 class="hero-titre">
+      <span class="ligne1">Prépare ton</span>
+      <span class="ligne2">séjour à Java</span>
+    </h1>
+    <a class="hero-cta" href="#etapes">Voir les étapes →</a>
+  </div>
+
+  <!-- Illustrations "univers Indonésie" générées par IA (Claude Desktop), voir 06_illustrations_ia/ -->
+  <div class="hero-personnages" aria-hidden="true">
+    <img src="images/portrait-javanaise.png" alt="">
+    <img src="images/portrait-guide-montagne.png" alt="">
+  </div>
+
   <svg class="header-vague" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0,32 C240,58 480,4 720,22 C960,40 1200,12 1440,30 L1440,60 L0,60 Z"/>
   </svg>
@@ -127,7 +234,7 @@
 
   <p class="alerte">📍 Bandung est annulé. On reste un jour de plus à Alam Sutera, puis direction Yogyakarta.</p>
 
-  <h2>Les étapes</h2>
+  <h2 id="etapes">Les étapes</h2>
   <ul class="liste-etapes">
     <li>
       <a class="etape disponible" href="train-yogya.html">
