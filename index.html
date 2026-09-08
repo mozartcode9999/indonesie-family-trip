@@ -26,23 +26,39 @@
     margin:0; background:var(--brume); color:var(--encre);
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     font-size:1.0625rem; line-height:1.55;
+    position:relative;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.5; mix-blend-mode:multiply;
   }
   .fraunces{font-family:"Fraunces",Georgia,serif}
 
   header{
+    position:relative; overflow:hidden;
     background:
       radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.16), transparent 55%),
       linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
-    color:#F4FAF7; padding:2.75rem 1.25rem 2.25rem;
+    color:#F4FAF7; padding:2.75rem 1.25rem 3.5rem;
   }
-  .colonne{max-width:34rem; margin:0 auto}
+  .colonne{max-width:40rem; margin:0 auto}
   header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
   header h1{
     font-family:"Fraunces",Georgia,serif; font-weight:650;
     font-size:clamp(2.4rem,10vw,3.2rem); line-height:1.05; margin:0 0 .55rem;
     letter-spacing:-.01em; text-wrap:balance;
   }
-  header p.sous{margin:0; max-width:30rem; color:#E4F1EA}
+  header p.sous{margin:0; max-width:32rem; color:#E4F1EA}
+  .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:36px; display:block}
+  .header-vague path{fill:var(--brume)}
+
+  .intro{padding:1.6rem 1.25rem 0}
+  .intro-texte{
+    font-family:"Fraunces",Georgia,serif; font-style:italic; font-weight:500;
+    font-size:1.1rem; line-height:1.5; color:var(--sourdine); text-align:center;
+    max-width:36rem; margin:0 auto;
+  }
 
   main{padding:1.75rem 1.25rem 3rem}
 
@@ -57,8 +73,12 @@
     font-size:1.3rem; margin:0 0 .8rem;
   }
 
-  .liste-etapes{list-style:none; margin:0 0 1.75rem; padding:0; display:flex; flex-direction:column; gap:.7rem}
+  .liste-etapes{
+    list-style:none; margin:0 0 1.75rem; padding:0;
+    display:flex; flex-wrap:wrap; gap:.75rem;
+  }
   .etape{
+    flex:1 1 230px;
     display:flex; align-items:center; gap:.85rem;
     background:var(--carte); border:1px solid var(--trait); border-radius:14px;
     padding:.9rem 1.1rem;
@@ -92,9 +112,16 @@
   <div class="colonne">
     <p class="avant">Voyage en famille, à cinq</p>
     <h1>Java, du 4 au 25 septembre</h1>
-    <p class="sous">Une page par étape, mise à jour au fil du séjour : trains, GPS, horaires, pièges à éviter.</p>
+    <p class="sous">Trains, GPS, horaires, pièges à éviter — mis à jour au fil du séjour.</p>
   </div>
+  <svg class="header-vague" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,32 C240,58 480,4 720,22 C960,40 1200,12 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
 </header>
+
+<section class="intro colonne">
+  <p class="intro-texte">Java a son propre axe du monde : des volcans parmi les plus actifs de la planète au nord, un sultan qui gouverne toujours depuis son palais du XVIII<sup>e</sup> siècle en son centre, et les vestiges de deux traditions millénaires — hindoue et bouddhiste — élevés à quelques kilomètres l'un de l'autre.</p>
+</section>
 
 <main class="colonne">
 
@@ -107,7 +134,7 @@
         <span class="etape-emoji">🚂</span>
         <span class="etape-texte">
           <p class="etape-nom">Train pour Yogyakarta</p>
-          <p class="etape-statut">Billets achetés, lundi 7 sept — Jatinegara → Lempuyangan</p>
+          <p class="etape-statut">✅ Effectué, lundi 7 sept — Jatinegara → Lempuyangan</p>
         </span>
         <span class="fleche-lien">→</span>
       </a>
