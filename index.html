@@ -107,6 +107,21 @@
   .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:36px; display:block; z-index:2}
   .header-vague path{fill:var(--brume)}
 
+  /* ---- Sommaire cliquable, pattern "Au sommaire" de tourdumondiste (décortiqué au DOM) ---- */
+  .sommaire{
+    background:var(--the); color:#fff; border-radius:14px;
+    padding:1rem 1.25rem; margin:1.5rem auto 0;
+  }
+  .sommaire-titre{
+    font-family:"Fraunces",Georgia,serif; font-weight:650; text-transform:uppercase;
+    letter-spacing:.04em; font-size:.8rem; margin:0 0 .6rem; color:#CFE5DB;
+  }
+  .sommaire-liste{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.5rem}
+  .sommaire-liste li{display:flex; align-items:center; gap:.5rem}
+  .sommaire-liste li::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--soufre-bord); flex:0 0 auto}
+  .sommaire-liste a{color:#fff; text-decoration:none; font-size:.92rem; font-weight:600}
+  .sommaire-liste a:hover, .sommaire-liste a:focus-visible{text-decoration:underline}
+
   .intro{padding:1.6rem 1.25rem 0}
   .intro-texte{
     font-family:"Fraunces",Georgia,serif; font-style:italic; font-weight:500;
@@ -234,7 +249,15 @@
   </svg>
 </header>
 
-<section class="intro colonne">
+<nav class="sommaire colonne" aria-label="Sommaire de la page">
+  <p class="sommaire-titre">Au sommaire</p>
+  <ul class="sommaire-liste">
+    <li><a href="#intro">Le contexte</a></li>
+    <li><a href="#etapes">Les étapes</a></li>
+  </ul>
+</nav>
+
+<section class="intro colonne" id="intro">
   <p class="intro-texte">Java a son propre axe du monde : des volcans parmi les plus actifs de la planète au nord, un sultan qui gouverne toujours depuis son palais du XVIII<sup>e</sup> siècle en son centre, et les vestiges de deux traditions millénaires — hindoue et bouddhiste — élevés à quelques kilomètres l'un de l'autre.</p>
 </section>
 
