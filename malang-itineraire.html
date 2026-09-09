@@ -195,6 +195,18 @@
   }
   .alerte a{color:var(--soufre-texte)}
 
+  .carte-cadre{
+    background:var(--carte); border:1px solid var(--trait); border-radius:16px;
+    padding:.9rem .9rem 1.1rem; margin:1.75rem 0 1.5rem;
+    box-shadow:0 3px 14px rgba(31,45,40,.07);
+  }
+  .carte-cadre-titre{
+    font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.05rem;
+    margin:.15rem .15rem .7rem;
+  }
+  .carte-interactive{position:relative; width:100%; padding-bottom:75%; border-radius:11px; overflow:hidden; border:1px solid var(--trait); margin:0 0 .9rem}
+  .carte-interactive iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+
   .separateur{
     text-align:center; color:var(--sourdine); font-size:.9rem; font-weight:600;
     margin:0 0 1.5rem; padding:.6rem 0; border-top:1px dashed var(--trait); border-bottom:1px dashed var(--trait);
@@ -262,8 +274,18 @@
 
 <main class="colonne">
 
+  <div class="carte-cadre">
+    <div class="carte-cadre-titre">🗺️ Carte interactive du séjour</div>
+    <div class="carte-interactive">
+      <iframe src="https://www.google.com/maps/d/embed?mid=17Tdi4PEfezZZGI7l-EVmVOZRqxeb8Xk&amp;ehbc=2E312F&amp;noprof=1" loading="lazy" title="Carte interactive Malang - Bromo, Tumpak Sewu, Kabut Pelangi, Jodipan, Kajoetangan, Coban Pelangi"></iframe>
+    </div>
+    <div class="actions" style="margin-bottom:0">
+      <a class="btn btn-gps" href="https://www.google.com/maps/d/viewer?mid=17Tdi4PEfezZZGI7l-EVmVOZRqxeb8Xk">🧭 Ouvrir en plein écran dans Maps</a>
+    </div>
+  </div>
+
   <!-- ======================= HÔTEL ======================= -->
-  <div class="pratique a-reserver" style="margin:1.75rem 0 1.5rem">
+  <div class="pratique a-reserver" style="margin:0 0 1.5rem">
     <h3>🏨 Hôtel/hostel — à réserver</h3>
     <p class="accroche" style="margin-top:.2rem">Pas encore choisi. Vu le programme (arrivée en fin de journée le J1, retour d'une nuit blanche vers 10h le J3, sortie à pied l'après-midi du J3), privilégier un hostel proche de la gare de Malang et du centre-ville (Kajoetangan/Alun-alun) : c'est aussi lui qui organise les tours Tumpak Sewu et Bromo, donc son emplacement fixe le point de rendez-vous du pickup jeep.</p>
   </div>
@@ -400,14 +422,8 @@
       </div>
       <ul class="infos">
         <li data-ico="🎫">Jodipan : 5 000 Rp/pers, ouvert 07h-17h, à 500 m de la gare de Malang</li>
-        <li data-ico="🍦">Toko Oen, glacier de 1930 sur Kajoetangan — recette originale sans conservateur, fond rapidement</li>
       </ul>
     </article>
-
-    <div class="hero" style="margin:0 0 .75rem; border-radius:9px; overflow:hidden">
-      <img src="images/toko-oen-kajoetangan.jpg" alt="Toko Oen, façade coloniale de 1930 sur Kajoetangan Heritage, de nuit" loading="lazy" width="1280" height="960" style="aspect-ratio:16/10">
-      <span class="credit">📷 Annidafattiya, CC BY</span>
-    </div>
   </section>
 
   <!-- ======================= JOUR 4 — DÉPART ======================= -->
