@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malang, jour par jour — guide de l'équipe</title>
+<meta name="description" content="Itinéraire jour par jour à Malang : Tumpak Sewu, Bromo et la ville coloniale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --encre:#1F2D28;
+    --brume:#F1ECE1;
+    --carte:#FFFFFF;
+    --trait:#E2DACB;
+    --sourdine:#5C6B64;
+    --the:#2F5F45;
+    --cratere:#1F7E76;
+    --soufre-fond:#FFF6D8;
+    --soufre-bord:#E0B23E;
+    --soufre-texte:#6E5410;
+    --feuille-1:#2F5F45;
+    --feuille-2:#4C8A67;
+    --feuille-3:#1F7E76;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--brume); color:var(--encre);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:1.0625rem; line-height:1.55;
+    position:relative;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.5; mix-blend-mode:multiply;
+  }
+  .fraunces{font-family:"Fraunces",Georgia,serif}
+
+  /* ---- Feuillage tropical décoratif dans les marges (desktop large uniquement) ---- */
+  .rail-feuilles{
+    position:fixed; top:0; bottom:0; width:220px; z-index:-1; pointer-events:none;
+    opacity:.9;
+  }
+  .rail-feuilles.gauche{left:0}
+  .rail-feuilles.droite{right:0; transform:scaleX(-1)}
+  .rail-feuilles svg{width:100%; height:100%; display:block}
+  @media (max-width:1300px){ .rail-feuilles{display:none} }
+
+  header{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.12), transparent 55%),
+      linear-gradient(175deg, rgba(15,28,23,.82) 0%, rgba(24,58,45,.66) 45%, rgba(20,70,60,.72) 100%),
+      url("images/bromo-sunrise.jpg");
+    background-size:cover; background-position:center 55%; background-repeat:no-repeat;
+    color:#F4FAF7; padding:3.5rem 1.25rem 3.75rem; min-height:340px;
+    display:flex; align-items:flex-end;
+  }
+  header > .colonne{width:100%}
+  .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:46px; display:block}
+  .colonne{max-width:42rem; margin:0 auto}
+  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
+  header a.retour{color:#CFE5DB; font-size:.9rem; text-decoration:none}
+  header a.retour:hover, header a.retour:focus-visible{text-decoration:underline}
+  header h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:clamp(2.4rem,10vw,3.4rem); line-height:1.05; margin:.4rem 0 .55rem;
+    letter-spacing:-.01em;
+  }
+  header p.sous{margin:0; max-width:34rem; color:#E4F1EA}
+  header p.chiffres{margin:1.1rem 0 0; color:#CFE5DB; font-size:.95rem}
+
+  /* ---- Nav en ruban chronologique, étalé pleine largeur, fixe au scroll ---- */
+  nav{
+    position:sticky; top:0; z-index:5; margin-top:2.2rem;
+    background:linear-gradient(180deg, var(--the), #274F3D);
+    box-shadow:0 3px 10px rgba(15,30,24,.18);
+  }
+  .ruban{
+    position:relative; display:flex; align-items:flex-start;
+    max-width:64rem; margin:0 auto; padding:.65rem .75rem .55rem;
+  }
+  .ruban::before{
+    content:""; position:absolute; left:2.2rem; right:2.2rem; top:1.15rem; height:2px;
+    background:rgba(255,255,255,.32); z-index:0;
+  }
+  .ruban a{
+    position:relative; z-index:1; flex:1 1 0; min-width:0;
+    display:flex; flex-direction:column; align-items:center; gap:.3rem;
+    text-decoration:none; padding:.1rem .15rem;
+  }
+  .ruban .jour{
+    width:1.65rem; height:1.65rem; border-radius:50%; flex:0 0 auto;
+    background:var(--brume); color:var(--the);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:.72rem;
+    box-shadow:0 0 0 3px var(--the);
+  }
+  .ruban .libelle{
+    font-size:.66rem; color:#DCEAE2; white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; max-width:100%;
+  }
+  .ruban a:hover .jour, .ruban a:focus-visible .jour{background:var(--soufre-fond); color:var(--soufre-texte)}
+  .ruban a:focus-visible{outline:2px solid #fff; outline-offset:2px; border-radius:8px}
+
+  main{padding:0 1.25rem 3rem}
+
+  section{padding-top:2rem; scroll-margin-top:4.2rem}
+  h2{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:1.6rem; line-height:1.15; margin:0 0 .2rem;
+  }
+  .jour-quand{color:var(--sourdine); margin:0 0 .5rem; font-size:.98rem}
+
+  /* ---- Badges type / mode (ontologie v1 : culture/nature/plage/aventure) ---- */
+  .badges{margin:0 0 1rem}
+  .badge{
+    display:inline-block; border-radius:999px; padding:.18rem .7rem;
+    font-size:.8rem; font-weight:650; margin:0 .4rem .4rem 0;
+  }
+  .type-culture{background:#EFE6F7; color:#5B3A82}
+  .type-nature{background:#E4F3EA; color:#1F6B3F}
+  .type-plage{background:#E3F3F5; color:#146B74}
+  .type-aventure{background:#FDEBE3; color:#A6431B}
+  .mode-autonomie{background:#EEF0EC; color:var(--sourdine)}
+  .mode-tour{background:#E7EEFB; color:#1E4E8C}
+
+  /* ---- Fiche rapide par activité : horaire / type / prix / trajet d'un coup d'œil ---- */
+  .fiche{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:.4rem 0 .75rem}
+  .fiche .badge{margin:0}
+  .info-pill{
+    display:inline-flex; align-items:center; gap:.35rem;
+    background:var(--brume); border:1px solid var(--trait); border-radius:999px;
+    padding:.18rem .7rem; font-size:.85rem; font-weight:600; color:var(--sourdine);
+  }
+  .info-pill.incertain{border-style:dashed; color:#8A7A4A}
+
+  article{
+    background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
+    border-radius:14px; padding:1.1rem 1.15rem 1.2rem; margin:0 0 1rem;
+  }
+  article h3{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.2rem; margin:0; display:flex; align-items:center; flex-wrap:wrap; gap:.1rem .4rem}
+  .accroche{margin:.3rem 0 .75rem; color:var(--sourdine)}
+  .hero{position:relative; margin:-1.1rem -1.15rem .75rem; border-radius:9px 9px 0 0; overflow:hidden}
+  .hero img{display:block; width:100%; aspect-ratio:16/9; object-fit:cover}
+  .hero .credit{
+    position:absolute; right:.5rem; bottom:.4rem; background:rgba(0,0,0,.45);
+    color:#fff; font-size:.68rem; padding:.1rem .5rem; border-radius:999px; line-height:1.5;
+  }
+  .etoile{
+    display:inline-block; background:#FBEFD8; color:#7A5A16;
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+  .optionnel{
+    display:inline-block; background:#EEF0EC; color:var(--sourdine);
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+
+  .variante{border-left-color:var(--cratere)}
+  .variante-titre{
+    font-size:.85rem; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--sourdine); font-weight:700; margin:0 0 .3rem;
+  }
+
+  .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 .8rem}
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem;
+    min-height:44px; padding:.5rem 1rem; border-radius:10px;
+    text-decoration:none; font-weight:600; font-size:.95rem;
+  }
+  .btn-gps{background:var(--the); color:#fff}
+  .btn-gps:active{background:#24473A}
+  .btn-tiktok{border:1.5px solid var(--trait); color:var(--encre); background:var(--carte)}
+  .btn-source{border:1.5px solid var(--soufre-bord); color:var(--soufre-texte); background:var(--soufre-fond)}
+  .sans-preuve{
+    display:inline-flex; align-items:center; gap:.35rem;
+    background:#F6EEEE; border:1px dashed #C97A7A; color:#8A3A3A;
+    border-radius:999px; padding:.18rem .7rem; font-size:.85rem; font-weight:600;
+    margin:.4rem 0 0;
+  }
+
+  ul.infos{list-style:none; margin:.2rem 0 0; padding:0}
+  ul.infos li{padding:.28rem 0 .28rem 1.6rem; position:relative}
+  ul.infos li::before{content:attr(data-ico); position:absolute; left:0; top:.28rem}
+  .gps-detail{color:var(--sourdine); font-size:.92rem}
+
+  .alerte{
+    background:var(--soufre-fond); border-left:4px solid var(--soufre-bord);
+    color:var(--soufre-texte); border-radius:0 10px 10px 0;
+    padding:.6rem .85rem; margin:.6rem 0 0; font-size:.95rem;
+  }
+  .alerte a{color:var(--soufre-texte)}
+
+  .separateur{
+    text-align:center; color:var(--sourdine); font-size:.9rem; font-weight:600;
+    margin:0 0 1.5rem; padding:.6rem 0; border-top:1px dashed var(--trait); border-bottom:1px dashed var(--trait);
+  }
+
+  .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem}
+  .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
+  .pratique.a-reserver{border-style:dashed; border-color:var(--soufre-bord)}
+  footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+</style>
+</head>
+<body>
+
+<div class="rail-feuilles gauche" aria-hidden="true">
+  <svg viewBox="0 0 220 3000" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="feuille" d="M0,-70 C28,-45 32,20 0,70 C-32,20 -28,-45 0,-70 Z"/>
+      <pattern id="tuile-feuilles" width="220" height="480" patternUnits="userSpaceOnUse">
+        <g opacity=".92">
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(18,55) rotate(-18) scale(1.15)"/>
+          <path d="M18,-9 L18,-73" stroke="rgba(0,0,0,.14)" stroke-width="2" transform="translate(18,55) rotate(-18)"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(55,20) rotate(35) scale(.85)"/>
+          <use href="#feuille" fill="var(--feuille-3)" transform="translate(30,145) rotate(52) scale(1.05)"/>
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(70,190) rotate(-28) scale(.7)"/>
+          <circle cx="78" cy="150" r="7" fill="var(--soufre-bord)"/>
+          <circle cx="95" cy="163" r="5" fill="var(--soufre-bord)" opacity=".8"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(25,300) rotate(-45) scale(1.2)"/>
+          <use href="#feuille" fill="var(--feuille-3)" transform="translate(65,335) rotate(20) scale(.75)"/>
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(15,410) rotate(10) scale(.95)"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(55,445) rotate(60) scale(.65)"/>
+          <circle cx="20" cy="255" r="6" fill="var(--soufre-bord)" opacity=".85"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="220" height="3000" fill="url(#tuile-feuilles)"/>
+  </svg>
+</div>
+<div class="rail-feuilles droite" aria-hidden="true">
+  <svg viewBox="0 0 220 3000" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="220" height="3000" fill="url(#tuile-feuilles)"/>
+  </svg>
+</div>
+
+<header>
+  <div class="colonne">
+    <p class="avant"><a class="retour" href="index.html">← Accueil</a> · QG 3, à cinq</p>
+    <h1>Malang, jour par jour</h1>
+    <p class="sous">Une ville coloniale fraîche, porte des volcans et des cascades de l'est de Java. Deux sorties organisées par l'hostel en jeep/minibus partagé : le lever de soleil sur le Bromo et les mille chutes de Tumpak Sewu.</p>
+    <p class="chiffres">3 nuits, mercredi 16 → samedi 19 septembre. Train depuis Yogyakarta le premier jour.</p>
+  </div>
+  <svg class="header-vague" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,32 C240,58 480,4 720,22 C960,40 1200,12 1440,30 L1440,60 L0,60 Z" fill="#F1ECE1"/>
+  </svg>
+</header>
+
+<nav aria-label="Sommaire">
+  <div class="ruban">
+    <a href="#j1"><span class="jour">J1</span><span class="libelle">Arrivée</span></a>
+    <a href="#j2"><span class="jour">J2</span><span class="libelle">Tumpak Sewu</span></a>
+    <a href="#j3"><span class="jour">J3</span><span class="libelle">Bromo</span></a>
+    <a href="#j4"><span class="jour">J4</span><span class="libelle">Départ</span></a>
+    <a href="#hors-programme"><span class="jour">＋</span><span class="libelle">Hors prog.</span></a>
+  </div>
+</nav>
+
+<main class="colonne">
+
+  <!-- ======================= HÔTEL ======================= -->
+  <div class="pratique a-reserver" style="margin:1.75rem 0 1.5rem">
+    <h3>🏨 Hôtel/hostel — à réserver</h3>
+    <p class="accroche" style="margin-top:.2rem">Pas encore choisi. Vu le programme (arrivée en fin de journée le J1, retour d'une nuit blanche vers 10h le J3, sortie à pied l'après-midi du J3), privilégier un hostel proche de la gare de Malang et du centre-ville (Kajoetangan/Alun-alun) : c'est aussi lui qui organise les tours Tumpak Sewu et Bromo, donc son emplacement fixe le point de rendez-vous du pickup jeep.</p>
+  </div>
+
+  <!-- ======================= JOUR 1 ======================= -->
+  <section id="j1">
+    <h2>Jour 1 — Arrivée</h2>
+    <p class="jour-quand">Mercredi 16 septembre. Aucune visite prévue.</p>
+    <div class="badges">
+      <span class="badge mode-autonomie">🚶 Autonomie</span>
+    </div>
+
+    <article>
+      <h3>🚂 Train Yogyakarta → Malang</h3>
+      <p class="accroche">Malioboro Ekspres, ~7h de trajet (la trame du séjour donne 7h ; d'autres sources vont jusqu'à 8h — à reconfirmer à l'achat). Billet <strong>pas encore acheté</strong>.</p>
+      <div class="fiche">
+        <span class="info-pill incertain">🕐 ~7h de trajet</span>
+        <span class="info-pill">💰 Billet non acheté</span>
+      </div>
+      <ul class="infos">
+        <li data-ico="🚉">Ligne Yogyakarta → Madiun → Malang, classes éco/exécutive</li>
+        <li data-ico="🏨">Transfert vers l'hostel à l'arrivée, check-in</li>
+      </ul>
+      <p class="alerte">⚠️ À réserver en priorité (comme le train Jakarta→Yogya en son temps) — les horaires exacts et le prix se confirment sur KAI Access ou une billetterie en ligne, pas figés ici.</p>
+    </article>
+  </section>
+
+  <!-- ======================= JOUR 2 — NATURE ======================= -->
+  <section id="j2">
+    <h2>Jour 2 — Tumpak Sewu &amp; Kabut Pelangi</h2>
+    <p class="jour-quand">Tour partagé à la journée, retour à l'hostel en fin d'après-midi. Le soir même, départ jeep pour le Bromo.</p>
+    <div class="badges">
+      <span class="badge type-nature">🌿 Nature</span>
+      <span class="badge mode-tour">🚙 Tour hostel</span>
+    </div>
+
+    <article>
+      <div class="hero">
+        <img src="images/tumpak-sewu.jpg" alt="Tumpak Sewu, amphithéâtre de cascades vu du bas" loading="lazy" width="1280" height="853">
+        <span class="credit">📷 Avrian Priyono, CC BY-SA</span>
+      </div>
+      <h3>💦 Tumpak Sewu<span class="etoile">non négociable ★</span></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 07:00–17:00</span>
+        <span class="badge type-nature">🌿 Nature</span>
+        <span class="info-pill">💰 20 000 Rp/pers</span>
+        <span class="info-pill">🚗 Tour partagé depuis l'hostel</span>
+      </div>
+      <p class="accroche">« Mille chutes » : un amphithéâtre de cascades de 120 m sous le volcan Semeru, la rivière Glidik qui plonge en dizaines de filets dans un canyon couvert de brume.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-8.230408,112.916939">🧭 Ouvrir dans Maps</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Tumpak%20Sewu">📱 Voir sur TikTok</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="💵">20 000 Rp/pers, même tarif pour visiteurs locaux et étrangers (tarif officiel du gouvernement de Lumajang) — rare, la plupart des sites de la région ont un tarif étranger plus élevé</li>
+        <li data-ico="🅿️">Parking en plus : 5 000 Rp (moto) / 10 000 Rp (voiture)</li>
+      </ul>
+      <p class="alerte">⚠️ Deux niveaux d'engagement bien distincts, à choisir en équipe : le point de vue du haut (accessible à tous, aucun effort) et la descente au fond du canyon par des échelles de bambou (~1h aller-retour, terrain glissant) — cette dernière à proposer en option sous-groupe, pas comme sortie de groupe par défaut, vu le profil réel de l'équipe.</p>
+    </article>
+
+    <article>
+      <div class="hero">
+        <img src="images/kabut-pelangi.jpg" alt="Kabut Pelangi, chute unique dans la brume arc-en-ciel" loading="lazy" width="1280" height="720">
+        <span class="credit">📷 Deny Yudha Pranata, CC BY-SA</span>
+      </div>
+      <h3>🌈 Kabut Pelangi<span class="optionnel">même tour, en plus</span></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 à la suite de Tumpak Sewu</span>
+        <span class="badge type-nature">🌿 Nature</span>
+        <span class="info-pill incertain">💰 inclus dans le tour</span>
+      </div>
+      <p class="accroche">« La brume arc-en-ciel » : un seul jet de 100 m dans la jungle, à quinze minutes de Tumpak Sewu — beaucoup moins fréquenté.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=Kabut+Pelangi+Waterfall+Pronojiwo+Lumajang">🧭 Ouvrir dans Maps</a>
+      </div>
+      <p class="sans-preuve">⚠️ Pas de billetterie séparée trouvée — généralement inclus dans le forfait du tour Tumpak Sewu vendu par les hostels de Malang. Tarifs de ces tours très variables selon l'opérateur et le nombre d'arrêts (de ~35€/pers pour un tour partagé simple à plus de 100$/pers pour une formule combinée avec Goa Tetes) — comparer avant de réserver, aucun prix officiel fixe.</p>
+    </article>
+
+    <p class="alerte">⚠️ Aucune demi-journée tampon entre cette journée et le Bromo (départ jeep 23h30 le soir même) — ça déroge à notre règle habituelle "gros projet = demi-journées voisines off", mais c'est le combo standard vendu par les hostels de Malang (transport partagé efficace). Gardé tel quel sur demande explicite plutôt qu'étalé sur plus de jours. Prévoir une sieste en fin d'après-midi avant le départ de 23h30.</p>
+  </section>
+
+  <!-- ======================= JOUR 3 — NATURE + VILLE ======================= -->
+  <section id="j3">
+    <h2>Jour 3 — Bromo, puis la ville</h2>
+    <p class="jour-quand">Jeep parti à 23h30 la veille, retour à l'hostel vers 10h, sieste, puis sortie à pied l'après-midi.</p>
+    <div class="badges">
+      <span class="badge type-nature">🌿 Nature</span>
+      <span class="badge mode-tour">🚙 Tour hostel</span>
+    </div>
+
+    <article>
+      <div class="hero">
+        <img src="images/bromo-jeep.jpg" alt="Jeep 4x4 au pied du mont Batok, sur les hauteurs du Bromo" loading="lazy" width="1280" height="720">
+        <span class="credit">📷 Ake Widyastomo Putro, CC BY-SA</span>
+      </div>
+      <h3>⛰️ Mont Bromo<span class="etoile">non négociable ★</span></h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 Départ 23h30, sunrise ~05h20</span>
+        <span class="badge type-nature">🌿 Nature</span>
+        <span class="info-pill">💰 220k-320k Rp (semaine/weekend)</span>
+        <span class="info-pill">🚙 Jeep, pickup à l'hostel</span>
+      </div>
+      <p class="accroche">Départ dans le froid et la nuit, puis le soleil qui se lève sur une mer de nuages face aux volcans Bromo, Batok et Semeru. Ensuite la mer de sable et environ 250 marches jusqu'au bord du cratère qui gronde — à cheval pour qui préfère.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.9424,112.9568">🧭 Cratère du Bromo</a>
+        <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Mount%20Bromo%20sunrise">📱 Voir sur TikTok</a>
+        <a class="btn btn-source" href="https://bromotenggersemeru.id/" target="_blank" rel="noopener">📜 Billetterie officielle du parc</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🥶">~5°C au point de vue : gants, bonnet, écharpe indispensables</li>
+        <li data-ico="🐴">Cheval en option, mer de sable → bas des marches : ~100k-250k Rp aller-retour, prix à négocier avant de partir</li>
+        <li data-ico="🎟️">Entrée officielle : 220 000 Rp/pers en semaine, jusqu'à 320 000 Rp le weekend/jour férié (autre source cite un tarif unique de 255 000 Rp, réservation en ligne uniquement, 48h à l'avance) — à reconfirmer sur la billetterie officielle avant réservation</li>
+        <li data-ico="🛌">Retour à l'hostel ~10h, sieste conseillée après la nuit blanche</li>
+      </ul>
+      <p class="alerte">⚠️ Le parc a été fermé 13 jours en août 2026 (incendie de ~1 100 ha), rouvert le 20 août. Début septembre 2026, la randonnée vers le sommet du Semeru restait fermée (sans date de réouverture annoncée) — ne concerne a priori pas la visite classique du cratère du Bromo, mais à reconfirmer près de la date vu l'historique récent.</p>
+    </article>
+
+    <article>
+      <div class="hero">
+        <img src="images/jodipan.jpg" alt="Kampung Warna-Warni Jodipan, village aux maisons multicolores sur la rivière Brantas" loading="lazy" width="1280" height="960">
+        <span class="credit">📷 Christophe95, CC BY-SA</span>
+      </div>
+      <h3>🎨 Jodipan + Kajoetangan</h3>
+      <div class="fiche">
+        <span class="info-pill">🕐 après la sieste, fin d'après-midi</span>
+        <span class="badge type-culture">🏘️ Vie locale</span>
+        <span class="info-pill">💰 5 000 Rp (Jodipan)</span>
+        <span class="info-pill">🚶 à pied / becak</span>
+      </div>
+      <p class="accroche">L'ancien bidonville repeint en couleurs vives sur la rivière Brantas, un pont jaune pour le traverser, puis la rue Kajoetangan et ses cafés dans des maisons coloniales — sortie légère, sans effort, après la nuit blanche du Bromo.</p>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=Kampung+Warna+Warni+Jodipan+Malang">🧭 Jodipan</a>
+        <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=Kajoetangan+Heritage+Malang">🧭 Kajoetangan</a>
+      </div>
+      <ul class="infos">
+        <li data-ico="🎫">Jodipan : 5 000 Rp/pers, ouvert 07h-17h, à 500 m de la gare de Malang</li>
+        <li data-ico="🍦">Toko Oen, glacier de 1930 sur Kajoetangan — recette originale sans conservateur, fond rapidement</li>
+      </ul>
+    </article>
+
+    <div class="hero" style="margin:0 0 .75rem; border-radius:9px; overflow:hidden">
+      <img src="images/toko-oen-kajoetangan.jpg" alt="Toko Oen, façade coloniale de 1930 sur Kajoetangan Heritage, de nuit" loading="lazy" width="1280" height="960" style="aspect-ratio:16/10">
+      <span class="credit">📷 Annidafattiya, CC BY</span>
+    </div>
+  </section>
+
+  <!-- ======================= JOUR 4 — DÉPART ======================= -->
+  <section id="j4">
+    <h2>Jour 4 — Départ</h2>
+    <p class="jour-quand">Samedi 19 septembre.</p>
+    <div class="badges">
+      <span class="badge mode-autonomie">🚶 Autonomie</span>
+    </div>
+
+    <article>
+      <h3>✈️ Vol vers Lombok</h3>
+      <p class="accroche">Direction Lombok &amp; Gili Trawangan — vol pas encore réservé (depuis Malang directement, ou transfert vers Surabaya selon les disponibilités).</p>
+      <p class="sans-preuve">⚠️ Étape suivante pas encore construite — cette page s'arrête à Malang, le détail Lombok/Gili T viendra dans une prochaine page dédiée.</p>
+    </article>
+  </section>
+
+  <!-- ======================= HORS PROGRAMME ======================= -->
+  <section id="hors-programme">
+    <h2>Ce qui reste écarté, et pourquoi</h2>
+    <div class="pratique">
+      <div class="hero" style="margin:-1.1rem -1.15rem .75rem">
+        <img src="images/coban-pelangi.jpg" alt="Coban Pelangi, chute de 110 m près de Tumpang" loading="lazy" width="1280" height="960">
+        <span class="credit">📷 Christophe95, CC BY-SA</span>
+      </div>
+      <h3>🌦️ Coban Pelangi</h3>
+      <p>Chute de 110 m près de Tumpang, réputée pour son arc-en-ciel entre 10h et 14h. Option n°4 de la trame officielle, « si le tour passe par Tumpang » — redondance de typologie (Nature/cascade) avec Tumpak Sewu + Kabut Pelangi déjà au programme, et détour non garanti selon l'itinéraire du jeep. Pas retenue par défaut, à reproposer seulement si un tour Bromo passe par Tumpang et qu'il reste du temps.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colonne">
+  <p>Coordonnées GPS fact-checkées pour Tumpak Sewu et le cratère du Bromo ; les autres points (Kabut Pelangi, Jodipan, Kajoetangan, Coban Pelangi) sont renseignés par adresse/nom de lieu faute de coordonnées précises trouvées en session — à affiner si besoin. Prix et horaires relevés en session, à revérifier avant réservation. Page rédigée à partir de <code>03_trame_officielle/Java_sept2026_v4_QG.pdf</code> et de recherches web complémentaires, à considérer comme un premier jet — pas encore relue/vérifiée sur le terrain comme <a href="yogya-itineraire.html">le programme Yogyakarta</a>.</p>
+</footer>
+
+</body>
+</html>
