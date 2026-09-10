@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mont Merapi — villages, points de vue et lave de nuit</title>
+<meta name="description" content="Journée dédiée au Mont Merapi : villages authentiques, points de vue naturels et randonnée nocturne à Turgo pour voir la lave.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --encre:#1F2D28;
+    --brume:#F1ECE1;
+    --carte:#FFFFFF;
+    --trait:#E2DACB;
+    --sourdine:#5C6B64;
+    --the:#2F5F45;
+    --cratere:#1F7E76;
+    --soufre-fond:#FFF6D8;
+    --soufre-bord:#E0B23E;
+    --soufre-texte:#6E5410;
+    --feuille-1:#2F5F45;
+    --feuille-2:#4C8A67;
+    --feuille-3:#1F7E76;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--brume); color:var(--encre);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:1.0625rem; line-height:1.55;
+    position:relative;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.5; mix-blend-mode:multiply;
+  }
+  .fraunces{font-family:"Fraunces",Georgia,serif}
+
+  .rail-feuilles{
+    position:fixed; top:0; bottom:0; width:220px; z-index:-1; pointer-events:none;
+    opacity:.9;
+  }
+  .rail-feuilles.gauche{left:0}
+  .rail-feuilles.droite{right:0; transform:scaleX(-1)}
+  .rail-feuilles svg{width:100%; height:100%; display:block}
+  @media (max-width:1300px){ .rail-feuilles{display:none} }
+
+  header{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.12), transparent 55%),
+      linear-gradient(175deg, rgba(15,28,23,.82) 0%, rgba(24,58,45,.66) 45%, rgba(20,70,60,.72) 100%),
+      url("images/merapi-jeep.jpg");
+    background-size:cover; background-position:center 55%; background-repeat:no-repeat;
+    color:#F4FAF7; padding:3.5rem 1.25rem 3.75rem; min-height:340px;
+    display:flex; align-items:flex-end;
+  }
+  header > .colonne{width:100%}
+  .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:46px; display:block}
+  .colonne{max-width:42rem; margin:0 auto}
+  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
+  header a.retour{color:#CFE5DB; font-size:.9rem; text-decoration:none}
+  header a.retour:hover, header a.retour:focus-visible{text-decoration:underline}
+  header h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:clamp(2.4rem,10vw,3.4rem); line-height:1.05; margin:.4rem 0 .55rem;
+    letter-spacing:-.01em;
+  }
+  header p.sous{margin:0; max-width:34rem; color:#E4F1EA}
+  header p.chiffres{margin:1.1rem 0 0; color:#CFE5DB; font-size:.95rem}
+
+  main{padding:0 1.25rem 3rem; max-width:42rem; margin:0 auto}
+  section{padding-top:2rem; scroll-margin-top:1rem}
+  h2{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:1.6rem; line-height:1.15; margin:0 0 .2rem;
+  }
+  .jour-quand{color:var(--sourdine); margin:0 0 .5rem; font-size:.98rem}
+
+  .badges{margin:0 0 1rem}
+  .badge{
+    display:inline-block; border-radius:999px; padding:.18rem .7rem;
+    font-size:.8rem; font-weight:650; margin:0 .4rem .4rem 0;
+  }
+  .type-culture{background:#EFE6F7; color:#5B3A82}
+  .type-nature{background:#E4F3EA; color:#1F6B3F}
+  .type-aventure{background:#FDEBE3; color:#A6431B}
+  .mode-autonomie{background:#EEF0EC; color:var(--sourdine)}
+
+  .fiche{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:.4rem 0 .75rem}
+  .fiche .badge{margin:0}
+  .info-pill{
+    display:inline-flex; align-items:center; gap:.35rem;
+    background:var(--brume); border:1px solid var(--trait); border-radius:999px;
+    padding:.18rem .7rem; font-size:.85rem; font-weight:600; color:var(--sourdine);
+  }
+  .info-pill.incertain{border-style:dashed; color:#8A7A4A}
+
+  article{
+    background:var(--carte); border:1px solid var(--trait); border-left:5px solid var(--the);
+    border-radius:14px; padding:1.1rem 1.15rem 1.2rem; margin:0 0 1rem;
+  }
+  article h3{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.2rem; margin:0; display:flex; align-items:center; flex-wrap:wrap; gap:.1rem .4rem}
+  .accroche{margin:.3rem 0 .75rem; color:var(--encre)}
+  .etoile{
+    display:inline-block; background:#FBEFD8; color:#7A5A16;
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+
+  .variante{border-left-color:var(--cratere)}
+  .variante-titre{
+    font-size:.85rem; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--sourdine); font-weight:700; margin:0 0 .3rem;
+  }
+
+  .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 .8rem}
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem;
+    min-height:44px; padding:.5rem 1rem; border-radius:10px;
+    text-decoration:none; font-weight:600; font-size:.95rem;
+  }
+  .btn-gps{background:var(--the); color:#fff}
+  .btn-gps:active{background:#24473A}
+  .btn-tiktok{border:1.5px solid var(--trait); color:var(--encre); background:var(--carte)}
+  .sans-preuve{
+    display:inline-flex; align-items:center; gap:.35rem;
+    background:#F6EEEE; border:1px dashed #C97A7A; color:#8A3A3A;
+    border-radius:999px; padding:.18rem .7rem; font-size:.85rem; font-weight:600;
+    margin:.4rem 0 0;
+  }
+
+  ul.infos{list-style:none; margin:.2rem 0 0; padding:0}
+  ul.infos li{padding:.28rem 0 .28rem 1.6rem; position:relative}
+  ul.infos li::before{content:attr(data-ico); position:absolute; left:0; top:.28rem}
+
+  .alerte{
+    background:var(--soufre-fond); border-left:4px solid var(--soufre-bord);
+    color:var(--soufre-texte); border-radius:0 10px 10px 0;
+    padding:.6rem .85rem; margin:.6rem 0 0; font-size:.95rem;
+  }
+
+  .carte-cadre{
+    background:var(--carte); border:1px solid var(--trait); border-radius:16px;
+    padding:.9rem .9rem 1.1rem; margin:1.5rem 0 1.5rem;
+    box-shadow:0 3px 14px rgba(31,45,40,.07);
+  }
+  .carte-cadre-titre{
+    font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.05rem;
+    margin:.15rem .15rem .7rem;
+  }
+  .carte-interactive{position:relative; width:100%; padding-bottom:75%; border-radius:11px; overflow:hidden; border:1px solid var(--trait); margin:0 0 .9rem}
+  .carte-interactive iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+
+  .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem; margin:0 0 1.5rem}
+  .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
+  footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+</style>
+</head>
+<body>
+
+<div class="rail-feuilles gauche" aria-hidden="true">
+  <svg viewBox="0 0 220 3000" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="feuille" d="M0,-70 C28,-45 32,20 0,70 C-32,20 -28,-45 0,-70 Z"/>
+      <pattern id="tuile-feuilles" width="220" height="480" patternUnits="userSpaceOnUse">
+        <g opacity=".92">
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(18,55) rotate(-18) scale(1.15)"/>
+          <path d="M18,-9 L18,-73" stroke="rgba(0,0,0,.14)" stroke-width="2" transform="translate(18,55) rotate(-18)"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(55,20) rotate(35) scale(.85)"/>
+          <use href="#feuille" fill="var(--feuille-3)" transform="translate(30,145) rotate(52) scale(1.05)"/>
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(70,190) rotate(-28) scale(.7)"/>
+          <circle cx="78" cy="150" r="7" fill="var(--soufre-bord)"/>
+          <circle cx="95" cy="163" r="5" fill="var(--soufre-bord)" opacity=".8"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(25,300) rotate(-45) scale(1.2)"/>
+          <use href="#feuille" fill="var(--feuille-3)" transform="translate(65,335) rotate(20) scale(.75)"/>
+          <use href="#feuille" fill="var(--feuille-1)" transform="translate(15,410) rotate(10) scale(.95)"/>
+          <use href="#feuille" fill="var(--feuille-2)" transform="translate(55,445) rotate(60) scale(.65)"/>
+          <circle cx="20" cy="255" r="6" fill="var(--soufre-bord)" opacity=".85"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="220" height="3000" fill="url(#tuile-feuilles)"/>
+  </svg>
+</div>
+<div class="rail-feuilles droite" aria-hidden="true">
+  <svg viewBox="0 0 220 3000" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="220" height="3000" fill="url(#tuile-feuilles)"/>
+  </svg>
+</div>
+
+<header>
+  <div class="colonne">
+    <p class="avant"><a class="retour" href="index.html">← Accueil</a> · <a class="retour" href="yogya-itineraire.html">Yogyakarta, jour par jour</a> · Journée dédiée</p>
+    <h1>Mont Merapi</h1>
+    <p class="sous">Une journée entière sur les flancs sud du volcan le plus actif de Java : des villages qui vivent encore de leurs rizières, des points de vue naturels sans mise en scène, et pour finir une marche de nuit jusqu'à un promontoire d'où l'on voit la lave couler.</p>
+    <p class="chiffres">Voiture pour l'essentiel du trajet, scooter loué sur place pour les 15-18 derniers kilomètres, marche à pied pour le sommet. Départ 11h, retour vers minuit-1h.</p>
+  </div>
+  <svg class="header-vague" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,32 C240,58 480,4 720,22 C960,40 1200,12 1440,30 L1440,60 L0,60 Z" fill="#F1ECE1"/>
+  </svg>
+</header>
+
+<main class="colonne">
+
+  <div class="carte-cadre">
+    <div class="carte-cadre-titre">🗺️ Carte interactive — Mont Merapi</div>
+    <div class="carte-interactive">
+      <iframe src="https://www.google.com/maps/d/embed?mid=1kJLk0BWQIEns1OQrm1cYHec0IE6nfKY&amp;ehbc=2E312F&amp;noprof=1" loading="lazy" title="Carte interactive Mont Merapi - villages, points de vue, Turgo"></iframe>
+    </div>
+  </div>
+
+  <div class="pratique">
+    <h3>🚗 Le principe de la journée</h3>
+    <p style="margin:.2rem 0 0">Une voiture avec chauffeur couvre la nationale (Jl. Kaliurang) et les arrêts nature/village. Une fois arrivés vers Pakem, relais en scooter loué sur place pour une boucle courte de campagne — pas de trafic, pas la route principale — jusqu'au pied de Turgo. Le sommet se fait uniquement à pied.</p>
+  </div>
+
+  <!-- ======================= PENTINGSARI ======================= -->
+  <article>
+    <h3>🌾 Desa Wisata Pentingsari</h3>
+    <div class="fiche">
+      <span class="info-pill">🕐 12:00–12:45</span>
+      <span class="badge type-nature">🌿 Village</span>
+      <span class="info-pill">💰 Entrée libre / donation</span>
+      <span class="info-pill incertain">🚗 ~50 min (à confirmer)</span>
+    </div>
+    <p class="accroche">Un village javanais qui n'a rien changé pour les touristes : ruelles étroites, rizières en terrasses de part et d'autre, deux petites rivières qui l'encadrent. À 700 m d'altitude, l'air est déjà plus frais qu'en ville. On y marche simplement, sans parcours fléché ni boutique de souvenirs — le meilleur endroit de la journée pour sentir la campagne javanaise telle qu'elle est vécue au quotidien.</p>
+    <div class="actions">
+      <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.6258,110.4334">🧭 Ouvrir dans Maps</a>
+      <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Desa%20Wisata%20Pentingsari">📱 Voir sur TikTok</a>
+    </div>
+    <ul class="infos">
+      <li data-ico="📍">Umbulharjo, Cangkringan, Sleman</li>
+    </ul>
+    <p class="sans-preuve">⚠️ Coordonnée = centre du village, pas de point d'entrée officiel trouvé — chercher "Desa Wisata Pentingsari" directement dans Maps une fois sur place.</p>
+  </article>
+
+  <!-- ======================= BUKIT KLANGON ======================= -->
+  <article>
+    <h3>🌋 Bukit Klangon</h3>
+    <div class="fiche">
+      <span class="info-pill">🕐 13:00–13:30</span>
+      <span class="badge type-nature">🌿 Point de vue</span>
+      <span class="info-pill">💰 ~5-10k Rp</span>
+      <span class="info-pill incertain">🚗 ~1h (à confirmer)</span>
+    </div>
+    <p class="accroche">Le meilleur point de vue sur le Merapi accessible sans randonner. À 1100 m d'altitude, le volcan est droit devant, sans arbre ni bâtiment pour gêner la vue — le genre d'endroit où on reste simplement assis vingt minutes à regarder.</p>
+    <div class="actions">
+      <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.5701,110.4558">🧭 Ouvrir dans Maps</a>
+      <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Bukit%20Klangon">📱 Voir sur TikTok</a>
+    </div>
+    <ul class="infos">
+      <li data-ico="📍">Kalitengah Lor, Glagaharjo, Cangkringan, Sleman</li>
+    </ul>
+  </article>
+
+  <!-- ======================= BUNKER KALIADEM ======================= -->
+  <article>
+    <h3>🪖 Bunker Kaliadem</h3>
+    <div class="fiche">
+      <span class="info-pill">🕐 13:30–13:45</span>
+      <span class="badge type-culture">🛕 Histoire</span>
+      <span class="info-pill">💰 Entrée libre</span>
+      <span class="info-pill">🚗 quelques min (juste à côté de Klangon)</span>
+    </div>
+    <p class="accroche">Un petit abri de béton construit pour protéger les habitants pendant les éruptions, resté en l'état depuis l'éruption de 2010. Rien de spectaculaire à voir en soi, mais un rappel concret et rapide de ce qu'est vraiment ce volcan pour les villages qui vivent à ses pieds.</p>
+    <div class="actions">
+      <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.6252,110.4525">🧭 Ouvrir dans Maps</a>
+      <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Bunker%20Kaliadem%20Merapi">📱 Voir sur TikTok</a>
+    </div>
+    <ul class="infos">
+      <li data-ico="📍">Kepuharjo, Cangkringan, Sleman</li>
+    </ul>
+  </article>
+
+  <!-- ======================= PLUNYON KALIKUNING ======================= -->
+  <article>
+    <h3>🌲 Plunyon Kalikuning</h3>
+    <div class="fiche">
+      <span class="info-pill">🕐 13:45–14:30</span>
+      <span class="badge type-nature">🌿 Nature</span>
+      <span class="info-pill incertain">💰 Petite entrée</span>
+      <span class="info-pill">🚗 ~5 min</span>
+    </div>
+    <p class="accroche">Une rivière encaissée qui serpente sous une forêt de pins denses, avec une passerelle en bois pour la traverser à pied. L'endroit est frais, calme, presque silencieux — un vrai contraste avec les points de vue dégagés visités juste avant.</p>
+    <div class="actions">
+      <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.6252,110.4525">🧭 Ouvrir dans Maps</a>
+      <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Plunyon%20Kalikuning">📱 Voir sur TikTok</a>
+    </div>
+    <ul class="infos">
+      <li data-ico="📍">Kepuharjo, Cangkringan, juste à côté du Bunker Kaliadem</li>
+    </ul>
+  </article>
+
+  <!-- ======================= DEJEUNER ======================= -->
+  <article>
+    <h3>🍽️ Déjeuner en chemin</h3>
+    <div class="fiche">
+      <span class="info-pill">🕐 14:30–15:15</span>
+      <span class="info-pill">💰 Quelques dizaines de milliers de Rp/pers</span>
+      <span class="info-pill">🚗 sur place</span>
+    </div>
+    <p class="accroche">Pas de nom précis à viser : plusieurs warung simples jalonnent la route entre Kaliadem et Klangon, avec vue sur le volcan pour la plupart. On s'arrête à celui qui a de la place.</p>
+  </article>
+
+  <!-- ======================= RELAIS SCOOTER ======================= -->
+  <article class="variante">
+    <p class="variante-titre">Transition — voiture puis scooter</p>
+    <h3>🛵 Rizières et hameaux, hors de la nationale</h3>
+    <div class="fiche">
+      <span class="info-pill">🕐 15:15–16:30</span>
+      <span class="badge type-aventure">🧗 Scooter</span>
+      <span class="info-pill">🚗 ~15-18 km</span>
+    </div>
+    <p class="accroche">La voiture redescend jusqu'à Jl. Kaliurang/Pakem, où plusieurs loueurs proposent des scooters à l'heure ou à la journée. De là, une boucle par les petites routes de village entre Pakem et Purwobinangun/Girikerto — rizières, hameaux, aucun trafic — jusqu'au pied du Bukit Turgo. C'est le seul segment en scooter de la journée, volontairement court.</p>
+  </article>
+
+  <!-- ======================= TURGO ======================= -->
+  <article class="variante">
+    <p class="variante-titre">Le moment fort — à pied, de nuit</p>
+    <h3>⛰️ Bukit Turgo — la lave dans la nuit</h3>
+    <div class="fiche">
+      <span class="info-pill">🕐 Départ 19:45, sommet ~21:00, descente ~23:00</span>
+      <span class="badge type-aventure">🧗 Randonnée</span>
+      <span class="info-pill">💰 ~5k Rp</span>
+      <span class="info-pill incertain">🚗 ~1h (à confirmer)</span>
+    </div>
+    <p class="accroche">Mille-sept-cent quarante à mille-sept-cent quatre-vingts marches en forêt de pins, quarante à cinquante minutes de montée régulière, pas technique mais continue. En haut, un promontoire tourné vers le flanc du volcan d'où la lave incandescente est visible la nuit, quand les conditions s'y prêtent — un mélange rare de vraie randonnée et de spectacle naturel, sans matériel spécialisé.</p>
+    <div class="actions">
+      <a class="btn btn-gps" href="https://www.google.com/maps/search/?api=1&amp;query=-7.5900,110.4239">🧭 Ouvrir dans Maps</a>
+      <a class="btn btn-tiktok" href="https://www.tiktok.com/search?q=Bukit%20Turgo%20lava">📱 Voir sur TikTok</a>
+    </div>
+    <ul class="infos">
+      <li data-ico="🪜">Dusun Turgo, Purwobinangun, Pakem — départ du sentier au pied de la colline</li>
+      <li data-ico="🌋">Lave la mieux visible entre 21h et 23h — les coulées actuelles sont orientées sud-ouest, côté Kali Sat/Krasak</li>
+      <li data-ico="🎒">Prévoir lampe frontale, veste chaude et chaussures fermées — les marches sont glissantes de nuit</li>
+    </ul>
+    <p class="alerte">⚠️ Le Merapi est un volcan actif, en niveau d'alerte élevé en ce moment. Se renseigner le jour même sur les conditions d'accès, rester sur le sentier balisé, et si possible partir avec un guide local.</p>
+  </article>
+
+  <!-- ======================= ECARTE ======================= -->
+  <div class="pratique">
+    <h3>Écarté du programme</h3>
+    <p style="margin:.2rem 0 0">Stonehenge Yogyakarta et The Lost World Castle sont dans le même hameau (Petung, Kepuharjo) mais ce sont des décors construits pour la photo, pas des lieux naturels ou des villages — hors sujet pour cette journée, volontairement laissés de côté.</p>
+  </div>
+
+</main>
+
+<footer class="colonne">
+  <p>Coordonnées GPS approximatives pour les hameaux (Pentingsari, Turgo) — à affiner sur place via la recherche par nom dans Maps. Contenu vérifié en session, jamais publié sans relecture avant réservation ou déplacement. Retour vers <a href="yogya-itineraire.html">Yogyakarta, jour par jour</a>.</p>
+</footer>
+
+</body>
+</html>
