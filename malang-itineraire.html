@@ -215,6 +215,15 @@
   .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem}
   .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.2rem; margin:.2rem 0 .4rem}
   .pratique.a-reserver{border-style:dashed; border-color:var(--soufre-bord)}
+
+  /* ---- Tableau comparatif draft (retro-engineering tours hostel) ---- */
+  .tableau-scroll{overflow-x:auto; border:1px solid var(--trait); border-radius:12px; margin:0 0 1rem}
+  table.comparatif{width:100%; border-collapse:collapse; font-size:.88rem; min-width:52rem}
+  table.comparatif th, table.comparatif td{padding:.55rem .65rem; border-bottom:1px solid var(--trait); text-align:left; vertical-align:top}
+  table.comparatif thead th{background:var(--the); color:#fff; font-weight:650; font-size:.78rem; text-transform:uppercase; letter-spacing:.02em}
+  table.comparatif tbody tr:nth-child(even) td{background:rgba(47,95,69,.05)}
+  table.comparatif td.num{white-space:nowrap; font-variant-numeric:tabular-nums; font-weight:600}
+  table.comparatif td.cat{white-space:nowrap; color:var(--sourdine); font-size:.82rem}
   footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
 </style>
 </head>
@@ -269,6 +278,7 @@
     <a href="#j3"><span class="jour">J3</span><span class="libelle">Bromo</span></a>
     <a href="#j4"><span class="jour">J4</span><span class="libelle">Départ</span></a>
     <a href="#hors-programme"><span class="jour">＋</span><span class="libelle">Hors prog.</span></a>
+    <a href="#tours-draft"><span class="jour">🔍</span><span class="libelle">Tours (draft)</span></a>
   </div>
 </nav>
 
@@ -452,6 +462,105 @@
       <h3>🌦️ Coban Pelangi</h3>
       <p>Chute de 110 m près de Tumpang, réputée pour son arc-en-ciel entre 10h et 14h. Option n°4 de la trame officielle, « si le tour passe par Tumpang » — redondance de typologie (Nature/cascade) avec Tumpak Sewu + Kabut Pelangi déjà au programme, et détour non garanti selon l'itinéraire du jeep. Pas retenue par défaut, à reproposer seulement si un tour Bromo passe par Tumpang et qu'il reste du temps.</p>
     </div>
+  </section>
+
+  <!-- ======================= TOURS DRAFT — RETRO-ENGINEERING ======================= -->
+  <section id="tours-draft">
+    <h2>Tours organisés — comparatif brut<span class="optionnel">draft</span></h2>
+    <p class="jour-quand">Sourcing brut des 7 tours vendus par Aruna Hostel (relevés les 11 et 12 sept.), pour retro-engineering de leur logistique — pas encore une décision de programme. Taux de change ≈ 1 € = 20 400 Rp (8 sept. 2026, à reconfirmer avant tout paiement).</p>
+
+    <div class="tableau-scroll">
+      <table class="comparatif">
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Catégorie</th>
+            <th>Départ</th>
+            <th>Retour / fin</th>
+            <th>Transport</th>
+            <th>Hébergement inclus</th>
+            <th>Prix</th>
+            <th>≈ €</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tumpak Sewu day trip</td>
+            <td class="cat">À la carte</td>
+            <td>05h00–06h00</td>
+            <td>~16h00 (même jour)</td>
+            <td>Véhicule AC privé + chauffeur</td>
+            <td>Aucun</td>
+            <td class="num">490 000 Rp/pers</td>
+            <td class="num">≈ 24 €</td>
+          </tr>
+          <tr>
+            <td>Bromo sunrise day trip</td>
+            <td class="cat">À la carte</td>
+            <td>23h30</td>
+            <td>11h00 (lendemain)</td>
+            <td>Jeep 4WD + chauffeur</td>
+            <td>Aucun</td>
+            <td class="num">530 000 Rp/pers</td>
+            <td class="num">≈ 26 €</td>
+          </tr>
+          <tr>
+            <td>2D1N Tumpak Sewu + Bromo</td>
+            <td class="cat">Combo</td>
+            <td>06h00–07h00 (J1)</td>
+            <td>non précisé (≈11h J2 par analogie Bromo seul)</td>
+            <td>Véhicule privé + jeep 4WD</td>
+            <td>1 nuit dortoir Little Malang Hostel</td>
+            <td class="num">1 145 000 Rp/pers</td>
+            <td class="num">≈ 56 €</td>
+          </tr>
+          <tr>
+            <td>3D2N Tumpak Sewu + Bromo + Ijen</td>
+            <td class="cat">Combo</td>
+            <td>≈idem 2D1N (J1)</td>
+            <td>sortie ferry Bali (Ketapang→Gilimanuk) — pas de retour Malang</td>
+            <td>Véhicule AC privé + jeep 4WD</td>
+            <td>2 nuits dortoir + 1 nuit chambre privée (Ijen)</td>
+            <td class="num">2 250 000 Rp/pers</td>
+            <td class="num">≈ 110 €</td>
+          </tr>
+          <tr>
+            <td>2D1N Bromo + Ijen</td>
+            <td class="cat">Combo</td>
+            <td>23h30 (direct Bromo)</td>
+            <td>sortie ferry Bali (Ketapang→Gilimanuk) — pas de retour Malang</td>
+            <td>Trajet partagé AC + jeep 4WD</td>
+            <td>1 nuit chambre privée (Ijen)</td>
+            <td class="num">1 675 000 Rp/pers</td>
+            <td class="num">≈ 82 €</td>
+          </tr>
+          <tr>
+            <td>Location voiture Batu (5h)</td>
+            <td class="cat">Transport nu</td>
+            <td>flexible (réservation 1j avant)</td>
+            <td>+5h après départ (extension 50 000 Rp/30min)</td>
+            <td>Voiture privée + chauffeur, jusqu'à 5 pax</td>
+            <td>Aucun</td>
+            <td class="num">350 000 Rp/véhicule</td>
+            <td class="num">≈ 17 € (total)</td>
+          </tr>
+          <tr>
+            <td>Transfert aéroport Surabaya</td>
+            <td class="cat">Transport nu</td>
+            <td>selon vol (préavis 24h)</td>
+            <td>trajet simple, un point</td>
+            <td>Voiture privée, jusqu'à 4 pax</td>
+            <td>Aucun</td>
+            <td class="num">490 000 Rp/véhicule</td>
+            <td class="num">≈ 24 € (total)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="alerte">⚠️ Les deux derniers produits (Batu, aéroport) sont un prix <strong>par véhicule</strong>, pas par personne — ne pas les comparer directement aux 5 premiers. Attention aussi : tous les produits sont listés « Organisé par Aruna Hostel » mais l'hébergement des formules multi-jours est chez « Little Malang Hostel » (hostel différent) — à clarifier au check-in avant de réserver, incohérence pas résolue en session.</p>
+
+    <p class="sans-preuve">⚠️ Le combo 2D1N (1 145 000 Rp) coûte 125 000 Rp/pers de <strong>plus</strong> que Tumpak Sewu + Bromo achetés séparément (490k+530k = 1 020 000 Rp), pour une nuit de dortoir ailleurs qu'à Aruna — l'achat séparé revient moins cher et garde la chambre à Aruna les deux nuits. Un jeep/véhicule tenant 5-6 personnes, votre groupe de 5 remplit probablement déjà le véhicule seul sur les day trips, sans négociation "privatif" à faire.</p>
   </section>
 
 </main>
