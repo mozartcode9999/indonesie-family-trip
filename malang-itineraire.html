@@ -194,6 +194,9 @@
     padding:.6rem .85rem; margin:.6rem 0 0; font-size:.95rem;
   }
   .alerte a{color:var(--soufre-texte)}
+  .alerte ul{margin:.3rem 0 0; padding-left:1.2rem}
+  .alerte li{margin:.2rem 0}
+  .mot-cle{color:#8A3A3A}
 
   .carte-cadre{
     background:var(--carte); border:1px solid var(--trait); border-radius:16px;
@@ -558,15 +561,33 @@
       </table>
     </div>
 
-    <p class="alerte">⚠️ Les deux derniers produits (Batu, aéroport) sont un prix <strong>par véhicule</strong>, pas par personne — ne pas les comparer directement aux 5 premiers. Attention aussi : tous les produits sont listés « Organisé par Aruna Hostel » mais l'hébergement des formules multi-jours est chez « Little Malang Hostel » (hostel différent) — à clarifier au check-in avant de réserver, incohérence pas résolue en session.</p>
+    <div class="alerte">
+      ⚠️ À savoir
+      <ul>
+        <li>🚗 <strong class="mot-cle">Batu</strong> (350 000 Rp) et <strong class="mot-cle">transfert aéroport</strong> (490 000 Rp) : prix <strong class="mot-cle">par véhicule</strong>, pas par personne.</li>
+        <li>👥 Sur 5 : Batu ≈ <strong class="mot-cle">70 000 Rp/pers</strong> (≈3 €, 5 places pile) — aéroport ≈ <strong class="mot-cle">122 500 Rp/pers</strong> (≈6 €, mais capacité 4 max → 2ᵉ véhicule à prévoir pour la 5ᵉ personne).</li>
+        <li>✅ <strong class="mot-cle">Little Malang Hostel = même propriétaire qu'Aruna</strong> (confirmé sur place) — plus d'incohérence, l'hébergement des combos multi-jours est fiable.</li>
+      </ul>
+    </div>
 
-    <p class="alerte">⚠️ Le combo 2D1N (1 145 000 Rp) coûte 125 000 Rp/pers de <strong>plus</strong> que Tumpak Sewu + Bromo achetés séparément (490k+530k = 1 020 000 Rp), pour une nuit de dortoir ailleurs qu'à Aruna — l'achat séparé revient moins cher et garde la chambre à Aruna les deux nuits. Un jeep/véhicule tenant 5-6 personnes, votre groupe de 5 remplit probablement déjà le véhicule seul sur les day trips, sans négociation "privatif" à faire.</p>
+    <div class="alerte">
+      ⚠️ Combo vs séparé
+      <ul>
+        <li>💰 Combo 2D1N : <strong class="mot-cle">1 145 000 Rp/pers</strong> (≈56 €) vs Tumpak Sewu + Bromo séparés : <strong class="mot-cle">1 020 000 Rp/pers</strong> (490k+530k, ≈50 €).</li>
+        <li>📉 Séparé = <strong class="mot-cle">125 000 Rp/pers</strong> (≈6 €) moins cher, et vous gardez la chambre à Aruna les 2 nuits au lieu d'un dortoir ailleurs.</li>
+        <li>🚙 Jeep/véhicule = 5-6 places → votre groupe de 5 le remplit déjà seul, pas besoin de négocier "privatif".</li>
+      </ul>
+    </div>
 
     <h3 style="margin-top:2rem">Malang → Aéroport Surabaya (14 sept., vol Super Air Jet SUB→LOP 14h10)</h3>
 
     <div class="carte-cadre">
       <div class="carte-cadre-titre">📸 Vol retenu</div>
       <img src="images/vol-surabaya-lombok.png" alt="Capture d'écran : vol Super Air Jet Surabaya (SUB) → Lombok (LOP), 14h10-16h15, direct, IDR 1 100 880" loading="lazy" style="width:100%; height:auto; border-radius:9px; display:block">
+      <p class="gps-detail" style="margin:.5rem .15rem 0">1 100 880 Rp/pers ≈ 54 € — ×5 ≈ 5 500 000 Rp (≈269 €) pour le groupe.</p>
+      <div class="actions" style="margin:.35rem .15rem 0">
+        <a class="btn btn-source" href="https://www.tiket.com/en-id/flights/review?d=SUBC&a=LOP&date=2026-09-14&adult=1&child=0&infant=0&class=economy&dType=CITY&aType=AIRPORT&dLabel=Surabaya&aLabel=Praya&type=depart&flexiFare=true&dFlightId=j7icC6qUx-WySgOuUElroqAef6viyqyoAD3xb_Y2dEadqSsbhQZ_G3zXUAoyMu4XoUAg58-3OnLKQTxxbGaiHQItmZc7BNEiCMp3W_YvkkAJH_00R3vtzsMKaErptreOt-njRObPzuIsnhFinPa05A&dSupplierId=TD-i1VmHA3xQ9dtCMnbqfDEAkJNVaMC__q7xMZ1JPJ8-ENC" target="_blank" rel="noopener">📜 Vol retenu (tiket.com)</a>
+      </div>
     </div>
 
     <p class="accroche" style="margin-top:.2rem">Jayabaya 91 (13h45→15h55) arrive après le décollage, écarté. Deux options chiffrées ci-dessous ; la navette partagée et le taxi privé restent à creuser (voir note sous le tableau).</p>
@@ -574,6 +595,10 @@
     <div class="carte-cadre">
       <div class="carte-cadre-titre">📸 Trains Malang → Surabaya trouvés (14 sept.)</div>
       <img src="images/trains-malang-surabaya.png" alt="Capture d'écran : trains Malang-Surabaya du 14 sept. — Arjuno Ekspres 66F 05h30-07h29 et 05h57-07h29, Jayabaya 91 13h45-15h55" loading="lazy" style="width:100%; height:auto; border-radius:9px; display:block">
+      <p class="gps-detail" style="margin:.5rem .15rem 0">Retenu : Arjuno Ekspres 66F, 65 000 Rp/pers ≈ 3 €. Jayabaya 91 (260 000 Rp ≈ 13 €) arrive trop tard, écarté.</p>
+      <div class="actions" style="margin:.35rem .15rem 0">
+        <a class="btn btn-source" href="https://www.tiket.com/id-id/kereta-api/cari?d=Malang&dlabel=Malang+%28Semua%29&dt=CITY&a=Surabaya&alabel=Surabaya+%28Semua%29&at=CITY&date=2026-09-14&adult=1&infant=0&child=0&productType=train" target="_blank" rel="noopener">📜 Chercher le train (tiket.com)</a>
+      </div>
     </div>
 
     <div class="tableau-scroll">
@@ -616,12 +641,19 @@
     </div>
 
     <div class="actions">
-      <a class="btn btn-source" href="https://www.tiket.com/id-id/kereta-api/rute/malang-ke-surabaya" target="_blank" rel="noopener">📜 Chercher le train (tiket.com)</a>
       <a class="btn btn-source" href="https://www.easybook.com/id-id/bus/booking/terminalarjosari-to-terminalpurabaya" target="_blank" rel="noopener">📜 Bus Arjosari→Purabaya (Easybook)</a>
       <a class="btn btn-source" href="https://www.traveloka.com/id-id/explore/destination/pesan-tiket-bus-terminal-arjosari-terminal-purabaya-bungurasih-trp/471891" target="_blank" rel="noopener">📜 Bus Arjosari→Purabaya (Traveloka)</a>
     </div>
 
-    <p class="alerte">⚠️ Taxi/voiture privée pour 5 + bagages : pas de tarif ferme trouvé en ligne, seulement une fourchette de marché — véhicule 6 places classe Avanza/Xenia avec chauffeur, Malang→Surabaya/Juanda, <strong>≈500 000-750 000 Rp au total</strong> (pas par personne), jusqu'à 900 000-1 500 000 Rp pour un véhicule plus grand/confortable (Innova, Hiace). Le marché indonésien de la voiture+chauffeur se négocie sur place, pas de prix affiché fiable en ligne — la vérité la plus proche s'obtient en demandant 2-3 devis à l'arrivée à Malang (desk Aruna + 1-2 prestataires indépendants), avec cette fourchette comme repère pour ne pas se faire surfacturer.</p>
+    <div class="alerte">
+      ⚠️ Taxi/voiture privée pour 5 + bagages
+      <ul>
+        <li>🚕 Pas de tarif ferme en ligne — juste une fourchette de marché, à négocier sur place.</li>
+        <li>💰 Avanza/Xenia (6 places) + chauffeur : <strong class="mot-cle">≈500 000-750 000 Rp au total</strong> (≈24-37 €) → <strong class="mot-cle">≈100 000-150 000 Rp/pers</strong> (≈5-7 €).</li>
+        <li>💰 Innova/Hiace (plus grand/confort) : <strong class="mot-cle">≈900 000-1 500 000 Rp au total</strong> (≈44-73 €) → <strong class="mot-cle">≈180 000-300 000 Rp/pers</strong> (≈9-15 €).</li>
+        <li>📍 Demander 2-3 devis à l'arrivée à Malang (desk Aruna + 1-2 indépendants) — cette fourchette sert de repère anti-surfacturation.</li>
+      </ul>
+    </div>
   </section>
 
 </main>
