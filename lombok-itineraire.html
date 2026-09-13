@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lombok — repérage &amp; sources</title>
+<meta name="description" content="Lombok, QG 4 : repérage des spots authentiques (vs. spots marketés), lever/coucher de soleil, en construction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --encre:#1F2D28;
+    --brume:#F1ECE1;
+    --carte:#FFFFFF;
+    --trait:#E2DACB;
+    --sourdine:#5C6B64;
+    --the:#2F5F45;
+    --cratere:#1F7E76;
+    --soufre-fond:#FFF6D8;
+    --soufre-bord:#E0B23E;
+    --soufre-texte:#6E5410;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--brume); color:var(--encre);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:1.0625rem; line-height:1.55;
+    position:relative;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.5; mix-blend-mode:multiply;
+  }
+  .fraunces{font-family:"Fraunces",Georgia,serif}
+  .colonne{max-width:44rem; margin:0 auto}
+
+  header{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.12), transparent 55%),
+      linear-gradient(168deg, #24473A 0%, #2F5F45 46%, #1F7E76 100%);
+    color:#F4FAF7; padding:2.5rem 1.25rem 3.25rem;
+  }
+  header p.avant{margin:0 0 .4rem; color:#CFE5DB; font-size:.95rem}
+  header a.retour{color:#CFE5DB; font-size:.9rem; text-decoration:none}
+  header a.retour:hover, header a.retour:focus-visible{text-decoration:underline}
+  header h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:clamp(2.2rem,9vw,3.1rem); line-height:1.05; margin:.4rem 0 .55rem;
+    letter-spacing:-.01em;
+  }
+  header p.sous{margin:0; max-width:36rem; color:#E4F1EA}
+  header p.chiffres{margin:1.1rem 0 0; color:#CFE5DB; font-size:.95rem}
+  .header-vague{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:46px; display:block}
+
+  nav{
+    position:sticky; top:0; z-index:5; margin-top:0;
+    background:linear-gradient(180deg, var(--the), #274F3D);
+    box-shadow:0 3px 10px rgba(15,30,24,.18);
+  }
+  .ruban{
+    position:relative; display:flex; align-items:flex-start;
+    max-width:64rem; margin:0 auto; padding:.65rem .75rem .55rem;
+  }
+  .ruban::before{
+    content:""; position:absolute; left:2.2rem; right:2.2rem; top:1.15rem; height:2px;
+    background:rgba(255,255,255,.32); z-index:0;
+  }
+  .ruban a{
+    position:relative; z-index:1; flex:1 1 0; min-width:0;
+    display:flex; flex-direction:column; align-items:center; gap:.3rem;
+    text-decoration:none; padding:.1rem .15rem;
+  }
+  .ruban .jour{
+    width:1.65rem; height:1.65rem; border-radius:50%; flex:0 0 auto;
+    background:var(--brume); color:var(--the);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:.72rem;
+    box-shadow:0 0 0 3px var(--the);
+  }
+  .ruban .libelle{
+    font-size:.66rem; color:#DCEAE2; white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; max-width:100%;
+  }
+  .ruban a:hover .jour, .ruban a:focus-visible .jour{background:var(--soufre-fond); color:var(--soufre-texte)}
+  .ruban a:focus-visible{outline:2px solid #fff; outline-offset:2px; border-radius:8px}
+
+  main{padding:0 1.25rem 3rem}
+  section{padding-top:2rem; scroll-margin-top:4.2rem}
+  h2{
+    font-family:"Fraunces",Georgia,serif; font-weight:650;
+    font-size:1.5rem; line-height:1.15; margin:0 0 .3rem;
+  }
+  .sous-titre{color:var(--sourdine); margin:0 0 1rem; font-size:.98rem}
+
+  .optionnel{
+    display:inline-block; background:#EEF0EC; color:var(--sourdine);
+    border-radius:999px; padding:.1rem .6rem; font-size:.85rem; vertical-align:.15em; margin-left:.35rem;
+  }
+
+  .pratique{background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:1.1rem 1.15rem; margin:0 0 1.5rem}
+  .pratique h3{font-family:"Fraunces",Georgia,serif; font-size:1.15rem; margin:.2rem 0 .4rem}
+  .pratique.a-reserver{border-style:dashed; border-color:var(--soufre-bord)}
+  .pratique ul.infos{list-style:none; margin:.3rem 0 0; padding:0}
+  .pratique ul.infos li{padding:.28rem 0 .28rem 1.6rem; position:relative}
+  .pratique ul.infos li::before{content:attr(data-ico); position:absolute; left:0; top:.28rem}
+
+  .alerte{
+    background:var(--soufre-fond); border-left:4px solid var(--soufre-bord);
+    color:var(--soufre-texte); border-radius:0 10px 10px 0;
+    padding:.6rem .85rem; margin:.6rem 0 0; font-size:.95rem;
+  }
+  .alerte a{color:var(--soufre-texte)}
+  .alerte ul{margin:.3rem 0 0; padding-left:1.2rem}
+  .alerte li{margin:.2rem 0}
+  .mot-cle{color:#8A3A3A}
+
+  .carte-cadre{
+    background:var(--carte); border:1px solid var(--trait); border-radius:16px;
+    padding:.9rem .9rem 1.1rem; margin:0 0 1.5rem;
+    box-shadow:0 3px 14px rgba(31,45,40,.07);
+  }
+  .carte-cadre-titre{
+    font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.05rem;
+    margin:.15rem .15rem .7rem;
+  }
+  .carte-interactive{position:relative; width:100%; padding-bottom:75%; border-radius:11px; overflow:hidden; border:1px solid var(--trait); margin:0 0 .9rem}
+  .carte-interactive iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+  .carte-attente{
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background:var(--brume); border:1px dashed var(--trait); border-radius:11px;
+    min-height:11rem; padding:1.5rem; color:var(--sourdine); font-size:.95rem;
+  }
+
+  .tableau-scroll{overflow-x:auto; border:1px solid var(--trait); border-radius:12px; margin:0 0 1.25rem}
+  table.comparatif{width:100%; border-collapse:collapse; font-size:.86rem; min-width:52rem}
+  table.comparatif th, table.comparatif td{padding:.6rem .7rem; border-bottom:1px solid var(--trait); text-align:left; vertical-align:top}
+  table.comparatif thead th{background:var(--the); color:#fff; font-weight:650; font-size:.76rem; text-transform:uppercase; letter-spacing:.02em}
+  table.comparatif tbody tr:nth-child(even) td{background:rgba(47,95,69,.05)}
+  table.comparatif td.theme{white-space:nowrap; font-weight:650; color:var(--the)}
+  table.comparatif td ul{margin:0; padding-left:1.05rem}
+  table.comparatif td li{margin:0 0 .55rem}
+  table.comparatif td li:last-child{margin-bottom:0}
+  table.comparatif a{color:var(--cratere); font-weight:600}
+  .note-recoupe{color:var(--sourdine); font-style:italic}
+  .source-manquante{color:#8A3A3A; font-weight:600}
+
+  .grille-2{display:flex; flex-wrap:wrap; gap:1rem; margin:0 0 1.25rem}
+  .carte-spot{
+    flex:1 1 15rem; background:var(--carte); border:1px solid var(--trait); border-radius:14px;
+    padding:.9rem 1rem;
+  }
+  .carte-spot h4{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:1.02rem; margin:0 0 .3rem}
+  .carte-spot p{margin:0 0 .5rem; color:var(--sourdine); font-size:.92rem}
+  .carte-spot .liens a{color:var(--cratere); font-weight:600; font-size:.86rem; text-decoration:none; margin-right:.6rem}
+  .carte-spot .liens a:hover{text-decoration:underline}
+  .badge-soleil{
+    display:inline-block; border-radius:999px; padding:.15rem .6rem; font-size:.75rem; font-weight:700;
+    margin:0 0 .45rem;
+  }
+  .badge-lever{background:#FFF0DC; color:#8A5A16}
+  .badge-coucher{background:#FDE3E3; color:#9C3B3B}
+
+  footer{color:var(--sourdine); font-size:.9rem; padding:1.5rem 1.25rem 2.5rem; text-align:left}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="colonne">
+    <p class="avant"><a class="retour" href="index.html">← Accueil</a> · QG 4, à cinq (+1 ?)</p>
+    <h1>Lombok, en construction</h1>
+    <p class="sous">Arrivée par ferry le 14 sept. depuis Surabaya. Chantier volontairement anti-"Bali copie" : priorité à l'immersion rurale et à la connexion locale plutôt qu'aux spots déjà marketés — page de repérage avant le programme jour par jour.</p>
+    <p class="chiffres">14 → 25 septembre. Itinéraire pas encore figé, carte My Maps et hébergements "expérience" à venir.</p>
+  </div>
+  <svg class="header-vague" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,32 C240,58 480,4 720,22 C960,40 1200,12 1440,30 L1440,60 L0,60 Z" fill="#F1ECE1"/>
+  </svg>
+</header>
+
+<nav aria-label="Sommaire">
+  <div class="ruban">
+    <a href="#vue-ensemble"><span class="jour">🗺️</span><span class="libelle">Vue d'ensemble</span></a>
+    <a href="#sources"><span class="jour">🔍</span><span class="libelle">Repérage</span></a>
+    <a href="#soleil"><span class="jour">🌅</span><span class="libelle">Lever/coucher</span></a>
+    <a href="#hebergement"><span class="jour">🏡</span><span class="libelle">Hébergement</span></a>
+    <a href="#carte"><span class="jour">📍</span><span class="libelle">Carte</span></a>
+  </div>
+</nav>
+
+<main class="colonne">
+
+  <!-- ======================= ÉTAT ACTUEL ======================= -->
+  <div class="pratique a-reserver">
+    <h3>📋 État actuel du chantier</h3>
+    <ul class="infos">
+      <li data-ico="⛴️">Ferry Surabaya→Lombok <strong>acheté</strong> (E-ticket P6795765, KM. Dharma Kencana, arrivée Lembar/Gilimas le 14 sept. ~7h48 WITA).</li>
+      <li data-ico="👥">Groupe : 5 personnes, ensemble tout le segment (confirmé) + un ami indonésien des frères, potentiellement présent les 10 jours (à confirmer à 100%).</li>
+      <li data-ico="🚫">Décision actée : <strong>on laisse tomber les Gili du nord</strong> (Trawangan/Meno/Air) — trop "Bali copie", pas dans l'axe authenticité recherché.</li>
+      <li data-ico="🏨">Hôtels/villas "expérience" : pas encore choisis — en cours de votre côté.</li>
+      <li data-ico="🗺️">Cartes My Maps : pas encore faites — emplacement réservé en bas de page.</li>
+      <li data-ico="📅">Jour par jour : pas figé — cette page sert de matière première (spots + sources), pas encore un programme daté.</li>
+    </ul>
+  </div>
+
+  <!-- ======================= VUE D'ENSEMBLE ======================= -->
+  <section id="vue-ensemble">
+    <h2>Vue d'ensemble géographique</h2>
+    <p class="sous-titre">Zones repérées, du débarquement (Lembar, sud-ouest) à l'aéroport de départ (Praya, centre-sud) — sans repasser par les Gili du nord.</p>
+    <ul class="infos" style="list-style:none; padding:0; margin:0 0 1rem">
+      <li data-ico="🏝️"><strong>Sekotong (SO)</strong> — juste après Lembar : Gili secrètes (Nanggu/Sudak/Kedis).</li>
+      <li data-ico="🏖️"><strong>Kuta Lombok (S)</strong> — plages (Tanjung Aan, Selong Belanak, Mawun), Bukit Merese, Pink Beach/Tanjung Ringgit en bateau depuis Tanjung Luar.</li>
+      <li data-ico="🌾"><strong>Tetebatu (Centre)</strong> — rizières, cascades Aik Berik (Benang Kelambu/Stokel), Sukarara.</li>
+      <li data-ico="💦"><strong>Senaru/Bayan (N)</strong> — Sendang Gile, Tiu Kelep, Air Terjun Kalianjah, villages Segenter/Beleq.</li>
+      <li data-ico="⛰️"><strong>Sembalun (E)</strong> — savane, rizières en terrasses, Bukit Selong, Sahabat Rinjani, Kedai Sawah.</li>
+      <li data-ico="🎣"><strong>Sambelia / côte est (Lotim)</strong> — Gili Kondo/Kapal/Bidara/Petagan, sur la route vers l'aéroport.</li>
+    </ul>
+    <p class="alerte">⚠️ Distances entre zones pas toutes vérifiées avec certitude (notamment Senaru↔Sembalun et Sembalun↔aéroport) — à confirmer avant de figer des horaires.</p>
+  </section>
+
+  <!-- ======================= REPÉRAGE 3 SOURCES ======================= -->
+  <section id="sources">
+    <h2>Repérage — 3 sources, recoupées<span class="optionnel">draft</span></h2>
+    <p class="sous-titre">Colonne 1 : office du tourisme / influenceurs (copie de Bali). Colonne 2 : voyageurs restés plusieurs semaines sur place. Colonne 3 : liste manuscrite d'un ami indonésien. Un thème avec des cases vides en col. 1/2 = un angle que ni le marketing ni les blogs occidentaux ne couvrent.</p>
+
+    <div class="tableau-scroll">
+      <table class="comparatif">
+        <thead>
+          <tr>
+            <th>Thème</th>
+            <th>🏢 Office du tourisme / influenceurs</th>
+            <th>🎒 Voyageurs longue durée</th>
+            <th>📱 Ami indonésien</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="theme">Cascades</td>
+            <td>
+              <ul>
+                <li><strong>Sendang Gile &amp; Tiu Kelep</strong> — <a href="https://www.civitatis.com/fr/lombok/cascades-sendang-gile-tiu-kelep/" target="_blank" rel="noopener">Civitatis</a> · <a href="https://www.weseektravel.com/sendang-gile-tiu-kelep-waterfall-lombok/" target="_blank" rel="noopener">WeSeekTravel</a> · <a href="https://theabroadguide.com/lombok-senaru-village-sendang-gile-tiu-kelep-waterfalls/" target="_blank" rel="noopener">TheAbroadGuide</a></li>
+                <li><strong>Benang Kelambu / Benang Stokel</strong> — <a href="https://www.viator.com/tours/Lombok/Benang-kelambu-waterfall-and-benang-stokel-waterfall-lombok/d22869-199474P2" target="_blank" rel="noopener">Viator</a> · <a href="https://www.klook.com/en-US/activity/110240-benang-stokel-and-benang-kelambu-waterfall-tour-in-lombok/" target="_blank" rel="noopener">Klook</a></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Air Terjun Sarang Walet</strong> &amp; <strong>Tetebatu Waterfall</strong> (pont/échelle bambou) — <a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker</a> <span class="note-recoupe">(source unique)</span></li>
+                <li>Air Terjun Semporonan — cité dans un agrégat de résultats, <span class="source-manquante">article précis non isolé</span></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Air Terjun Kalianjah</strong> — <a href="https://lombokpost.jawapos.com/wisata/2602210045/keajaiban-air-terjun-kalianjah-pesona-air-putih-susu-di-jantung-hutan-bayan-lombok-utara" target="_blank" rel="noopener">LombokPost</a> · <a href="https://lombok.tribunnews.com/2025/07/11/air-terjun-kalianjah-pesona-air-belerang-alami-di-perbatasan-lombok-utara-timur" target="_blank" rel="noopener">TribunLombok</a> · <a href="https://www.instagram.com/p/DbVpH8Vk5Bk/" target="_blank" rel="noopener">Instagram</a></li>
+                <li>Cite aussi Benang Kelambu <span class="note-recoupe">(recoupe col. 1)</span></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="theme">Plages</td>
+            <td>
+              <ul>
+                <li><strong>Tanjung Aan / Selong Belanak / Mawun / Bukit Merese</strong> — <a href="https://lesglobeblogueurs.com/kuta-lombok-que-faire/" target="_blank" rel="noopener">LesGlobeBlogueurs</a> · <a href="https://awalkintheworld.com/beaches-kuta-lombok/" target="_blank" rel="noopener">AWalkInTheWorld</a> · <a href="https://kupernic.com/fr/2020/03/sud-de-lombok/" target="_blank" rel="noopener">Kupernic</a></li>
+                <li><strong>Pink Beach / Tangsi</strong> — <a href="https://www.weseektravel.com/pink-beach-lombok/" target="_blank" rel="noopener">WeSeekTravel</a> · <a href="https://lombokloop.com/pink-beach/" target="_blank" rel="noopener">LombokLoop</a></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Tampah Beach / Pandanan Beach</strong> — <a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker</a> <span class="note-recoupe">(source unique)</span></li>
+                <li><strong>Tanjung Luar</strong> (marché aux poissons) — <a href="https://oceanographicmagazine.com/features/tanjung-luar-fish-market-lombok/" target="_blank" rel="noopener">Oceanographic Magazine</a> · <a href="https://www.gilisharkconservation.com/our-trip-to-the-tanjung-luar-fish-market-in-lombok-indonesia/" target="_blank" rel="noopener">Gili Shark Conservation</a></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Cite <strong>Selong Belanak</strong> <span class="note-recoupe">(recoupe col. 1)</span></li>
+                <li>Cite <strong>Tampah Hills</strong> <span class="note-recoupe">(recoupe col. 2, même zone probable)</span> — pas de lien, liste manuscrite</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="theme">Îles / snorkeling</td>
+            <td>
+              <ul>
+                <li><strong>Gili Trawangan/Meno/Air</strong> (écartées) — <a href="https://www.routard.com/fr/guide/asie/indonesie/lombok-nusa-tenggara/gili-trawangan" target="_blank" rel="noopener">Routard</a></li>
+                <li><strong>"3 Gili secrètes"</strong> vendues comme excursion — <a href="https://www.pelago.com/en-US/activity/pfr1p-gili-nanggu-sudak-kedis-snorkelling-tour-lombok/" target="_blank" rel="noopener">Pelago</a> · <a href="https://www.getyourguide.com/gili-nanggu-l89612/" target="_blank" rel="noopener">GetYourGuide</a></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Gili Nanggu/Sudak/Kedis</strong> (angle "moins connu") — <a href="https://feel-lombok.com/blog/secret-gilis/" target="_blank" rel="noopener">Feel-Lombok</a></li>
+                <li><strong>Gili Asahan / Gili Layar</strong> — <a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker</a> <span class="note-recoupe">(source unique)</span></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Gili Kondo, Kapal, Bidara, Petagan</strong> (Sambelia) — jamais croisées ailleurs — <a href="https://www.lombok-eccotour.com/gili-kondo-and-bidara-east-lombok-one-day-snorkeling-trip.html" target="_blank" rel="noopener">Lombok Eco Tour</a> · <a href="https://wanderlog.com/place/details/744453/gili-kapal" target="_blank" rel="noopener">Wanderlog</a> · <a href="https://jalanjalansebentar.com/eng/wisata-bahari-gili-kondo-paket-tur-seharian-4-gili-sekaligus/" target="_blank" rel="noopener">Jalan Jalan Sebentar</a></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="theme">Rizières / vie agricole</td>
+            <td>
+              <ul>
+                <li>Tetebatu générique, sans plus — <a href="https://www.routard.com/fr/guide/asie/indonesie/lombok-nusa-tenggara/tetebatu" target="_blank" rel="noopener">Routard</a></li>
+              </ul>
+            </td>
+            <td><span class="source-manquante">— rien de spécifique trouvé</span></td>
+            <td>
+              <ul>
+                <li><strong>Terasering Mareje</strong> (juste à côté du port de Lembar) — <a href="https://dispar.lombokbaratkab.go.id/article/wajib-dikunjungi-sawah-terasering-di-desa-mareje" target="_blank" rel="noopener">Dispar Lombok Barat (officiel)</a> · <a href="https://lomboksumbawatourism.ntbprov.go.id/desa-mareje-the-hidden-gem-in-lombok-barat-yang-wajib-dikunjungi/" target="_blank" rel="noopener">NTB Prov. Tourism (officiel)</a> · <a href="https://www.tiktok.com/@solihinrahmann/video/7466769617587948806" target="_blank" rel="noopener">TikTok</a></li>
+                <li><strong>Kedai Sawah</strong> (café dans les rizières, Sembalun) — <a href="https://sisparnas.kemenpar.go.id/p/23855" target="_blank" rel="noopener">Sisparnas / Ministère du Tourisme (officiel)</a> · <a href="https://www.thegonegoat.com/indonesia/things-to-do-in-sembalun-village-lombok" target="_blank" rel="noopener">The Gone Goat</a> — ⚠️ déjà décrit comme spot "Instagram-worthy" avec entrée payante pour cueillir des fraises, moins confidentiel qu'espéré</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="theme">Villages / culture Sasak</td>
+            <td>
+              <ul>
+                <li><strong>Sade</strong> — <a href="https://authentic-indonesia.com/blog/6-lombok-traditional-villages/" target="_blank" rel="noopener">Authentic Indonesia</a></li>
+                <li><strong>Sukarara</strong> — <a href="https://www.tripadvisor.com/Attraction_Review-g297733-d338230-Reviews-Sukarara_Village-Lombok_West_Nusa_Tenggara.html" target="_blank" rel="noopener">TripAdvisor</a> · <a href="https://gomandalika.com/destinasi/desa-sukarara/" target="_blank" rel="noopener">Go Mandalika</a></li>
+                <li><strong>"Live like a local" 4 nuits</strong> — <a href="https://www.getyourguide.com/lombok-l2412/lev-som-en-lokal-4-naetter-i-en-autentisk-landsby-pa-lombok-t1035859/" target="_blank" rel="noopener">GetYourGuide</a></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Segenter</strong> — <a href="https://www.lombokindonesia.org/segenter-traditional-village/" target="_blank" rel="noopener">LombokIndonesia.org</a></li>
+                <li><strong>Beleq</strong> (village du XIVᵉ s.) — <a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker</a> <span class="note-recoupe">(source unique)</span></li>
+                <li>Sukarara vu autrement, "pas une attraction, un mode de vie" — <a href="https://lombokdispatch.id/2025/01/22/sukarara-village-lombok/" target="_blank" rel="noopener">Lombok Dispatch</a> · <a href="https://indonesiakaya.com/pustaka-indonesia/melihat-langsung-perajin-songket-di-desa-sukarara/" target="_blank" rel="noopener">Indonesia Kaya</a></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Desa Perian</strong> — <a href="https://jadesta.kemenpar.go.id/desa/perian" target="_blank" rel="noopener">Jadesta / Ministère du Tourisme (officiel)</a> — thème précis non détaillé sur la page</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="theme">Points de vue</td>
+            <td>
+              <ul>
+                <li><strong>Bukit Merese</strong> — <a href="https://kupernic.com/fr/2020/03/sud-de-lombok/" target="_blank" rel="noopener">Kupernic</a></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Bukit Antara / Bukit Malimbu</strong> — <a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker</a> <span class="note-recoupe">(source unique)</span></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Bukit Selong</strong> <span class="note-recoupe">(même source que col. 2, mais cité indépendamment — bon signal)</span></li>
+                <li><strong>Josie Sunset</strong> (Loteng) — <span class="source-manquante">❌ aucune source trouvée</span></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="theme">Hébergement / resto</td>
+            <td>—</td>
+            <td>—</td>
+            <td>
+              <ul>
+                <li><strong>Sahabat Rinjani</strong> (camping + café + verger) — <a href="https://lombokpost.jawapos.com/selong/2604100017/camping-ground-sembalun-melejit-sahabat-rinjani-jadi-favorit-mulai-rp-35-ribu" target="_blank" rel="noopener">LombokPost</a> · <a href="https://www.instagram.com/rinjanicampingground/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.tiktok.com/@sahabatrinjani" target="_blank" rel="noopener">TikTok</a></li>
+                <li><strong>Tete Batu Hideaway</strong> — <span class="source-manquante">❌ aucune source trouvée</span></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="theme">Institutionnel</td>
+            <td>
+              <ul>
+                <li><strong>Circuit Mandalika</strong> (MotoGP) — <a href="https://en.wikipedia.org/wiki/Mandalika_International_Street_Circuit" target="_blank" rel="noopener">Wikipedia</a> · <a href="https://www.themandalikagp.com/" target="_blank" rel="noopener">MGPA (officiel)</a></li>
+              </ul>
+            </td>
+            <td>—</td>
+            <td>Cite aussi Circuit Mandalika, mêmes sources <span class="note-recoupe">(100% institutionnel, zéro angle authenticité)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alerte">
+      ⚠️ À garder en tête
+      <ul>
+        <li>Plusieurs entrées "voyageurs longue durée" reposent sur <strong class="mot-cle">une seule source</strong> (TheBrokeBackpacker) — pas encore recoupées.</li>
+        <li><strong class="mot-cle">Josie Sunset</strong> et <strong class="mot-cle">Tete Batu Hideaway</strong> : zéro trace trouvée — redemander un pin Google Maps à l'ami indonésien.</li>
+        <li>Ressource à part, ni marketing ni blog ni liste manuscrite : l'annuaire officiel <a href="https://ntb.jadesta.com/" target="_blank" rel="noopener">Desa Wisata (ntb.jadesta.com)</a>, villages en tourisme communautaire géré par les habitants.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================= LEVER / COUCHER DE SOLEIL ======================= -->
+  <section id="soleil">
+    <h2>Spots lever &amp; coucher de soleil</h2>
+    <p class="sous-titre">Les tropiques ne pardonnent pas un départ à 13h (leçon de Java) — ces points-là valent le réveil tôt, à condition que la météo du lendemain soit annoncée claire.</p>
+
+    <div class="grille-2">
+      <div class="carte-spot">
+        <span class="badge-soleil badge-lever">🌅 Lever</span>
+        <h4>Pergasingan Hill</h4>
+        <p>1 700 m, accès par Sembalun (1 100 m), ~3h de marche. Nuit sur place fortement recommandée pour le lever de soleil derrière le Rinjani.</p>
+        <div class="liens"><a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker →</a></div>
+      </div>
+      <div class="carte-spot">
+        <span class="badge-soleil badge-lever">🌅 Lever</span>
+        <h4>Bukit Selong</h4>
+        <p>Vallée de Sembalun, vue en mosaïque sur les rizières et champs — moins engagé que Pergasingan.</p>
+        <div class="liens"><a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker →</a></div>
+      </div>
+      <div class="carte-spot">
+        <span class="badge-soleil badge-lever">🌅 Lever</span>
+        <h4>Sahabat Rinjani (camping)</h4>
+        <p>Camping avec vue directe sur le Rinjani, café et verger de pommiers sur place — option "dormir sur le spot" plutôt que marcher de nuit.</p>
+        <div class="liens"><a href="https://lombokpost.jawapos.com/selong/2604100017/camping-ground-sembalun-melejit-sahabat-rinjani-jadi-favorit-mulai-rp-35-ribu" target="_blank" rel="noopener">LombokPost →</a></div>
+      </div>
+      <div class="carte-spot">
+        <span class="badge-soleil badge-coucher">🌇 Coucher</span>
+        <h4>Bukit Merese</h4>
+        <p>Le plus connu (près de Kuta/Mandalika) : vue 360° sur Tanjung Aan d'un côté, océan de l'autre. Déjà très marketé, à prévoir avec du monde.</p>
+        <div class="liens"><a href="https://tumbaolombok.com/blog/guides/best-sunset-spots-lombok/" target="_blank" rel="noopener">Tumbao Lombok →</a> <a href="https://kupernic.com/fr/2020/03/sud-de-lombok/" target="_blank" rel="noopener">Kupernic →</a></div>
+      </div>
+      <div class="carte-spot">
+        <span class="badge-soleil badge-coucher">🌇 Coucher</span>
+        <h4>Bukit Malimbu</h4>
+        <p>Vue plongeante sur la côte, silhouette des Gili + Mont Agung (Bali) au loin. Moins fréquenté que Bukit Merese. ⚠️ Sur la route Senggigi→Bangsal, qu'on ne prévoit plus de prendre depuis l'abandon des Gili du nord — à voir si un détour vaut le coup.</p>
+        <div class="liens"><a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker →</a></div>
+      </div>
+      <div class="carte-spot">
+        <span class="badge-soleil badge-coucher">🌇 Coucher</span>
+        <h4>Bukit Antara</h4>
+        <p>Colline près de Tanjung Aan, vue sur les plages de sable blanc du sud.</p>
+        <div class="liens"><a href="https://www.thebrokebackpacker.com/lombok-itinerary/" target="_blank" rel="noopener">TheBrokeBackpacker →</a></div>
+      </div>
+      <div class="carte-spot">
+        <span class="badge-soleil badge-coucher">🌇 Coucher</span>
+        <h4>Josie Sunset</h4>
+        <p>Cité par l'ami indonésien (Lombok Tengah) — <strong class="mot-cle">aucune source trouvée</strong>, probablement trop confidentiel pour être indexé. À localiser via un pin Maps direct.</p>
+        <div class="liens"><span class="source-manquante">pas de lien pour l'instant</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= HÉBERGEMENT ======================= -->
+  <section id="hebergement">
+    <h2>Hébergement "expérience"<span class="optionnel">à venir</span></h2>
+    <div class="pratique a-reserver">
+      <p style="margin:0">Section réservée — vous vous en chargez de votre côté (villas à caractère + restaurants réputés par zone, cohérent avec le goût du groupe). Je complète cette partie dès que vous avez des pistes à faire vérifier/sourcer.</p>
+    </div>
+  </section>
+
+  <!-- ======================= CARTE ======================= -->
+  <section id="carte">
+    <h2>Carte interactive<span class="optionnel">à venir</span></h2>
+    <div class="carte-cadre">
+      <div class="carte-cadre-titre">🗺️ Carte My Maps — Lombok</div>
+      <!-- TODO : remplacer ce bloc par l'iframe My Maps une fois la carte prête, sur le modèle de malang-itineraire.html :
+      <div class="carte-interactive">
+        <iframe src="https://www.google.com/maps/d/embed?mid=XXXX&ehbc=2E312F&noprof=1" loading="lazy" title="Carte interactive Lombok"></iframe>
+      </div>
+      <div class="actions">
+        <a class="btn btn-gps" href="https://www.google.com/maps/d/viewer?mid=XXXX">🧭 Ouvrir en plein écran dans Maps</a>
+      </div>
+      -->
+      <div class="carte-attente">En attente de votre carte My Maps — je l'intègre dès qu'elle est prête.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colonne">
+  <p>Page de repérage, pas encore un programme jour par jour — construite à partir de recherches web (à recouper davantage pour les sources marquées "unique") et d'une liste manuscrite d'un ami indonésien du groupe. Prix, distances et statuts à revérifier avant de figer quoi que ce soit, comme pour <a href="malang-itineraire.html">Malang</a>.</p>
+</footer>
+
+</body>
+</html>
