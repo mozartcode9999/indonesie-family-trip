@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Comex de Lombok — analyse statistique</title>
+<meta name="description" content="Analyse statistique des avis Google Maps sur 37 spots de Lombok, et du catalogue GetYourGuide (48 produits, ontologie, gap-analysis).">
+<style>
+  :root{
+    color-scheme: light;
+    --surface:      #fcfcfb;
+    --plane:        #f9f9f7;
+    --ink:          #0b0b0b;
+    --ink-2:        #52514e;
+    --muted:        #898781;
+    --grid:         #e1e0d9;
+    --baseline:     #c3c2b7;
+    --border:       rgba(11,11,11,0.10);
+    --card:         #ffffff;
+    --main:         #2a78d6;
+    --main-soft:    #2a78d61a;
+    --baroudeur:    #eb6834;
+    --baroudeur-soft:#eb68341a;
+    --balbeid:      #1baf7a;
+    --balbeid-soft: #1baf7a1a;
+    --good:         #006300;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --surface:    #1a1a19;
+      --plane:      #0d0d0d;
+      --ink:        #ffffff;
+      --ink-2:      #c3c2b7;
+      --muted:      #898781;
+      --grid:       #2c2c2a;
+      --baseline:   #383835;
+      --border:     rgba(255,255,255,0.10);
+      --card:       #201f1e;
+      --main:       #3987e5;
+      --main-soft:  #3987e526;
+      --baroudeur:  #d95926;
+      --baroudeur-soft:#d9592626;
+      --balbeid:    #199e70;
+      --balbeid-soft:#199e7026;
+      --good:       #0ca30c;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --surface:    #1a1a19;
+    --plane:      #0d0d0d;
+    --ink:        #ffffff;
+    --ink-2:      #c3c2b7;
+    --muted:      #898781;
+    --grid:       #2c2c2a;
+    --baseline:   #383835;
+    --border:     rgba(255,255,255,0.10);
+    --card:       #201f1e;
+    --main:       #3987e5;
+    --main-soft:  #3987e526;
+    --baroudeur:  #d95926;
+    --baroudeur-soft:#d9592626;
+    --balbeid:    #199e70;
+    --balbeid-soft:#199e7026;
+    --good:       #0ca30c;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--plane); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    padding-inline:20px; padding-block:0 4rem;
+  }
+  .wrap{max-width:52rem; margin:0 auto}
+
+  .retour-bar{max-width:52rem; margin:0 auto; padding-top:1.2rem}
+  .retour-bar a{color:var(--muted); font-size:.85rem; text-decoration:none; font-family:"IBM Plex Mono",monospace}
+  .retour-bar a:hover{color:var(--main); text-decoration:underline}
+
+  /* ---- Masthead ---- */
+  .masthead{padding-block:2.6rem 1.8rem; border-bottom:1px solid var(--border)}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace; font-size:.72rem; font-weight:600;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 1rem;
+    display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;
+  }
+  .eyebrow .tag{
+    background:var(--ink); color:var(--surface); padding:.15rem .55rem; border-radius:3px;
+  }
+  h1{
+    font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; text-wrap:balance;
+    font-size:clamp(1.9rem,5vw,2.9rem); line-height:1.08; margin:0 0 .9rem; letter-spacing:-.01em;
+  }
+  .thesis-accent{color:var(--main)}
+  .subhead{
+    font-size:1.05rem; line-height:1.55; color:var(--ink-2); max-width:38rem; margin:0;
+  }
+
+  /* ---- KPI row ---- */
+  .kpis{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; margin-block:1.8rem;
+  }
+  .kpi{background:var(--card); padding:1.1rem 1rem}
+  .kpi .val{
+    font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:clamp(1.3rem,3vw,1.7rem);
+    color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.1;
+  }
+  .kpi .lbl{font-size:.76rem; color:var(--muted); margin-top:.35rem; line-height:1.35}
+  @media (max-width:640px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+
+  section{padding-block:2rem}
+  h2{
+    font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; font-size:1.35rem;
+    margin:0 0 .3rem; text-wrap:balance;
+  }
+  .section-note{color:var(--ink-2); font-size:.92rem; margin:0 0 1.2rem; max-width:40rem}
+
+  /* ---- Legend ---- */
+  .legend{display:flex; gap:1.4rem; flex-wrap:wrap; margin:0 0 1rem; font-size:.85rem}
+  .legend-item{display:flex; align-items:center; gap:.45rem; color:var(--ink-2)}
+  .legend-dot{width:10px; height:10px; border-radius:50%; flex:0 0 auto}
+
+  /* ---- Chart card ---- */
+  .chart-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:1.2rem 1.1rem 1rem;
+  }
+  .chart-scroll{overflow-x:auto}
+  svg{display:block; font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+  .axis-label{font-size:11px; fill:var(--muted)}
+  .grid-line{stroke:var(--grid); stroke-width:1}
+  .row-band-label{font-size:12px; font-weight:600; fill:var(--ink-2)}
+  .row-n{font-size:10.5px; fill:var(--muted)}
+  .dot{stroke:var(--surface); stroke-width:1.5; cursor:pointer}
+  .median-tick{stroke-width:2}
+  .median-label{font-size:10px; font-weight:600; font-variant-numeric:tabular-nums}
+
+  .tooltip{
+    position:fixed; pointer-events:none; z-index:50;
+    background:var(--ink); color:var(--surface); font-size:.78rem;
+    padding:.4rem .6rem; border-radius:8px; line-height:1.35;
+    box-shadow:0 6px 18px rgba(0,0,0,.18); opacity:0; transform:translateY(4px);
+    transition:opacity .1s ease, transform .1s ease; max-width:14rem;
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  .tooltip b{font-variant-numeric:tabular-nums}
+  .tooltip.show{opacity:1; transform:translateY(0)}
+
+  /* ---- Segment comparison table ---- */
+  .seg-table{width:100%; border-collapse:collapse; font-size:.9rem; margin-top:1.3rem}
+  .seg-table th, .seg-table td{
+    padding:.55rem .5rem; text-align:left; border-bottom:1px solid var(--border);
+    font-variant-numeric:tabular-nums;
+  }
+  .seg-table thead th{
+    font-family:"IBM Plex Mono",monospace; font-size:.68rem; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--muted); font-weight:600; border-bottom:1px solid var(--baseline);
+  }
+  .seg-table td.num{text-align:right}
+  .seg-swatch{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:.5rem}
+
+  /* ---- Full data table ---- */
+  .data-table-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:10px; margin-top:.75rem}
+  table.full{width:100%; border-collapse:collapse; font-size:.83rem; min-width:34rem}
+  table.full th, table.full td{padding:.45rem .6rem; border-bottom:1px solid var(--border); text-align:left}
+  table.full thead th{
+    font-family:"IBM Plex Mono",monospace; font-size:.66rem; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--muted); background:var(--surface); position:sticky; top:0;
+  }
+  table.full td.num{text-align:right; font-variant-numeric:tabular-nums}
+  table.full tbody tr:nth-child(even){background:var(--surface)}
+  .cat-chip{
+    display:inline-flex; align-items:center; gap:.35rem; font-size:.74rem; font-weight:600;
+  }
+  .cat-chip .dot-sm{width:7px;height:7px;border-radius:50%}
+
+  /* ---- Callouts ---- */
+  .callout{
+    border:1px solid var(--border); border-left:4px solid var(--muted);
+    background:var(--card); border-radius:0 10px 10px 0; padding:1rem 1.1rem;
+    font-size:.92rem; line-height:1.55; color:var(--ink-2);
+  }
+  .callout strong{color:var(--ink)}
+
+  .decision{
+    border:1px solid var(--border); border-left:4px solid var(--good);
+    background:var(--card); border-radius:0 10px 10px 0; padding:1.2rem 1.3rem;
+  }
+  .decision h2{margin-bottom:.8rem}
+  .decision ul{margin:0; padding-left:1.2rem; display:flex; flex-direction:column; gap:.55rem}
+  .decision li{line-height:1.5; font-size:.95rem}
+  .decision b{font-variant-numeric:tabular-nums}
+
+  .chip-group{margin:0 0 1rem}
+  .chip-label{display:block; font-size:.78rem; color:var(--muted); margin:0 0 .45rem; font-family:"IBM Plex Mono",monospace; letter-spacing:.03em}
+  .chips{display:flex; flex-wrap:wrap; gap:.45rem}
+  .chip{
+    background:var(--main-soft); color:var(--main); border:1px solid var(--border);
+    padding:.3rem .75rem; border-radius:999px; font-size:.82rem; font-weight:600;
+  }
+  .chip-alt{background:var(--baroudeur-soft); color:var(--baroudeur)}
+  .chip-new{background:var(--balbeid-soft); color:var(--balbeid)}
+
+  footer{
+    padding-block:1.6rem 0; margin-top:1rem; border-top:1px solid var(--border);
+    color:var(--muted); font-size:.78rem; line-height:1.6;
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<p class="retour-bar"><a href="lombok-itineraire.html">← Lombok</a></p>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="eyebrow"><span class="tag">Note de synthèse</span> Repérage Lombok · relevé du 13 sept. 2026</p>
+    <h1>Le mainstream pèse <span class="thesis-accent">28×</span> plus lourd que l'authentique</h1>
+    <p class="subhead">Analyse de 37 points d'intérêt lombokais, relevés un par un sur Google Maps et classés selon leur source : office du tourisme / influenceurs, voyageurs longue durée, et notre contact local (Balbeid).</p>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <h2>Distribution des avis, par source</h2>
+    <p class="section-note">Échelle logarithmique — chaque point est un lieu réel. Le trait vertical marque la médiane de chaque source. Survoler un point pour son nom et son nombre d'avis exact.</p>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--main)"></span>Mainstream / influenceurs (n=11)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--baroudeur)"></span>Baroudeur / long terme (n=18)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--balbeid)"></span>Balbeid, contact local (n=8)</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-scroll">
+        <svg id="chart" width="760" height="300" viewBox="0 0 760 300"></svg>
+      </div>
+    </div>
+
+    <table class="seg-table" id="seg-table"></table>
+  </section>
+
+  <section>
+    <h2>Méthode &amp; limites</h2>
+    <div class="callout">
+      <strong>Ce n'est pas un échantillon aléatoire.</strong> Les 37 lieux ont été choisis parce qu'ils étaient déjà candidats à l'itinéraire — la médiane réelle de <em>tous</em> les points Google Maps de Lombok serait bien plus basse (probablement à deux chiffres). Le facteur ×28 mesuré ici est donc un plancher : au sein même d'une liste déjà "intéressante", l'écart mainstream/reste tient encore sur un ordre de grandeur complet. L'effet de filtrage par le marketing est réel, pas un artefact de sélection.
+    </div>
+  </section>
+
+  <section>
+    <h2>Le tableau complet</h2>
+    <p class="section-note">Les 37 lieux, triés par nombre d'avis décroissant.</p>
+    <div class="data-table-wrap">
+      <table class="full" id="full-table">
+        <thead><tr><th>Lieu</th><th>Source</th><th class="num">Avis</th></tr></thead>
+        <tbody id="full-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="decision">
+      <h2>Ce que ça change pour le programme</h2>
+      <ul>
+        <li><b>Sous les ~100 avis</b> : Tanjung Ringgit, Segenter, Terasering Mareje, Gili Petagan, Desa Beleq — les vrais angles morts, à prioriser sans hésiter.</li>
+        <li><b>Bukit Selong (2 080) et Kedai Sawah (975)</b>, apportés par Balbeid, sont déjà bien identifiés — à traiter comme des valeurs sûres, pas comme des secrets.</li>
+        <li><b>Bukit Antara</b> est fermé définitivement (Google Maps) — à retirer de toute liste de coucher de soleil.</li>
+        <li><b>Sade Village (11 092) et Circuit Mandalika (4 823)</b> confirment leur hors-sujet total pour l'axe authenticité — aucune ambiguïté statistique.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="masthead" style="margin-top:1rem">
+    <p class="eyebrow"><span class="tag">Partie 2</span> Le catalogue GetYourGuide, décortiqué</p>
+    <h2 style="font-family:'IBM Plex Serif',Georgia,serif; font-weight:600; font-size:1.7rem; margin:0 0 .6rem">Ce que le marché vend vraiment — et ce qu'on n'avait pas vu</h2>
+    <p class="subhead">48 activités Lombok échantillonnées en tête du classement algorithmique GetYourGuide (sur 500+), pour construire l'ontologie du marché organisé et repérer les angles morts de notre repérage à 37 points.</p>
+  </div>
+
+  <section>
+    <h2>Ontologie des catégories GYG</h2>
+    <p class="section-note">Deux taxonomies officielles côté GetYourGuide, plus des formats qu'on voit apparaître dans les produits réels sans étiquette dédiée.</p>
+    <div class="chip-group">
+      <span class="chip-label">Type d'activité (officiel, 15) :</span>
+      <div class="chips">
+        <span class="chip">Snorkeling</span><span class="chip">Day trips</span><span class="chip">Guided tours</span>
+        <span class="chip">Waterfalls</span><span class="chip">Hiking</span><span class="chip">Boat cruises</span>
+        <span class="chip">Cooking classes</span><span class="chip">Quads & ATVs</span><span class="chip">Rafting</span>
+        <span class="chip">Surfing</span><span class="chip">Volcanoes</span><span class="chip">Turtle swims</span>
+        <span class="chip">Paragliding</span><span class="chip">Speed boats</span><span class="chip">Ferries & water taxis</span>
+      </div>
+    </div>
+    <div class="chip-group">
+      <span class="chip-label">Format produit (officiel, 9) :</span>
+      <div class="chips">
+        <span class="chip chip-alt">Private tours</span><span class="chip chip-alt">Water activities</span>
+        <span class="chip chip-alt">Transfers</span><span class="chip chip-alt">Entry tickets</span>
+        <span class="chip chip-alt">Multi-day trips</span><span class="chip chip-alt">Workshops & classes</span>
+        <span class="chip chip-alt">Other experiences</span><span class="chip chip-alt">Adventures</span>
+        <span class="chip chip-alt">Hop-on hop-off tours</span>
+      </div>
+    </div>
+    <div class="chip-group">
+      <span class="chip-label">Formats réels sans étiquette officielle :</span>
+      <div class="chips">
+        <span class="chip chip-new">Village / culture</span><span class="chip chip-new">Pêche</span>
+        <span class="chip chip-new">Requin-baleine</span><span class="chip chip-new">Plongée bouteille</span>
+        <span class="chip chip-new">River tubing</span><span class="chip chip-new">Équitation</span>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:1.1rem">
+      <strong>Biais de recherche détecté</strong> : sur les 48 produits échantillonnés, <strong>7 (15 %)</strong> ne sont pas à Lombok — surf à Canggu (Bali), trek Rinjani vendu depuis Karangasem (Bali), requins-baleines à Sumbawa/Komodo. Le moteur "Lombok" de GYG déborde sur les destinations voisines dès qu'un thème (surf, requin-baleine) y est mieux représenté qu'à Lombok même.
+    </div>
+  </section>
+
+  <section>
+    <h2>39 activités notées, prix vs. satisfaction</h2>
+    <p class="section-note">Échelle de prix logarithmique (11 € → 841 €). Taille du point = nombre d'avis. Survoler pour le détail.</p>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--main)"></span>À Lombok</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--baroudeur)"></span>Hors Lombok (bruit de recherche)</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-scroll">
+        <svg id="chart2" width="760" height="320" viewBox="0 0 760 320"></svg>
+      </div>
+    </div>
+    <div class="kpis" id="kpis2" style="margin-top:1.3rem"></div>
+  </section>
+
+  <section>
+    <h2>Pourquoi certains cartonnent, d'autres flops</h2>
+    <div class="decision" style="border-left-color:var(--main)">
+      <ul>
+        <li><b>Les cartons</b> sont courts (2-3h), pas chers (11-20 €), et garantissent la faune (tortues au point de nourrissage) : Snorkeling Gili Islands (5 451 avis, 4.8), Gili Trawangan Snorkeling (3 643, 4.7), Surf Canggu (1 480, 4.8 — hors Lombok), Gili Air Tortues (1 072, 4.8).</li>
+        <li><b>Le pire score de tout l'échantillon</b> : "2-Day Whale Shark Tour to Sumbawa" — 2.1★ sur seulement 3 avis, 135 €, 2 jours, hors Lombok. Le combo "cher + multi-jours + animal sauvage non garanti" est la recette du flop, à l'opposé exact des cartons.</li>
+        <li><b>Le format dominant du marché</b> : au moins 7 variantes de "cascade + village + rizière" en journée (24-50 €) — la confirmation chiffrée que c'est LE produit par défaut vendu à tout touriste, cohérent avec notre constat sur Sukarara/Benang Kelambu.</li>
+        <li><b>Sukarara, confirmé par un vrai avis client GYG</b> (déc. 2026, tournée "Tetebatu & Sukarara") : <em>"la visite du village de Sukarara était très rapide et nous a vite menés à la boutique où l'on vous vend un produit industriel 4 fois le prix si vous ne négociez pas."</em> Recoupe exactement notre lecture précédente.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ce qu'on avait loupé</h2>
+    <p class="section-note">Comparé à nos 37 points repérés — nouveaux lieux, nouveaux formats d'activité, ou confirmations externes.</p>
+    <div class="data-table-wrap">
+      <table class="full">
+        <thead><tr><th>Découverte</th><th>Nature</th><th>Preuve GYG</th><th>À faire</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Bat Cave, Lombok</strong></td><td>Lieu jamais croisé</td><td>#10 des "Top Attractions" GYG</td><td>Localiser et vérifier avant d'intégrer</td></tr>
+          <tr><td><strong>Jangkok river</strong></td><td>Lieu jamais croisé (river tubing)</td><td>#13 des "Top Attractions" GYG</td><td>Vérifier proximité avec l'itinéraire</td></tr>
+          <tr><td><strong>Sesere Waterfall</strong></td><td>Cascade jamais suivie</td><td>#12 des "Top Attractions", déjà aperçue une fois en source FR sans suite</td><td>Recouper avant intégration</td></tr>
+          <tr><td><strong>Requins-baleines</strong></td><td>Nouvel axe faune (plus impressionnant que tortues/requins juvéniles)</td><td>Produits à Pemenang (153 €) et Sumbawa (129-135 €, notes 2.1-4.0)</td><td>Saisonnier, non garanti — risque de déception élevé (voir flop ci-dessus)</td></tr>
+          <tr><td><strong>River tubing</strong></td><td>Nouveau format, ludique</td><td>"Private River Tubing & Benang Kelambu", 4.9★ (44 avis)</td><td>Bon candidat "peu mais très bien" à Tetebatu</td></tr>
+          <tr><td><strong>Sortie pêche privée</strong></td><td>Nouveau format — pêcher avec un local plutôt que juste visiter un village de pêcheurs</td><td>"Private Fishing Trip from Kuta", 115 €</td><td>Piste concrète pour Gerupuk/Ekas</td></tr>
+          <tr><td><strong>Parapente en tandem</strong></td><td>Nouvel axe aventure</td><td>4.8★ (30 avis), 66 €, localisation non précisée</td><td>Vérifier où avant d'y croire</td></tr>
+          <tr><td><strong>Cours de cuisine</strong></td><td>Confirme notre piste Tetebatu</td><td>2 produits Mataram, 5.0★ et note N/A (neuf), 18 € chacun</td><td>Comparable de prix pour négocier une version locale</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    Relevé manuel Google Maps, un lieu = une recherche, le 13 septembre 2026 (Sept. 2026, heure de Lombok). Les lieux à plusieurs fiches Maps (ex. Sendang Gile, Pergasingan Hill) sont représentés par leur fiche principale pour éviter le double comptage. Partie 2 : 48 produits GetYourGuide échantillonnés le 14 septembre 2026 en tête du classement par défaut (Lombok, 5 participants), prix en euros au tarif remisé affiché ce jour-là. Document de travail interne — voyage famille Java/Lombok.
+  </footer>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const DATA = [
+  {name:"Sade Village", count:11092, cat:"main"},
+  {name:"Bukit Merese", count:8956, cat:"main"},
+  {name:"Tanjung Aan", count:4895, cat:"main"},
+  {name:"Circuit Mandalika", count:4823, cat:"main"},
+  {name:"Gili Trawangan", count:4051, cat:"main"},
+  {name:"Pink Beach", count:2743, cat:"main"},
+  {name:"Benang Kelambu / Stokel", count:2530, cat:"main"},
+  {name:"Sendang Gile", count:2144, cat:"main"},
+  {name:"Bukit Selong", count:2080, cat:"balbeid"},
+  {name:"Mawun Beach", count:1403, cat:"main"},
+  {name:"Tiu Kelep", count:978, cat:"main"},
+  {name:"Kedai Sawah", count:975, cat:"balbeid"},
+  {name:"Pergasingan Hill", count:720, cat:"baroudeur"},
+  {name:"Pandanan Beach", count:680, cat:"baroudeur"},
+  {name:"Ekas Beach", count:668, cat:"baroudeur"},
+  {name:"Tanjung Luar (débarcadère)", count:410, cat:"baroudeur"},
+  {name:"Tampah Beach", count:362, cat:"baroudeur"},
+  {name:"Gili Nanggu", count:312, cat:"baroudeur"},
+  {name:"Gerupuk Beach", count:303, cat:"baroudeur"},
+  {name:"Pasar Tanjung Luar", count:247, cat:"baroudeur"},
+  {name:"Sukarara", count:141, cat:"main"},
+  {name:"Sahabat Rinjani", count:131, cat:"balbeid"},
+  {name:"Bukit Malimbu", count:104, cat:"baroudeur"},
+  {name:"Telaga Biru Gunung Paok", count:102, cat:"balbeid"},
+  {name:"Gili Asahan", count:94, cat:"baroudeur"},
+  {name:"Tereng Wilis Waterfall", count:90, cat:"balbeid"},
+  {name:"Rumah Adat Desa Bleq", count:83, cat:"baroudeur"},
+  {name:"Terasering Mareje", count:65, cat:"balbeid"},
+  {name:"Telaga Biru Perian", count:61, cat:"balbeid"},
+  {name:"Desa Beleq", count:59, cat:"baroudeur"},
+  {name:"Tanjung Ringgit", count:59, cat:"baroudeur"},
+  {name:"Bukit Antara (fermé)", count:28, cat:"baroudeur"},
+  {name:"Shark Market", count:21, cat:"baroudeur"},
+  {name:"Segenter", count:20, cat:"baroudeur"},
+  {name:"Gili Petagan", count:17, cat:"balbeid"},
+  {name:"Sembagek", count:15, cat:"baroudeur"},
+  {name:"Bloam Gerupuk Beach", count:13, cat:"baroudeur"}
+];
+
+const CAT_META = {
+  main:      {label:"Mainstream / influenceurs", color:"var(--main)",      row:0},
+  baroudeur: {label:"Baroudeur / long terme",     color:"var(--baroudeur)",row:1},
+  balbeid:   {label:"Balbeid (contact local)",    color:"var(--balbeid)", row:2}
+};
+
+function median(arr){
+  const s=[...arr].sort((a,b)=>a-b);
+  const n=s.length;
+  const mid=Math.floor(n/2);
+  return n%2 ? s[mid] : (s[mid-1]+s[mid])/2;
+}
+function mean(arr){ return arr.reduce((a,b)=>a+b,0)/arr.length; }
+function fmt(n){ return Math.round(n).toLocaleString('fr-FR'); }
+
+// ---------- KPI tiles ----------
+const allCounts = DATA.map(d=>d.count);
+const globalMedian = median(allCounts);
+const globalMean = mean(allCounts);
+const mainMedian = median(DATA.filter(d=>d.cat==='main').map(d=>d.count));
+const otherMedian = median(DATA.filter(d=>d.cat!=='main').map(d=>d.count));
+const ratio = mainMedian/otherMedian;
+const minV = Math.min(...allCounts), maxV = Math.max(...allCounts);
+
+const kpis = [
+  {val:DATA.length, lbl:"points d'intérêt analysés"},
+  {val:`${fmt(minV)} → ${fmt(maxV)}`, lbl:"étendue des avis (≈3 ordres de grandeur)"},
+  {val:fmt(globalMedian), lbl:"médiane globale (avis) — vs. moyenne " + fmt(globalMean)},
+  {val:`×${ratio.toFixed(1)}`, lbl:"écart médian : mainstream vs. reste"}
+];
+document.getElementById('kpis').innerHTML = kpis.map(k=>`
+  <div class="kpi"><div class="val">${k.val}</div><div class="lbl">${k.lbl}</div></div>
+`).join('');
+
+// ---------- Segment comparison table ----------
+const segRows = Object.keys(CAT_META).map(cat=>{
+  const vals = DATA.filter(d=>d.cat===cat).map(d=>d.count);
+  return {cat, n:vals.length, med:median(vals), avg:mean(vals)};
+});
+document.getElementById('seg-table').innerHTML = `
+  <thead><tr><th>Source</th><th class="num">n</th><th class="num">Médiane</th><th class="num">Moyenne</th></tr></thead>
+  <tbody>
+    ${segRows.map(r=>`
+      <tr>
+        <td><span class="seg-swatch" style="background:${CAT_META[r.cat].color}"></span>${CAT_META[r.cat].label}</td>
+        <td class="num">${r.n}</td>
+        <td class="num">${fmt(r.med)}</td>
+        <td class="num">${fmt(r.avg)}</td>
+      </tr>`).join('')}
+  </tbody>
+`;
+
+// ---------- Full data table ----------
+const sorted = [...DATA].sort((a,b)=>b.count-a.count);
+document.getElementById('full-tbody').innerHTML = sorted.map(d=>`
+  <tr>
+    <td>${d.name}</td>
+    <td><span class="cat-chip"><span class="dot-sm" style="background:${CAT_META[d.cat].color}"></span>${CAT_META[d.cat].label}</span></td>
+    <td class="num">${fmt(d.count)}</td>
+  </tr>
+`).join('');
+
+// ---------- Chart (log-scale strip plot) ----------
+const svg = document.getElementById('chart');
+const W = 760, H = 300;
+const marginL = 14, marginR = 14, marginT = 14, marginB = 34;
+const plotW = W - marginL - marginR;
+const domainMin = 10, domainMax = 20000;
+const logMin = Math.log10(domainMin), logMax = Math.log10(domainMax);
+
+function xScale(v){
+  return marginL + (Math.log10(v)-logMin)/(logMax-logMin) * plotW;
+}
+
+const rowH = (H - marginT - marginB) / 3;
+const dotR = 5;
+
+let svgContent = '';
+
+// gridlines + axis labels
+[10,100,1000,10000].forEach(tick=>{
+  const x = xScale(tick);
+  svgContent += `<line class="grid-line" x1="${x}" y1="${marginT-4}" x2="${x}" y2="${H-marginB+4}"></line>`;
+  svgContent += `<text class="axis-label" x="${x}" y="${H-marginB+18}" text-anchor="middle">${tick.toLocaleString('fr-FR')}</text>`;
+});
+svgContent += `<text class="axis-label" x="${W-marginR}" y="${H-4}" text-anchor="end">avis Google Maps (échelle log)</text>`;
+
+// rows with simple collision-avoidance jitter
+Object.keys(CAT_META).forEach(cat=>{
+  const meta = CAT_META[cat];
+  const yCenter = marginT + meta.row*rowH + rowH/2;
+  const items = DATA.filter(d=>d.cat===cat).sort((a,b)=>a.count-b.count);
+
+  svgContent += `<line class="grid-line" x1="${marginL}" y1="${marginT+meta.row*rowH+rowH}" x2="${W-marginR}" y2="${marginT+meta.row*rowH+rowH}"></line>`;
+  svgContent += `<text class="row-band-label" x="${marginL}" y="${marginT+meta.row*rowH+14}">${meta.label}</text>`;
+  svgContent += `<text class="row-n" x="${marginL}" y="${marginT+meta.row*rowH+27}">n=${items.length}</text>`;
+
+  // median tick
+  const medV = median(items.map(d=>d.count));
+  const medX = xScale(medV);
+  svgContent += `<line class="median-tick" x1="${medX}" y1="${yCenter-16}" x2="${medX}" y2="${yCenter+16}" stroke="${meta.color}" opacity="0.55"></line>`;
+  svgContent += `<text class="median-label" x="${medX}" y="${yCenter+30}" text-anchor="middle" fill="${meta.color}">méd. ${fmt(medV)}</text>`;
+
+  let placed = [];
+  items.forEach(d=>{
+    const x = xScale(d.count);
+    let y = yCenter;
+    let attempt = 0;
+    while (placed.some(p=>Math.abs(p-x)<11) && attempt<6){
+      const dir = attempt%2===0 ? 1 : -1;
+      const mag = Math.ceil((attempt+1)/2)*9;
+      y = yCenter + dir*mag;
+      attempt++;
+    }
+    placed.push(x);
+    svgContent += `<circle class="dot" cx="${x}" cy="${y}" r="${dotR}" fill="${meta.color}" data-name="${d.name}" data-count="${d.count}"></circle>`;
+  });
+});
+
+svg.innerHTML = svgContent;
+
+// ---------- Tooltip ----------
+const tooltip = document.getElementById('tooltip');
+svg.querySelectorAll('.dot').forEach(dot=>{
+  dot.addEventListener('mouseenter', e=>{
+    const name = dot.getAttribute('data-name');
+    const count = dot.getAttribute('data-count');
+    tooltip.innerHTML = `${name}<br><b>${Number(count).toLocaleString('fr-FR')}</b> avis`;
+    tooltip.classList.add('show');
+  });
+  dot.addEventListener('mousemove', e=>{
+    tooltip.style.left = (e.clientX+14)+'px';
+    tooltip.style.top = (e.clientY+14)+'px';
+  });
+  dot.addEventListener('mouseleave', ()=>{
+    tooltip.classList.remove('show');
+  });
+});
+
+// ================= PARTIE 2 : GetYourGuide =================
+const GYG = [
+  {name:"Private/Shared Snorkeling Boat Trip", loc:"Senggigi", price:13, rating:4.8, reviews:5451, zone:"lombok"},
+  {name:"Rinjani Trekking 3D/2N Peak+Lake+Hot Springs", loc:"Senaru", price:122, rating:4.9, reviews:61, zone:"lombok"},
+  {name:"ATV Waterfalls + Weaving Village", loc:"Lombok", price:31, rating:null, reviews:0, zone:"lombok"},
+  {name:"Rinjani Summit 2-Day Trek", loc:"Senggigi", price:127, rating:4.8, reviews:264, zone:"lombok"},
+  {name:"4 Waterfalls + Rice Fields + Jungle", loc:"Sukarara", price:29, rating:5.0, reviews:107, zone:"lombok"},
+  {name:"Gili Islands Snorkeling Boat Tour", loc:"Gili Trawangan", price:14, rating:4.7, reviews:3643, zone:"lombok"},
+  {name:"Tiu Kelep & Selong Hill Trek", loc:"Senggigi", price:43, rating:4.8, reviews:361, zone:"lombok"},
+  {name:"Waterfalls+Spices+Rice Terrace+Monkey Forest", loc:"Tetebatu", price:20, rating:4.9, reviews:153, zone:"lombok"},
+  {name:"Gili Air: Turtles & Underwater Statue", loc:"Mataram", price:16, rating:4.8, reviews:1072, zone:"lombok"},
+  {name:"Horseback Ride + Photo/Video", loc:"Lombok", price:30, rating:4.6, reviews:17, zone:"lombok"},
+  {name:"Benang Kelambu & Stokel Day Trip", loc:"Lombok", price:24, rating:null, reviews:0, zone:"lombok"},
+  {name:"ATV + Rice Farming + Waterfalls + Drone", loc:"Lombok", price:46, rating:4.9, reviews:40, zone:"lombok"},
+  {name:"Rinjani Summit 2D/1N Sunrise+Sunset", loc:"Senaru", price:122, rating:4.9, reviews:108, zone:"lombok"},
+  {name:"Surf Lesson with equipment", loc:"Canggu (Bali)", price:20, rating:4.8, reviews:1480, zone:"horslombok"},
+  {name:"Benang Stokel&Kelambu: Culture+Beach+Sunset", loc:"Senggigi", price:36, rating:4.9, reviews:274, zone:"lombok"},
+  {name:"Rinjani 3D/2N via Karangasem", loc:"Karangasem (Bali)", price:196, rating:4.7, reviews:70, zone:"horslombok"},
+  {name:"Private 5 Secret Gilis Snorkeling", loc:"Senggigi", price:59, rating:4.9, reviews:130, zone:"lombok"},
+  {name:"Cooking Class by Mas Oppa", loc:"Mataram", price:18, rating:5.0, reviews:36, zone:"lombok"},
+  {name:"Rafting + Rice Terrace + Waterfall", loc:"Senggigi", price:71, rating:4.8, reviews:64, zone:"lombok"},
+  {name:"4-Day Whale Shark & Komodo Adventure", loc:"Labuan Bajo", price:399, rating:5.0, reviews:2, zone:"horslombok"},
+  {name:"Private Customizable Tour w/ Driver-Guide", loc:"Mataram City", price:54, rating:4.7, reviews:164, zone:"lombok"},
+  {name:"Surf Lesson with ISA Instructor", loc:"Canggu (Bali)", price:16, rating:4.9, reviews:335, zone:"horslombok"},
+  {name:"Gili 3-island tour, statue+turtle", loc:"Gili Trawangan", price:13, rating:null, reviews:0, zone:"lombok"},
+  {name:"3 Secret Gilis: Nanggu/Sudak/Kedis GoPro", loc:"Senggigi", price:54, rating:4.9, reviews:135, zone:"lombok"},
+  {name:"Gili Meno: Private/Group Snorkeling", loc:"Gili Islands", price:32, rating:4.9, reviews:95, zone:"lombok"},
+  {name:"Shared 3 Gili Snorkeling, Turtles&Reefs", loc:"Gili Trawangan", price:11, rating:4.8, reviews:66, zone:"lombok"},
+  {name:"Sukarara Shore Excursion", loc:"Sukarara", price:47, rating:5.0, reviews:1, zone:"lombok"},
+  {name:"Gili Air: Private/Small Group Snorkeling", loc:"Mataram", price:30, rating:4.8, reviews:132, zone:"lombok"},
+  {name:"Rinjani 2D/1N Guided Summit Trek+Meals", loc:"n/c", price:105, rating:4.8, reviews:110, zone:"lombok"},
+  {name:"Tandem Paragliding Experience", loc:"n/c", price:66, rating:4.8, reviews:30, zone:"lombok"},
+  {name:"Authentic Nasi Goreng Cooking Class", loc:"Mataram City", price:18, rating:null, reviews:0, zone:"lombok"},
+  {name:"Beginner Scuba Diving Experience", loc:"Lombok", price:59, rating:null, reviews:0, zone:"lombok"},
+  {name:"Pink Beach & 3 Gilis All-Inclusive", loc:"Senggigi", price:58, rating:4.8, reviews:464, zone:"lombok"},
+  {name:"Secret Gilis: Nanggu/Kedis/Sudak/Tangkong", loc:"n/c", price:48, rating:null, reviews:0, zone:"lombok"},
+  {name:"2-Day Whale Shark Snorkeling", loc:"Pemenang", price:153, rating:null, reviews:0, zone:"lombok"},
+  {name:"Private River Tubing & Benang Kelambu", loc:"Kuta", price:33, rating:4.9, reviews:44, zone:"lombok"},
+  {name:"2D/1N Shared Whale Shark Tour", loc:"Sumbawa Besar", price:129, rating:4.0, reviews:62, zone:"horslombok"},
+  {name:"Gili Islands Sunset Boat Tour+Snorkeling", loc:"Gili Trawangan", price:16, rating:4.7, reviews:556, zone:"lombok"},
+  {name:"Lombok Heritage: City+Temples+Villages", loc:"Mataram City", price:25, rating:5.0, reviews:1, zone:"lombok"},
+  {name:"Tetebatu Village + Rice Fields Guided", loc:"Lombok", price:40, rating:4.9, reviews:37, zone:"lombok"},
+  {name:"Snorkeling+Island Hopping+Cooking, Secret Gilis", loc:"n/c", price:41, rating:4.9, reviews:7, zone:"lombok"},
+  {name:"2-Day Whale Shark Tour to Sumbawa", loc:"Sumbawa Besar", price:135, rating:2.1, reviews:3, zone:"horslombok"},
+  {name:"Rinjani One-Day Trek", loc:"Senaru", price:76, rating:4.5, reviews:46, zone:"lombok"},
+  {name:"Selong Belanak Surf, Beginners", loc:"Selong Belanak", price:28, rating:5.0, reviews:6, zone:"lombok"},
+  {name:"Private Snorkeling at 3 Gili Islands", loc:"Mataram", price:102, rating:null, reviews:0, zone:"lombok"},
+  {name:"Private Fishing Trip from Kuta", loc:"Kuta", price:115, rating:5.0, reviews:1, zone:"lombok"},
+  {name:"Sasak Villages + Beach + Scenic Hill", loc:"Lombok", price:31, rating:4.7, reviews:39, zone:"lombok"},
+  {name:"Lombok to Komodo 4D3N Sailing", loc:"n/c", price:841, rating:null, reviews:0, zone:"horslombok"}
+];
+
+const ZONE_META = {
+  lombok: {label:"À Lombok", color:"var(--main)"},
+  horslombok: {label:"Hors Lombok (bruit)", color:"var(--baroudeur)"}
+};
+
+// KPI tiles 2
+const rated = GYG.filter(d=>d.rating!==null);
+const noise = GYG.filter(d=>d.zone==='horslombok');
+const gygPrices = GYG.map(d=>d.price);
+const weightedAvg = rated.reduce((a,d)=>a+d.rating*d.reviews,0) / rated.reduce((a,d)=>a+d.reviews,0);
+const kpis2 = [
+  {val:GYG.length, lbl:"produits échantillonnés (top classement, sur 500+)"},
+  {val:`${fmt(median(gygPrices))} €`, lbl:"prix médian (min "+fmt(Math.min(...gygPrices))+" € — max "+fmt(Math.max(...gygPrices))+" €)"},
+  {val:weightedAvg.toFixed(2), lbl:"note moyenne pondérée par le nb d'avis (n="+rated.length+")"},
+  {val:`${Math.round(noise.length/GYG.length*100)}%`, lbl:"produits hors-Lombok dans les résultats"}
+];
+document.getElementById('kpis2').innerHTML = kpis2.map(k=>`
+  <div class="kpi"><div class="val">${k.val}</div><div class="lbl">${k.lbl}</div></div>
+`).join('');
+
+// Chart 2: price (log) x rating y, bubble = reviews, color = zone
+const svg2 = document.getElementById('chart2');
+const W2=760, H2=320, mL2=44, mR2=20, mT2=16, mB2=40;
+const plotW2 = W2-mL2-mR2, plotH2 = H2-mT2-mB2;
+const pMin=10, pMax=1000;
+const lMin=Math.log10(pMin), lMax=Math.log10(pMax);
+const rMin=1.8, rMax=5.05;
+function xScale2(v){ return mL2 + (Math.log10(v)-lMin)/(lMax-lMin)*plotW2; }
+function yScale2(v){ return mT2 + plotH2 - (v-rMin)/(rMax-rMin)*plotH2; }
+function rScale2(n){ return Math.max(4, Math.sqrt(n)*0.6); }
+
+let s2 = '';
+[10,100,1000].forEach(t=>{
+  const x = xScale2(t);
+  s2 += `<line class="grid-line" x1="${x}" y1="${mT2}" x2="${x}" y2="${H2-mB2}"></line>`;
+  s2 += `<text class="axis-label" x="${x}" y="${H2-mB2+16}" text-anchor="middle">${t} €</text>`;
+});
+[2,3,4,4.5,5].forEach(t=>{
+  const y = yScale2(t);
+  s2 += `<line class="grid-line" x1="${mL2}" y1="${y}" x2="${W2-mR2}" y2="${y}"></line>`;
+  s2 += `<text class="axis-label" x="${mL2-8}" y="${y+3}" text-anchor="end">${t}★</text>`;
+});
+rated.forEach(d=>{
+  const x = xScale2(d.price), y = yScale2(d.rating), r = rScale2(d.reviews);
+  const color = ZONE_META[d.zone].color;
+  s2 += `<circle class="dot" cx="${x}" cy="${y}" r="${r}" fill="${color}" fill-opacity="0.68" data-name="${d.name.replace(/"/g,'&quot;')}" data-price="${d.price}" data-rating="${d.rating}" data-reviews="${d.reviews}" data-loc="${d.loc}"></circle>`;
+});
+svg2.innerHTML = s2;
+
+svg2.querySelectorAll('.dot').forEach(dot=>{
+  dot.addEventListener('mouseenter', ()=>{
+    tooltip.innerHTML = `${dot.getAttribute('data-name')}<br>${dot.getAttribute('data-loc')} · <b>${dot.getAttribute('data-price')} €</b> · ${dot.getAttribute('data-rating')}★ (${Number(dot.getAttribute('data-reviews')).toLocaleString('fr-FR')} avis)`;
+    tooltip.classList.add('show');
+  });
+  dot.addEventListener('mousemove', e=>{
+    tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY+14)+'px';
+  });
+  dot.addEventListener('mouseleave', ()=> tooltip.classList.remove('show'));
+});
+</script>
+</body>
+</html>

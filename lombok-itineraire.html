@@ -136,6 +136,15 @@
     min-height:11rem; padding:1.5rem; color:var(--sourdine); font-size:.95rem;
   }
 
+  .actions{display:flex; flex-wrap:wrap; gap:.55rem; margin:.35rem 0 0}
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem;
+    min-height:44px; padding:.5rem 1rem; border-radius:10px;
+    text-decoration:none; font-weight:600; font-size:.95rem;
+  }
+  .btn-gps{background:var(--the); color:#fff}
+  .btn-gps:active{background:#24473A}
+
   .tableau-scroll{overflow-x:auto; border:1px solid var(--trait); border-radius:12px; margin:0 0 1.25rem}
   table.comparatif{width:100%; border-collapse:collapse; font-size:.86rem; min-width:52rem}
   table.comparatif th, table.comparatif td{padding:.6rem .7rem; border-bottom:1px solid var(--trait); text-align:left; vertical-align:top}
@@ -189,6 +198,7 @@
     <a href="#soleil"><span class="jour">🌅</span><span class="libelle">Lever/coucher</span></a>
     <a href="#hebergement"><span class="jour">🏡</span><span class="libelle">Hébergement</span></a>
     <a href="#carte"><span class="jour">📍</span><span class="libelle">Carte</span></a>
+    <a href="lombok-comex.html"><span class="jour">📊</span><span class="libelle">Comex</span></a>
   </div>
 </nav>
 
@@ -202,7 +212,7 @@
       <li data-ico="👥">Groupe : 5 personnes, ensemble tout le segment (confirmé) + un ami indonésien des frères, potentiellement présent les 10 jours (à confirmer à 100%).</li>
       <li data-ico="🚫">Décision actée : <strong>on laisse tomber les Gili du nord</strong> (Trawangan/Meno/Air) — trop "Bali copie", pas dans l'axe authenticité recherché.</li>
       <li data-ico="🏨">Hôtels/villas "expérience" : pas encore choisis — en cours de votre côté.</li>
-      <li data-ico="🗺️">Cartes My Maps : pas encore faites — emplacement réservé en bas de page.</li>
+      <li data-ico="🗺️">Carte My Maps : <strong>faite</strong>, 37 points sourcés (mainstream/baroudeur/Balbeid), intégrée en bas de page.</li>
       <li data-ico="📅">Jour par jour : pas figé — cette page sert de matière première (spots + sources), pas encore un programme daté.</li>
     </ul>
   </div>
@@ -452,18 +462,16 @@
 
   <!-- ======================= CARTE ======================= -->
   <section id="carte">
-    <h2>Carte interactive<span class="optionnel">à venir</span></h2>
+    <h2>Carte interactive</h2>
     <div class="carte-cadre">
-      <div class="carte-cadre-titre">🗺️ Carte My Maps — Lombok</div>
-      <!-- TODO : remplacer ce bloc par l'iframe My Maps une fois la carte prête, sur le modèle de malang-itineraire.html :
+      <div class="carte-cadre-titre">🗺️ Carte My Maps — Lombok, 37 points sourcés</div>
       <div class="carte-interactive">
-        <iframe src="https://www.google.com/maps/d/embed?mid=XXXX&ehbc=2E312F&noprof=1" loading="lazy" title="Carte interactive Lombok"></iframe>
+        <iframe src="https://www.google.com/maps/d/embed?mid=1JIb0nFmoAN5s6ZARSvckNrqr5Xb8i0k&amp;ehbc=2E312F&amp;noprof=1" loading="lazy" title="Carte interactive Lombok — Mainstream, Baroudeur, Balbeid"></iframe>
       </div>
       <div class="actions">
-        <a class="btn btn-gps" href="https://www.google.com/maps/d/viewer?mid=XXXX">🧭 Ouvrir en plein écran dans Maps</a>
+        <a class="btn btn-gps" href="https://www.google.com/maps/d/viewer?mid=1JIb0nFmoAN5s6ZARSvckNrqr5Xb8i0k">🧭 Ouvrir en plein écran dans Maps</a>
       </div>
-      -->
-      <div class="carte-attente">En attente de votre carte My Maps — je l'intègre dès qu'elle est prête.</div>
+      <p class="sous-titre" style="margin-top:.6rem">Bleu = mainstream/influenceurs, orange = voyageurs longue durée, vert = ami indonésien (Balbeid). Détail et sources par point dans le tableau <a href="#sources">Repérage</a> plus haut.</p>
     </div>
   </section>
 
